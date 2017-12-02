@@ -1,0 +1,31 @@
+Topic : student argument
+Meeting time:11/23
+Attented members:
+    host:
+    Programmer:
+
+Requirement:
+    (1)兩人一房分間討論    
+    (2)每房配給一項題目
+    (3)題目從題目庫中隨機抽出
+    (4)每個參與人員將有獨特的流水號    
+    (5)房內使用者行為依序紀錄
+    
+Next meeting:12/1
+Next meeting check:
+    (1)
+    (2)
+    (3)
+
+
+
+
+---------
+Question time:11/27
+Question:
+    ？人員退出的處理情況       A 等待相同人員重新進入 ,11/27 
+    ？進房時配給 或是 登入     A 老師事前指定 ,11/27 
+    ？哪些事件需要記錄時間     A 學生行為 ,11/27 
+
+
+
