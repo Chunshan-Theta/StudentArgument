@@ -1,0 +1,27 @@
+老師:
+    新增學生
+        |-> 利用上傳文件輸入學生資料 -> 學生清單(StudentList)新增資料 ->|
+
+    新增題目
+        |-> 利用上傳文件輸入學生資料 -> 主題文本(TopicDoc)新增資料 ->|
+
+    新增問卷
+        X
+
+    建立活動
+        |-> 新增活動 -> 從主題文本(TopicDoc)中選擇主題 -> (選擇問卷) -> 活動清單(ActivityList)新增資料 ->|
+    
+    設定活動
+        |-> 從活動清單(ActivityList)選擇活動 -> 從學生清單(StudentList)找出屬於該老師(TeacherId)的學生，從中選擇出活動學生 -> 活動成員清單(ActivityMemberList)新增資料 ->選擇本次所需要的聊天室數量 -> 聊天室列表(ChatroomList)新增資料 ->|
+
+    安排活動學生至聊天室
+        |-> 從活動成員清單(ActivityMemberList)找出屬於該活動(ActivityId)的活動成員 -> (使其中未完成問卷之全部活動成員完成意向評估) -> 查詢該活動中全部聊天室 -> 將活動成員安排進聊天室[
+        更新聊天室(ChatroomId)至活動成員清單(ActivityMemberList)] ->|
+
+學生:
+    登入
+        |->輸入學生代號(StuId)與活動代號(ActivityId)->從活動成員清單(ActivityMemberList)找尋相符資料後，使用聊天室代號(ChatroomId)進入聊天室 ->|
+    論證
+        
+系統管理者:
+    新增老師

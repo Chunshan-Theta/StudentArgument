@@ -54,7 +54,7 @@ CREATE TABLE `ActivityMemberList` (
   `StuId` int(11) NOT NULL,
   `ActivityId` int(11) NOT NULL,
   `ChatroomId` int(11),
-  `Group` int(1) NOT NULL
+  `Group` int(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ALTER TABLE `ActivityMemberList` ADD PRIMARY KEY (`MemberId`);
 ALTER TABLE `ActivityMemberList` MODIFY `MemberId` int(11) NOT NULL AUTO_INCREMENT;
