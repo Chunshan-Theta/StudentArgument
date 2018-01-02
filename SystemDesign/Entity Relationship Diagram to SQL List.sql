@@ -22,217 +22,272 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `argument` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `argument`;
 
--- --------------------------------------------------------
 
---
--- 資料表結構 `ActivityList`
+
+/*template
+
+-- ---------------------------------------------------------
+-- 資料表結構 `Activity`
 --
 
-CREATE TABLE `ActivityList` (
-  `ActivityId` int(11) NOT NULL,
-  `TeacherId` int(11) NOT NULL,
-  `TopicId` int(11) NOT NULL,
-  `QuestionNaireId` int(11) NOT NULL
+-- `id` int(11) NOT NULL,
+-- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+
+
+CREATE TABLE `Activity` (
+  `activity_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+
+
+--
+-- 資料表索引 `Activity`
+--
+ALTER TABLE `Activity`
+  ADD PRIMARY KEY (`activity_Id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `Activity`
+--
+ALTER TABLE `Activity`
+  MODIFY `activity_Id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
+*/
 
---
--- 資料表結構 `ActivityMemberList`
+
+
+
+-- ---------------------------------------------------------
+-- 資料表結構 `user_list`
 --
 
-CREATE TABLE `ActivityMemberList` (
-  `MemberId` int(11) NOT NULL,
-  `StuId` int(11) NOT NULL,
-  `ActivityId` int(11) NOT NULL,
-  `ChatroomId` int(11) DEFAULT NULL,
-  `Group` int(1) DEFAULT NULL
+CREATE TABLE `user_list` (
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+
+--
+-- 資料表索引 `user_list`
+--
+ALTER TABLE `user_list`
+  ADD PRIMARY KEY (`user_id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `user_list`
+--
+ALTER TABLE `user_list`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
 
---
--- 資料表結構 `BehaviorDoc`
+
+-- ---------------------------------------------------------
+-- 資料表結構 `topic`
 --
 
-CREATE TABLE `BehaviorDoc` (
-  `BehaviorId` int(11) NOT NULL,
-  `BehaviorContent` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE `topic_list` (
+  `topic_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+
+--
+-- 資料表索引 `topic`
+--
+ALTER TABLE `topic_list`
+  ADD PRIMARY KEY (`topic_id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `topic`
+--
+ALTER TABLE `topic_list`
+  MODIFY `topic_id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
 
---
--- 資料表結構 `ChatroomList`
+
+-- ---------------------------------------------------------
+-- 資料表結構 `activity`
 --
 
-CREATE TABLE `ChatroomList` (
-  `ChatroomId` int(11) NOT NULL,
-  `ActivityId` int(11) NOT NULL
+-- `id` int(11) NOT NULL,
+-- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+
+
+CREATE TABLE `activity_list` (
+  `avtivity_id` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+
+
+--
+-- 資料表索引 `activity`
+--
+ALTER TABLE `activity_list`
+  ADD PRIMARY KEY (`avtivity_id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `activity`
+--
+ALTER TABLE `activity_list`
+  MODIFY `avtivity_id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
 
---
--- 資料表結構 `MemberBehaviorList`
+
+
+-- ---------------------------------------------------------
+-- 資料表結構 `question`
 --
 
-CREATE TABLE `MemberBehaviorList` (
-  `MemberBehaviorId` int(11) NOT NULL,
-  `BehaviorId` int(11) NOT NULL,
-  `MemberId` int(11) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- `id` int(11) NOT NULL,
+-- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+
+
+CREATE TABLE `question_list` (
+  `question_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+
+
+--
+-- 資料表索引 `question`
+--
+ALTER TABLE `question_list`
+  ADD PRIMARY KEY (`question_id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `question`
+--
+ALTER TABLE `question_list`
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
-
---
--- 資料表結構 `QuestionNaire`
---
-
-CREATE TABLE `QuestionNaire` (
-  `QuestionNaireId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `StudentList`
+-- ---------------------------------------------------------
+-- 資料表結構 `tester`
 --
 
-CREATE TABLE `StudentList` (
-  `StuId` int(11) NOT NULL,
-  `TeacherId` int(11) NOT NULL
+-- `id` int(11) NOT NULL,
+-- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+
+
+CREATE TABLE `tester_list` (
+  `tester_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `avtivity_id` int(11) NOT NULL,
+  `chatroom_id` int(11) NOT NULL,
+  `group` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+
+
+--
+-- 資料表索引 `tester`
+--
+ALTER TABLE `tester_list`
+  ADD PRIMARY KEY (`tester_id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `tester`
+--
+ALTER TABLE `tester_list`
+  MODIFY `tester_id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
 
---
--- 資料表結構 `TeacherList`
+
+-- ---------------------------------------------------------
+-- 資料表結構 `chatroom`
 --
 
-CREATE TABLE `TeacherList` (
-  `TeacherId` int(11) NOT NULL
+-- `id` int(11) NOT NULL,
+-- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+
+
+CREATE TABLE `chatroom_list` (
+  `chatroom_id` int(11) NOT NULL,
+  `avtivity_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+
+
+--
+-- 資料表索引 `chatroom`
+--
+ALTER TABLE `chatroom_list`
+  ADD PRIMARY KEY (`chatroom_id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `chatroom`
+--
+ALTER TABLE `chatroom_list`
+  MODIFY `chatroom_id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
-
+-- ---------------------------------------------------------
+-- 資料表結構 `actionDoc`
 --
--- 資料表結構 `TopicDoc`
---
 
-CREATE TABLE `TopicDoc` (
-  `TopicId` int(11) NOT NULL,
-  `TopicContent` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+-- `id` int(11) NOT NULL,
+-- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+
+
+CREATE TABLE `actionDoc_list` (
+  `actionDoc_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- 已匯出資料表的索引
---
+
+
 
 --
--- 資料表索引 `ActivityList`
+-- 資料表索引 `actionDoc`
 --
-ALTER TABLE `ActivityList`
-  ADD PRIMARY KEY (`ActivityId`);
+ALTER TABLE `actionDoc_list`
+  ADD PRIMARY KEY (`actionDoc_id`);
 
---
--- 資料表索引 `ActivityMemberList`
---
-ALTER TABLE `ActivityMemberList`
-  ADD PRIMARY KEY (`MemberId`);
 
+-- 使用資料表 AUTO_INCREMENT `actionDoc`
 --
--- 資料表索引 `BehaviorDoc`
---
-ALTER TABLE `BehaviorDoc`
-  ADD PRIMARY KEY (`BehaviorId`);
-
---
--- 資料表索引 `ChatroomList`
---
-ALTER TABLE `ChatroomList`
-  ADD PRIMARY KEY (`ChatroomId`);
-
---
--- 資料表索引 `MemberBehaviorList`
---
-ALTER TABLE `MemberBehaviorList`
-  ADD PRIMARY KEY (`MemberBehaviorId`);
-
---
--- 資料表索引 `QuestionNaire`
---
-ALTER TABLE `QuestionNaire`
-  ADD PRIMARY KEY (`QuestionNaireId`);
-
---
--- 資料表索引 `StudentList`
---
-ALTER TABLE `StudentList`
-  ADD PRIMARY KEY (`StuId`);
-
---
--- 資料表索引 `TeacherList`
---
-ALTER TABLE `TeacherList`
-  ADD PRIMARY KEY (`TeacherId`);
-
---
--- 資料表索引 `TopicDoc`
---
-ALTER TABLE `TopicDoc`
-  ADD PRIMARY KEY (`TopicId`);
-
---
--- 在匯出的資料表使用 AUTO_INCREMENT
+ALTER TABLE `actionDoc_list`
+  MODIFY `actionDoc_id` int(11) NOT NULL AUTO_INCREMENT;
+-- --------------------------------------------------------
+-- ---------------------------------------------------------
+-- 資料表結構 `action`
 --
 
+-- `id` int(11) NOT NULL,
+-- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+
+
+CREATE TABLE `action_list` (
+  `action_id` int(11) NOT NULL,
+  `actionDoc_id` int(11) NOT NULL,
+  `tester_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
 --
--- 使用資料表 AUTO_INCREMENT `ActivityList`
+-- 資料表索引 `action`
 --
-ALTER TABLE `ActivityList`
-  MODIFY `ActivityId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `action_list`
+  ADD PRIMARY KEY (`action_id`);
+
+
+-- 使用資料表 AUTO_INCREMENT `action`
 --
--- 使用資料表 AUTO_INCREMENT `ActivityMemberList`
---
-ALTER TABLE `ActivityMemberList`
-  MODIFY `MemberId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- 使用資料表 AUTO_INCREMENT `BehaviorDoc`
---
-ALTER TABLE `BehaviorDoc`
-  MODIFY `BehaviorId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- 使用資料表 AUTO_INCREMENT `ChatroomList`
---
-ALTER TABLE `ChatroomList`
-  MODIFY `ChatroomId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- 使用資料表 AUTO_INCREMENT `MemberBehaviorList`
---
-ALTER TABLE `MemberBehaviorList`
-  MODIFY `MemberBehaviorId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- 使用資料表 AUTO_INCREMENT `QuestionNaire`
---
-ALTER TABLE `QuestionNaire`
-  MODIFY `QuestionNaireId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- 使用資料表 AUTO_INCREMENT `StudentList`
---
-ALTER TABLE `StudentList`
-  MODIFY `StuId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- 使用資料表 AUTO_INCREMENT `TeacherList`
---
-ALTER TABLE `TeacherList`
-  MODIFY `TeacherId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- 使用資料表 AUTO_INCREMENT `TopicDoc`
---
-ALTER TABLE `TopicDoc`
-  MODIFY `TopicId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ALTER TABLE `action_list`
+  MODIFY `action_id` int(11) NOT NULL AUTO_INCREMENT;
+-- --------------------------------------------------------
