@@ -153,7 +153,8 @@ ALTER TABLE `activity_list`
 
 
 CREATE TABLE `assessment_list` (
-  `assessment_id` int(11) NOT NULL
+  `assessment_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
