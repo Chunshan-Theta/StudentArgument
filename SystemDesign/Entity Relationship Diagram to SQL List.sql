@@ -121,7 +121,7 @@ CREATE TABLE `activity_list` (
   `avtivity_id` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL
+  `assessment_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -151,8 +151,8 @@ ALTER TABLE `activity_list`
 -- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 
 
-CREATE TABLE `question_list` (
-  `question_id` int(11) NOT NULL
+CREATE TABLE `assessment_list` (
+  `assessment_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -161,14 +161,14 @@ CREATE TABLE `question_list` (
 --
 -- 資料表索引 `question`
 --
-ALTER TABLE `question_list`
-  ADD PRIMARY KEY (`question_id`);
+ALTER TABLE `assessment_list`
+  ADD PRIMARY KEY (`assessment_id`);
 
 
 -- 使用資料表 AUTO_INCREMENT `question`
 --
-ALTER TABLE `question_list`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `assessment_list`
+  MODIFY `assessment_id` int(11) NOT NULL AUTO_INCREMENT;
 -- --------------------------------------------------------
 -- ---------------------------------------------------------
 -- 資料表結構 `tester`
