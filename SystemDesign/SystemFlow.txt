@@ -1,28 +1,75 @@
-老師:
-    新增學生
-        |-> 利用上傳文件輸入學生資料 -> 選擇 TeacherId -> 學生清單(StudentList)新增資料 ->|
+user:
+    新增user(insert to 'user_list')
+        |-> autoid: user_id -> user_list(user_list)新增資料 ->|
 
     新增題目
-        |-> 利用上傳文件輸入學生資料 -> 主題文本(TopicDoc)新增資料 ->|
+        |-> 選擇uploaded-man:user_id -> autoid: topic_id ->topic_list(topic_list)新增資料 ->|
 
     新增問卷
-        |-> 主題文本(QuestionNaire)新增資料 ->|
+        |-> autoid: assessment_id -> assessment_list(assessment_list)新增資料 ->|
 
     建立活動
-        |-> 新增活動 -> 從主題文本(TopicDoc)中選擇主題 -> 選擇 QuestionNaireId/TeacherId/TopicId -> 活動清單(ActivityList)新增資料 ->|
+        |-> 選擇assessment:assessment_id -> 選擇host:user_id -> 選擇topic:topic_id -> autoid: activity_id ->activity_list(activity_list)新增資料 ->|
     
-    設定活動
-        |-> ChatroomList新增資料
-        |-> 從活動清單(ActivityList)選擇活動 -> 從學生清單(StudentList)找出屬於該老師(TeacherId)的學生，從中選擇出活動學生 -> 活動成員清單(ActivityMemberList)新增資料 ->選擇本次所需要的聊天室數量 -> 聊天室列表(ChatroomList)新增資料 ->|
+    設定活動聊天室
+        |-> 選擇activity:activity_id -> 輸入所需要聊天室數量 -> autoid: chatroom_id(*) -> chatroom_list新增資料 ->|
 
-    安排活動學生至聊天室
-        |-> 從活動成員清單(ActivityMemberList)找出屬於該活動(ActivityId)的活動成員 -> (使其中未完成問卷之全部活動成員完成意向評估) -> 查詢該活動中全部聊天室 -> 將活動成員安排進聊天室[
-        更新聊天室(ChatroomId)至活動成員清單(ActivityMemberList)] ->|
+    新增活動學生
+        |-> 選擇student:user_id-> 選擇activity:activity_id  -> autoid: tester_id(*)-> tester_list新增資料 ->| 
 
-學生:
-    登入
-        |->輸入學生代號(StuId)與活動代號(ActivityId)->從活動成員清單(ActivityMemberList)找尋相符資料後，使用聊天室代號(ChatroomId)進入聊天室 ->|
+    安排活動學生進聊天室
+        |-> 選擇activity:activity_id -> 選擇chatroom:chatroom_id-> 選擇student:tester_id -> update: chatroom_id -> tester_list 更新資料->|
+
+    登入活動
+        |-> 輸入學生代號(StuId):user_id->輸入活動代號(ActivityId):activity_id->選擇student:tester_id -> 回應聊天室代號:chatroom_id -> 進入聊天室 ->|
     論證
         
-系統管理者:
-    新增老師
+
+---------------------------------------------------------------------------
+user:
+    新增user(insert to 'user_list'):
+        |-> 
+            autoid: user_id                          -> INSERT INTO `user_list` (`user_id`) VALUES (NULL);
+            user_list(user_list)新增資料 ->| 
+    新增題目
+        |-> 
+            選擇user_id                              -> SELECT * FROM `user_list`
+            autoid: topic_id                         -> INSERT INTO `topic_list` (`topic_id`, `user_id`) VALUES (NULL, user_id);
+            topic_list(topic_list)新增資料 ->|
+    新增問卷
+        |-> autoid: assessment_id                    -> INSERT INTO `assessment_list` (`assessment_id`) VALUES (NULL);
+            assessment_list(assessment_list)新增資料 ->|
+
+    建立活動
+        |-> 選擇assessment:assessment_id             -> SELECT * FROM `assessment_list` 
+            選擇host:user_id                         -> SELECT * FROM `user_list`
+            選擇topic:topic_id                       -> SELECT * FROM `topic_list`
+            autoid: activity_id                      ->INSERT INTO `activity_list` (`avtivity_id`, `topic_id`, `user_id`, `assessment_id`) VALUES (NULL, topic_id, user_id, assessment_id);
+            activity_list(activity_list)新增資料     ->|
+    設定活動聊天室
+        |-> 選擇activity:activity_id                 -> SELECT * FROM `activity_list`
+            輸入所需要聊天室數量                      -> input:NumOfChatroom
+            autoid: chatroom_id(*=NumOfChatroom)     -> INSERT INTO `chatroom_list` (`chatroom_id`, `avtivity_id`) VALUES (NULL, activity_id);
+            chatroom_list新增資料                    ->|
+    
+
+    新增活動學生
+        |-> 選擇student:user_id                      -> SELECT * FROM `user_list`
+            選擇activity:activity_id                 -> SELECT * FROM `activity_list`
+            autoid: tester_id                        -> INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group`) VALUES (NULL, user_id, avtivity_id, DEFAULT, DEFAULT)
+            tester_list新增資料                       ->| 
+
+    安排活動學生進聊天室
+        |-> 選擇activity:activity_id -> SELECT * FROM `activity_list`
+            選擇chatroom:chatroom_id -> SELECT * FROM `chatroom_list` WHERE `avtivity_id` = activity_id
+            選擇student:tester_id    -> SELECT * FROM `tester_list` WHERE `avtivity_id` = activity_id AND `chatroom_id` = -1
+            update: chatroom_id      -> UPDATE `tester_list` SET `chatroom_id` = chatroom_id WHERE `tester_list`.`tester_id` = tester_id;
+            tester_list 更新資料->|
+
+    登入活動
+        |-> 輸入學生代號(StuId):user_id-> input:StuId
+            輸入活動代號(ActivityId):activity_id-> input:ActivityId
+            選擇student:tester_id -> SELECT * FROM `tester_list` WHERE `user_id` = StuId AND `avtivity_id` = ActivityId
+            回應聊天室代號:chatroom_id ->|
+
+
