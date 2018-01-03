@@ -31,6 +31,7 @@ USE `argument`;
 --
 
 -- `id` int(11) NOT NULL,
+-- `num` int(11) NOT NULL DEFAULT '-1',
 -- `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 -- `string` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 
@@ -183,8 +184,8 @@ CREATE TABLE `tester_list` (
   `tester_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `avtivity_id` int(11) NOT NULL,
-  `chatroom_id` int(11) NOT NULL,
-  `group` int(2) NOT NULL
+  `chatroom_id` int(11) NOT NULL DEFAULT '-1',
+  `group` int(2) NOT NULL DEFAULT '-1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
