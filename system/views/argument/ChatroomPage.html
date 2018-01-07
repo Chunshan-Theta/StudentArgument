@@ -38,6 +38,7 @@
       var room_ID = '<%=room%>'
       var UserName = '<%=UserName%>'
 	  $('form').submit(function(){
+        SendActionToSql($('#m').val());
 	    socket.emit('Push_message', UserName+': '+$('#m').val(),room_ID);
 	    $('#m').val('');
 	    return false;
@@ -49,5 +50,21 @@
 
       
 	</script>
+    <script>
+    function SendActionToSql(Sentcontent){
+        $.post("http://140.115.126.216:3000/argument_post_action_list",
+            {
+                ad_id:'1',
+                t_id:<%=t_id%>,
+                content:Sentcontent
+            },
+            function(data,status){
+                console.log(status);
+            }
+        );
+		
+	}
+     
+    </script>
   </body>
 </html>
