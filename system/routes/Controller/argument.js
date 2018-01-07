@@ -19,19 +19,28 @@ module.exports = function (){
         connection = new sql('argument');
         var re_QuestionDocList,re_ActionDocList;
 
-        connection.query("SELECT `chatroom_id` FROM `tester_list` WHERE `user_id` = "+user_id+" AND `avtivity_id` = "+activity_id,function(returnValue) 
+        connection.query("SELECT * FROM `tester_list` WHERE `user_id` = '"+user_id+"' AND `avtivity_id` = '"+activity_id+"'",function(returnValue) 
 	{      
-            re_1 = returnValue;
-            console.log("room id is :",re_1[0]["chatroom_id"]);
-            re_1 = re_1[0]["chatroom_id"]
-        });
-
-        
-        connection.query("SELECT * FROM `action_list`",function(returnValue) {
-            re_2 = returnValue;
-            connection.close();
+            
+            try{
+                re_1 = returnValue[0]["chatroom_id"];
+                re_2 = returnValue[0]["tester_id"];
+                console.log("room id is :",re_1);
+            }
+            catch(e){
+                re_1 = null;
+                re_2 = null;
+            }
             CallbackFunc(re_1,re_2);
         });
+
+        /*
+        connection.query("SELECT * FROM `action_list`",function(returnValue) {
+            //re_2 = returnValue;
+            connection.close();
+            
+        });
+        */
 
     
     } 
