@@ -50,21 +50,22 @@ router.post('/Chat', function(req, res) {
 /* GET argument page. */
 router.get('/argument', function(req, res) {
 
-    var controller = require('./Controller/argument.js');
-    c = new controller();
+    console.log(req.query.uname);
+    var user_id =req.query.u_id
+    var activity_id = req.query.a_id
 
+    var controller_of_argument = require('./Controller/argument.js');
+    c = new controller_of_argument();
+    
 
-    c.controller(function(QuestionDoc,ActionDoc){
+    c.controller(user_id,activity_id,function(chatroom_id,ActionDoc){
 
-        console.log(QuestionDoc);
-        console.log(ActionDoc);
-        var user = '123'//req.param('user', null);
-        var ID = '123'//req.param('create', null);
-        var ip =  req.connection.remoteAddress.substring(7);
-        console.log('ip:'+ip);
-        console.log('"'+ip+'" '+'Create chat: '+ID);
+        //console.log(chatroom_id);
+        //console.log(ActionDoc);
+        var user = 'NormalUser_'+user_id//req.param('user', null);
+        console.log(user,',Enter to chatroom: '+chatroom_id);
         
-        res.render('argument/ChatroomPage',{title:'聊天室代號：',room:ID,UserName:user});
+        res.render('argument/ChatroomPage',{title:'聊天室代號：',room:chatroom_id,UserName:user});
     });
     
     
