@@ -21,11 +21,13 @@ module.exports = function (){
 
         connection.query("SELECT * FROM `tester_list` WHERE `user_id` = '"+user_id+"' AND `avtivity_id` = '"+activity_id+"'",function(returnValue) 
 	{      
-            
+            //consloe.log(returnValue);
             try{
-                re_1 = returnValue[0]["chatroom_id"];
-                re_2 = returnValue[0]["tester_id"];
+                re_1 = returnValue['return'][0]["chatroom_id"];
+                re_2 = returnValue['return'][0]["tester_id"];
+		
                 console.log("room id is :",re_1);
+		console.log("room id is :",returnValue);
             }
             catch(e){
                 re_1 = null;

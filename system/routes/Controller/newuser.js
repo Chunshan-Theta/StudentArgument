@@ -1,4 +1,4 @@
-console.log("controller of action_list");
+console.log("controller of newuser");
 
 module.exports = function (){
     /*
@@ -13,14 +13,14 @@ module.exports = function (){
     */
 
 
-    this.controller = function (actionDoc_id,tester_id,content,CallbackFunc){
-        console.log("actionDoc_id: ",actionDoc_id,"tester_id:",tester_id);
+    this.controller = function (username,userschool,userStudentID,CallbackFunc){
+        console.log(username,userschool,userStudentID);
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext ="INSERT INTO `action_list` (`action_id`, `actionDoc_id`, `tester_id`, `exe_time`, `content`) VALUES (NULL, '"+actionDoc_id+"', '"+tester_id+"', CURRENT_TIMESTAMP,'"+content+"');" 
+        querytext ="INSERT INTO `user_list` (`user_id`, `name`, `school`, `StudentID`) VALUES (NULL, '"+username+"', '"+userschool+"', '"+userStudentID+"');" 
         connection.query(querytext,function(returnValue){    
             //console.log(returnValue);
-            CallbackFunc(returnValue['return']);
+            CallbackFunc(returnValue);
         });
 
     

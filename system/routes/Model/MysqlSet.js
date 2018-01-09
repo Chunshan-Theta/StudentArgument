@@ -36,8 +36,13 @@ module.exports = function (db){
     connection.connect();
     this.query = function(Sql,callback){
         connection.query(Sql, function (err, result, fields) {
-            if (err) throw err;
-            callback(result);
+            if (err){
+                console.log(err["code"]);
+                callback({'text':err["code"],'status':err['errno']})
+            }
+            else{
+                callback({'text':"success",'status':"200",'return':result});
+            }
         });    
     }
     this.close = function(){

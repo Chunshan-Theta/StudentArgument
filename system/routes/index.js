@@ -10,9 +10,14 @@ router.get('/', function(req, res) {
     res.render('Demo',{});
 });
 
-/* GET Demo page. */
+/* GET login page. */
 router.get('/login', function(req, res) {
-    res.render('login',{});
+    res.render('argument/login',{});
+});
+
+/* GET singup page. */
+router.get('/signup', function(req, res) {
+    res.render('argument/signup',{});
 });
 
 
@@ -39,6 +44,35 @@ router.post('/argument_post_action_list', function(req, res) {
     
     
 });
+
+
+/* API of add a new user */
+router.post('/newuser', function(req, res) {
+
+   //INSERT INTO `user_list` (`user_id`, `name`, `school`, `StudentID`) VALUES (NULL, '王王王', '哭哭國小', '9453');
+    
+    var username = req.param('u_name', null);
+    var userschool = req.param('u_school', null);
+    var userStudentID = req.param('u_account', null);
+    
+    // initialize controller
+    var controller_of_newuser = require('./Controller/newuser.js');
+    c = new controller_of_newuser();
+    
+    // in controller
+    c.controller(username,userschool,userStudentID,function(respond){
+	    //console.log(respond);
+        if(respond['text']=="ER_DUP_ENTRY"){
+            res.render('argument/errorpage',{error_id:respond['status'],error_con:"帳號已存在"});
+        }else{
+    	    res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+        }
+    });
+
+    
+    
+});
+
 
 
 
