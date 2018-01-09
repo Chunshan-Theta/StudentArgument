@@ -11,50 +11,44 @@ router.get('/', function(req, res) {
 });
 
 /* GET Demo page. */
-router.get('/Demo', function(req, res) {
-    res.render('Demo',{});
+router.get('/login', function(req, res) {
+    res.render('login',{});
 });
 
 
-/* GET ChatRoom page. */
-router.post('/Chat', function(req, res) {
-    var user = req.param('user', null);
-    var ID = req.param('create', null);
-    var ip = req.connection.remoteAddress.substring(7);
-    console.log('ip:'+ip);
+/* API of insert user's action */
+router.post('/argument_post_action_list', function(req, res) {
 
-    if(ID==null){
-       ID = req.param('add', null);
-       console.log('"'+ip+'" '+'add chat: '+ID);
-    }
-    else{            
-       ID = ID+'-'+ip;
-       console.log('"'+ip+'" '+'Create chat: '+ID);
-    }
-
-    if(user==null){       
-       user = "anonymous"+' ~ xxxx.xxx...'+ip.substring(7);
-       console.log('"'+ip+'" '+'Set anonymous UserName: '+user) ;
-    }
-    else{
-       user=user+' ~ '+ip;
-       console.log('"'+ip+'" '+'Set UserName: '+user);
-    }
+   //INSERT INTO `action_list` (`action_id`, `actionDoc_id`, `tester_id`, `exe_time`) VALUES (NULL, '1', '1', CURRENT_TIMESTAMP);
     
-    res.render('ChatroomPage',{title:'聊天室代號：',room:ID,UserName:user});
+    var actionDoc_id = req.param('ad_id', null);
+    var tester_id = req.param('t_id', null);
+    var content = req.param('content', null);
+    
+    // initialize controller
+    var controller_of_action_list = require('./Controller/action_list.js');
+    c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(actionDoc_id,tester_id,content,function(respond){
+        //console.log(respond);
+        res.render('argument/errorpage',{error_id:'#200',error_con:respond["message"]});
+
+    });
+
+    
+    
 });
 
 
 
-
-
-/* GET argument page. */
-router.get('/argument', function(req, res) {
+/* post argument page. */
+router.post('/argument2', function(req, res) {
 
 
     
-    var user_id = req.query.u_id;
-    var activity_id = req.query.a_id;
+    var user_id = req.param('u_id', null);
+    var activity_id = req.param('a_id', null);
     
     if (typeof user_id == "undefined" ){// case of not catch u_id
         res.render('argument/errorpage',{error_id:'#404',error_con:"not input user id to server"});
@@ -92,28 +86,7 @@ router.get('/argument', function(req, res) {
     
 });
 
-/* GET argument page. */
-router.post('/argument_post_action_list', function(req, res) {
 
-   //INSERT INTO `action_list` (`action_id`, `actionDoc_id`, `tester_id`, `exe_time`) VALUES (NULL, '1', '1', CURRENT_TIMESTAMP);
-    
-    var actionDoc_id = req.param('ad_id', null);
-    var tester_id = req.param('t_id', null);
-    var content = req.param('content', null);
-    
-    // initialize controller
-    var controller_of_action_list = require('./Controller/action_list.js');
-    c = new controller_of_action_list();
-    
-    // in controller
-    c.controller(actionDoc_id,tester_id,content,function(respond){
-        //console.log(respond);
-        res.render('argument/errorpage',{error_id:'#200',error_con:respond["message"]});
 
-    });
-
-    
-    
-});
 
 module.exports = router;
