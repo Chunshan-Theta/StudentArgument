@@ -7,13 +7,14 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index',{});
+    res.render('Demo',{});
 });
 
-/* GET EntranceForChat page. */
-router.get('/EntranceForChat', function(req, res) {
-    res.render('EntranceForChat',{});
+/* GET Demo page. */
+router.get('/Demo', function(req, res) {
+    res.render('Demo',{});
 });
+
 
 /* GET ChatRoom page. */
 router.post('/Chat', function(req, res) {
