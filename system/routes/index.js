@@ -25,6 +25,11 @@ router.get('/sitting_login', function(req, res) {
     res.render('argument/sitting_login',{});
 });
 
+/* GET new activity page. */
+router.get('/newactivity', function(req, res) {
+    res.render('argument/newactivity',{});
+});
+
 /* GET sittingPage. */
 router.get('/sittingPage', function(req, res) {
     if (!req.session){// if not setting session
@@ -43,7 +48,25 @@ router.post('/EnterHost', function(req, res) {
 
 });
 
+/* API of Search Topic */
+router.get('/TopicShow', function(req, res) { 
+    //var host_id = req.param('host_id', null);
+    //req.session = { 'host_id': host_id };   
+    
 
+    // initialize controller
+    var controller_of_action_list = require('./Controller/TopicShow.js');
+    c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(function(respond){
+        //console.log(respond);
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
+        res.end("result"+JSON.stringify(respond));
+
+    });
+
+});
 
 /* API of insert user's action */
 router.post('/argument_post_action_list', function(req, res) {

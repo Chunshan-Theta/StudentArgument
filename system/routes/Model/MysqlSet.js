@@ -35,6 +35,7 @@ module.exports = function (db){
     });
     connection.connect();
     this.query = function(Sql,callback){
+        console.log(Sql);
         connection.query(Sql, function (err, result, fields) {
             if (err){
                 console.log(err["code"]);
