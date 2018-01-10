@@ -62,7 +62,7 @@ router.get('/TopicShow', function(req, res) {
     c.controller(function(respond){
         //console.log(respond);
         res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
-        res.end("result"+JSON.stringify(respond));
+        res.end(""+JSON.stringify(respond));
 
     });
 

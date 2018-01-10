@@ -212,6 +212,17 @@
 		});
 
     </script>
-
+    <script>
+    Gettopic();
+    function Gettopic(){
+        $.get("./TopicShow",
+            function(data,status){
+                console.log(data);
+            }
+        );
+	
+    }
+     
+    </script>
  
 </html>
