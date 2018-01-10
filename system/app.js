@@ -4,7 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var CookieStore = require('cookie-sessions');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
@@ -18,6 +18,7 @@ app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
 /* 设置模板文件文件夹,__dirname为全局变量,表示网站根目录 */
 app.set('views', __dirname + '/views'); 
+app.use(CookieStore({ secret: 'keyboard cat' }));
 
 
 
@@ -61,6 +62,13 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+
+
+
+
+
+
 
 
 module.exports = app;

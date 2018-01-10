@@ -20,6 +20,30 @@ router.get('/signup', function(req, res) {
     res.render('argument/signup',{});
 });
 
+/* GET sitting_page_login page. */
+router.get('/sitting_login', function(req, res) {
+    res.render('argument/sitting_login',{});
+});
+
+/* GET sittingPage. */
+router.get('/sittingPage', function(req, res) {
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+    }else{//req.session.host_id
+        res.render('argument/sittingPage',{});
+    }
+});
+
+
+/* API of login to sitting page */
+router.post('/EnterHost', function(req, res) { 
+    var host_id = req.param('host_id', null);
+    req.session = { 'host_id': host_id };   
+    res.redirect('/sittingPage');
+
+});
+
+
 
 /* API of insert user's action */
 router.post('/argument_post_action_list', function(req, res) {
