@@ -7,7 +7,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('Demo',{});
+    res.render('argument/login',{});
 });
 
 /* GET login page. */
@@ -94,6 +94,46 @@ router.post('/TopicShow', function(req, res) {
 
     // initialize controller
     var controller_of_action_list = require('./Controller/TopicShow.js');
+    c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(function(respond){
+        //console.log(respond);
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
+        res.end(""+JSON.stringify(respond));
+
+    });
+
+});
+
+/* API of Search activity */
+router.get('/ActivityShow', function(req, res) { 
+    //var host_id = req.param('host_id', null);
+    //req.session = { 'host_id': host_id };   
+    
+
+    // initialize controller
+    var controller_of_action_list = require('./Controller/ActivityShow.js');
+    c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(function(respond){
+        //console.log(respond);
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
+        res.end(""+JSON.stringify(respond));
+
+    });
+
+});
+
+/* API of Search tester */
+router.get('/testerShow', function(req, res) { 
+    //var host_id = req.param('host_id', null);
+    //req.session = { 'host_id': host_id };   
+    
+
+    // initialize controller
+    var controller_of_action_list = require('./Controller/testerShow.js');
     c = new controller_of_action_list();
     
     // in controller

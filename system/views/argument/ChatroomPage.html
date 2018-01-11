@@ -25,9 +25,15 @@
         form { background: #000; padding: 3px; bottom: 0; width: 100%; }
         form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
         form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-        #mess_bar { list-style-type: none; margin: 0; padding: 0; }
-        #mess_bar li { padding: 5px 10px; }
+        #noteform { background: #000; padding: 3px; bottom: 0; width: 100%; }
+        #noteform input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+        #noteform button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+        #mess_bar { list-style-type: none; margin: 0; padding: 0;    }
+        #mess_bar li { padding: 5px 10px;text-align: left; }
         #mess_bar li:nth-child(odd) { background: #eee; }
+        #note_bar { list-style-type: none; margin: 0; padding: 0;    }
+        #note_bar li { padding: 5px 10px;text-align: left; }
+        #note_bar li:nth-child(odd) { background: #eee; }
         #draggable { width: 50%; height: 500px; padding: 0.5em;background: #eee; }
         #errortxt{color:rgb(255,0,0)}
         form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
@@ -99,27 +105,78 @@
 
 <div class="wrapper">
     <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg'); min-height:190px;height:0px;">
-		<div class="container">
-			
+        <div class="container">
 
-		</div>
-	</div>
+
+        </div>
+    </div>
     <div class="main main-raised">
         <div class="section section-basic">
             
 	        <div class="container">
-                <div class="title">  
-                    <h4>
-                      <%=title%><%=room%>/使用者名稱：<%=UserName%><br>      
-                    </h4>
-                </div>
-                <div>
-                    <form action="">
-                      <input id="m" autocomplete="off" /><button>Send</button>
-                    </form>
-                    <ul id="mess_bar"></ul>
+                <!-- Tabs with icons on Card -->
+						<div class="card card-nav-tabs">
+							<div class="header header-primary">
+								<!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+								<div class="nav-tabs-navigation">
+									<div class="nav-tabs-wrapper">
+										<ul class="nav nav-tabs" data-tabs="tabs">
+											<li class="active">
+												<a href="#chatroom" data-toggle="tab">
+													<i class="material-icons">chat</i>
+													論證
+												</a>
+											</li>
+											<li>
+												<a href="#note" data-toggle="tab">
+													<i class="material-icons">note_add</i>
+													筆記
+												</a>
+											</li>
+											<li>
+												<a href="#search" data-toggle="tab">
+													<i class="material-icons">search</i>
+													搜尋資料
+												</a>
 
-                </div>
+											</li>
+                                            
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="content">
+								<div class="tab-content text-center">
+									<div class="tab-pane active" id="chatroom">
+										<div class="title">  
+                                            <h4 style="text-align: left;">
+                                              <%=title%><%=room%>/使用者名稱：<%=UserName%><br>      
+                                            </h4>
+                                        </div>
+                                        <div>
+                                            <form action="">
+                                              <input id="m" autocomplete="off" /><button>Send</button>
+                                            </form>
+                                            <ul id="mess_bar"></ul>
+
+                                        </div>
+                                    </div>
+									<div class="tab-pane" id="note">
+                                       <div id="noteform">
+                                            <input id="m2" autocomplete="off" /><button onclick="addnote();">Send</button>
+                                       </div>
+                                       <ul id="note_bar"></ul>
+						            </div>
+									<div class="tab-pane" id="search">
+										<p>I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. So when you get something that has the name Kanye West on it, it’s supposed to be pushing the furthest possibilities. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus.</p>
+
+                                    </div>
+                                    
+								</div>
+							</div>
+						</div>
+<!-- End Tabs with icons on Card -->
+                
 	        </div>
         </div>
     </div>
@@ -134,7 +191,7 @@
   var room_ID = '<%=room%>'
   var UserName = '<%=UserName%>'
   $('form').submit(function(){
-    SendActionToSql($('#m').val());
+    SendActionToSql($('#m').val(),'1');
     socket.emit('Push_message', UserName+': '+$('#m').val(),room_ID);
     $('#m').val('');
     return false;
@@ -147,10 +204,22 @@
   
 </script>
 <script>
-function SendActionToSql(Sentcontent){
+function addnote(){
+    var con = $('#m2').val();
+    $('#note_bar').prepend($('<li>').text(con));
+    SendActionToSql($('#m2').val(),'2');
+    $('#m2').val('');
+
+
+}
+
+  
+</script>
+<script>
+function SendActionToSql(Sentcontent,ad){
     $.post("http://140.115.126.216:3000/argument_post_action_list",
         {
-            ad_id:'1',
+            ad_id:ad,
             t_id:<%=t_id%>,
             content:Sentcontent
         },
