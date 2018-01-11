@@ -27,7 +27,12 @@ router.get('/sitting_login', function(req, res) {
 
 /* GET new activity page. */
 router.get('/newactivity', function(req, res) {
-    res.render('argument/newactivity',{});
+    
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+    }else{//req.session.host_id
+        res.render('argument/newactivity',{"host_id":req.session.host_id});
+    }
 });
 
 /* GET sittingPage. */
@@ -49,8 +54,8 @@ router.post('/EnterHost', function(req, res) {
 });
 
 /* API of Search Topic */
-router.get('/TopicShow', function(req, res) { 
-    //var host_id = req.param('host_id', null);
+router.post('/TopicShow', function(req, res) { 
+    var host_id = req.param('host_id', null);
     //req.session = { 'host_id': host_id };   
     
 
@@ -66,6 +71,32 @@ router.get('/TopicShow', function(req, res) {
 
     });
 
+});
+/* API of insert activity */
+router.post('/newactivity', function(req, res) {
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+        return;
+    }
+    //INSERT INTO `action_list` (`action_id`, `actionDoc_id`, `tester_id`, `exe_time`) VALUES (NULL, '1', '1', CURRENT_TIMESTAMP);
+    
+    var time = req.param('time', null);
+    var TopicID = req.param('TopicID', null);
+    var host_id = req.session.host_id;
+    
+    // initialize controller
+    var controller_of_action_list = require('./Controller/newactivity.js');
+    c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(time,TopicID,host_id,function(respond){
+        console.log(respond);
+        res.render('argument/errorpage',{error_id:"#200",error_con:"成功新增"});
+
+    });
+
+    
+    
 });
 
 /* API of insert user's action */

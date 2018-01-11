@@ -102,30 +102,21 @@
 		<div class="section section-basic">
             
 	    	<div class="container">
-                <form action="./newuser" method="post">
+                <form action="./newactivity" method="post">
                         <div class="title">
 	                        <h2>新增活動</h2>
 	                    </div>
                         <!--Input 1 : -->
                         <div class="col-sm-6">	                        			
                         	<h6>Topic</h6>
-                            <select name="TopicID" id="TopicID">
-                              <optgroup label="your Topics">
-                                <option value="yourTopic1">jQuery.js</option>
-                                <option value="yourTopic2">ui.jQuery.js</option>
-                              </optgroup>
-                              <optgroup label="Hot Topics">
-                                <option value="HotTopic1">Some unknown file</option>
-                                <option value="HotTopic2">Some other file with a very long option text</option>
-                              </optgroup>
-                            </select>	                            	
+                            <select name="TopicID" id="TopicID"></select>	                            	
 	                    </div>
                         <!--/ Input 1 : -->
                         <!--Input 1 : -->
                         <div class="col-sm-6">	                        			
                         	<div class="form-group label-static">
 									<label class="control-label">Datepicker</label>
-									<input type="text" id="datepicker"class="datepicker form-control" value="2018-01-11" />
+									<input type="text" id="datepicker" name="time" class="datepicker form-control" value="2018-01-11" />
 							</div>
 	                    </div>
                         <!--/ Input 1 : -->		
@@ -215,9 +206,24 @@
     <script>
     Gettopic();
     function Gettopic(){
-        $.get("./TopicShow",
-            function(data,status){
-                console.log(data);
+        $.post("./TopicShow",{
+                'host_id':<%=host_id%>            
+            },
+            function(data,status){                
+                activity_list = JSON.parse(data);
+                console.log(activity_list['text']);
+                $('#TopicID').append('<optgroup id="y_Topics" label="your Topics">');
+
+                
+                for (var i = 0; i < activity_list["return"].length; i++){
+                    htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
+                    $('#y_Topics').append(htmltext);                    
+                }
+                $('#TopicID').append('<optgroup id="HotTopic" label="Hot Topic">');
+                htmltext = '<option value="10">厭世的人其實是先扭曲的自己的心靈，來防禦自己不受到傷害。</option>'
+                $('#HotTopic').append(htmltext);
+                htmltext = '<option value="20">實作學習</option>'
+                $('#HotTopic').append(htmltext);  
             }
         );
 	
