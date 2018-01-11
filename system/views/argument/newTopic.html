@@ -98,81 +98,43 @@
 		</div>
 	</div>
 
-    <div class="main main-raised">
-        <div class="section section-basic">
-            <div class="container">
-<!-- Tabs with icons on Card -->
-						<div class="card card-nav-tabs">
-							<div class="header header-primary">
-								<!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-								<div class="nav-tabs-navigation">
-									<div class="nav-tabs-wrapper">
-										<ul class="nav nav-tabs" data-tabs="tabs">
-											<li class="active">
-												<a href="#new" data-toggle="tab">
-													<i class="material-icons">note_add</i>
-													建立活動
-												</a>
-											</li>
-											<li>
-												<a href="#chatroom" data-toggle="tab">
-													<i class="material-icons">chat</i>
-													設定活動聊天室/活動學生
-												</a>
-											</li>
-											<li>
-												<a href="#tester" data-toggle="tab">
-													<i class="material-icons">face</i>
-													安排活動學生進聊天室
-												</a>
+	<div class="main main-raised">
+		<div class="section section-basic">
+            
+	    	<div class="container">
+                <form action="./newTopic" method="post">
+                    <div class="title">
+	                        <h2>論證主題內容輸入</h2>
+	                    </div>
+                        <!--Input 1 : content-->
+                        <div class="col-sm-8">
+					        <div class="input-group">
+						        <span class="input-group-addon">
+							        <i class="fa fa-comment-o"></i>
+						        </span>
+						        <div class="form-group label-floating">
+	                                <label class="control-label">content</label>
+	                                <input type="text" name='content' class="form-control" />
+                                </div>
+					        </div>
+				        </div>
+                        <!--/ Input 1 : User id-->	
 
-											</li>
-                                            <li>
-												<a href="#topic" data-toggle="tab">
-													<i class="material-icons">library_add</i>
-													新增題目
-												</a>
-
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="content">
-								<div class="tab-content text-center">
-									<div class="tab-pane active" id="new">
-										<p> I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. </p>
-                                        <div class="col-md-8 col-md-offset-2">
-							                <button class="btn btn-primary" onclick="javascript:location.href='./newactivity'">建立活動</button>
-                                        </div>
-                                    </div>
-									<div class="tab-pane" id="chatroom">
-										<p> I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.</p>
-									<div class="col-md-8 col-md-offset-2">
-							                <button class="btn btn-primary">設定活動聊天室/活動學生</button>
-                                        </div>
-                                    </div>
-									<div class="tab-pane" id="tester">
-										<p>I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. So when you get something that has the name Kanye West on it, it’s supposed to be pushing the furthest possibilities. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus.</p>
-									<div class="col-md-8 col-md-offset-2">
-							                <button class="btn btn-primary">安排活動學生進聊天室</button>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="topic">
-										<p>I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. So when you get something that has the name Kanye West on it, it’s supposed to be pushing the furthest possibilities. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus.</p>
-									<div class="col-md-8 col-md-offset-2">
-							                <button class="btn btn-primary" onclick="javascript:location.href='./newTopic'">新增題目</button>
-                                        </div>
-                                    </div>
-								</div>
-							</div>
-						</div>
-<!-- End Tabs with icons on Card -->
+                        
+                    <!-- summit button-->
+                    <div class="col-sm-12">
+                        <input  type="submit" class="btn btn-primary" value="進入活動"></input>
+                    </div>
+                    <!--/ summit button-->
+		        </form>
 
 
-            </div>
-        </div>
-    </div>
+	    	</div>
+
+		
+
+	    </div>
+	 </div>
 
      <footer class="footer">
 	    <div class="container">

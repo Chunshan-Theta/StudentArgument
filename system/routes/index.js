@@ -35,6 +35,39 @@ router.get('/newactivity', function(req, res) {
     }
 });
 
+/* GET new activity page. */
+router.get('/newTopic', function(req, res) {
+    
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+    }else{//req.session.host_id
+        res.render('argument/newTopic',{"host_id":req.session.host_id});
+    }
+});
+/* API of new Topic. */
+router.post('/newTopic', function(req, res) {
+    
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+    }
+    //INSERT INTO `topic_list` (`topic_id`, `user_id`, `content`) VALUES (NULL, '2', '今天晚餐吃什麼？')
+    
+    var content = req.param('content', null);
+    var host_id = req.session.host_id;
+    
+    // initialize controller
+    var controller_of_action_list = require('./Controller/newTopic.js');
+    c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(content,host_id,function(respond){
+        console.log(respond);
+        res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+
+    });
+});
+
+
 /* GET sittingPage. */
 router.get('/sittingPage', function(req, res) {
     if (!req.session){// if not setting session
@@ -78,7 +111,6 @@ router.post('/newactivity', function(req, res) {
         res.redirect('/sitting_login');
         return;
     }
-    //INSERT INTO `action_list` (`action_id`, `actionDoc_id`, `tester_id`, `exe_time`) VALUES (NULL, '1', '1', CURRENT_TIMESTAMP);
     
     var time = req.param('time', null);
     var TopicID = req.param('TopicID', null);
