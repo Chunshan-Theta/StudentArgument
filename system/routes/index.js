@@ -145,6 +145,25 @@ router.get('/testerShow', function(req, res) {
     });
 
 });
+/* API of Search references */
+router.get('/ReferencesShow', function(req, res) { 
+    //var host_id = req.param('host_id', null);
+    //req.session = { 'host_id': host_id };   
+    
+
+    // initialize controller
+    var controller_of_References_list = require('./Controller/ReferencesShow.js');
+    c = new controller_of_References_list();
+    
+    // in controller
+    c.controller(function(respond){
+        //console.log(respond);
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
+        res.end(""+JSON.stringify(respond));
+
+    });
+
+});
 /* API of insert activity */
 router.post('/newactivity', function(req, res) {
     if (!req.session){// if not setting session
