@@ -176,9 +176,9 @@
 						            </div>
 									<div class="tab-pane" id="search">
 										<p>關鍵字搜尋</p>
-                                        <div class="row">
+                                        <div class="row" style="min-height:400px;">
                                         <div class="col-md-3">
-                                            <input id="keywords" autocomplete="off" /><button onclick="searchkeword();">Send</button></input><br><br>
+                                            <input id="keywords_input" autocomplete="off" /><button onclick="searchkeword();">Send</button></input><br><br>
                                             <div id="search-result"></div>
                                         </div>
                                         <iframe id="insertweb" class="col-md-9" style="height:-webkit-fill-available" src=""></iframe>
@@ -274,9 +274,9 @@ function SendActionToSql(Sentcontent,ad){
 	});
 </script>
 <script>
-    GetReferences();
-    function GetReferences(){
-        $.get("./ReferencesShow",
+    
+    function GetReferences(keywords){
+        $.get("./ReferencesShow?keywords="+keywords,
             function(data,status){                
                 References_list = JSON.parse(data);
                 console.log(References_list['text']);
@@ -303,8 +303,11 @@ function SendActionToSql(Sentcontent,ad){
         SendActionToSql(title,'4');
     }
      function searchkeword(){
-        SendActionToSql("searchkeyword",'3');
+        var keyval = $('#keywords_input').val();
+        console.log(keyval);
+        SendActionToSql(keyval,'3');
         $('.links').remove();
+        GetReferences(keyval);
     } 
 </script>
 </html>

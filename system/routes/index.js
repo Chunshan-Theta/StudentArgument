@@ -147,7 +147,10 @@ router.get('/testerShow', function(req, res) {
 });
 /* API of Search references */
 router.get('/ReferencesShow', function(req, res) { 
-    //var host_id = req.param('host_id', null);
+    
+    var keywords = req.query.keywords;
+    if(typeof keywords=="undefined"){keywords="";}
+ 
     //req.session = { 'host_id': host_id };   
     
 
@@ -156,9 +159,10 @@ router.get('/ReferencesShow', function(req, res) {
     c = new controller_of_References_list();
     
     // in controller
-    c.controller(function(respond){
+    c.controller(keywords,function(respond){
         //console.log(respond);
-        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
+	//res.setHeader('Access-Control_Allow-Origin',"*");
         res.end(""+JSON.stringify(respond));
 
     });

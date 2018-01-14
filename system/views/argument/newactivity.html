@@ -216,7 +216,7 @@
 
                 
                 for (var i = 0; i < activity_list["return"].length; i++){
-                    htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
+                    htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"].substring(0,21)+'</option>'
                     $('#y_Topics').append(htmltext);                    
                 }
 				/*

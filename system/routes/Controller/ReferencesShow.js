@@ -13,10 +13,10 @@ module.exports = function (){
     */
 
 
-    this.controller = function (CallbackFunc){
+    this.controller = function (keywords,CallbackFunc){
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext ="SELECT * FROM `references_for_search`" 
+        querytext ="SELECT * FROM `references_for_search` WHERE `title` LIKE '%"+keywords+"%'" 
         connection.query(querytext,function(returnValue){    
             console.log(returnValue);
             CallbackFunc(returnValue);
