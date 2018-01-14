@@ -175,29 +175,10 @@
 										<p>關鍵字搜尋</p>
                                         <div class="row">
                                         <div class="col-md-3">
-                                            <input id="keywords" autocomplete="off" /><button onclick="#">Send</button></input><br><br>
-                                            <blockquote>
-                                                 <p class="text-left">
-                                                 I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
-                                                 </p>
-                                                 <small class = "text-right">
-                                                 Kanye West, Musician
-                                                 </small>
-                                            </blockquote>
-                                            <blockquote>
-                                                 <p class="text-left">
-                                                 I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
-                                                 </p>
-                                                 <small class = "text-right">
-                                                 Kanye West, Musician
-                                                 </small>
-                                            </blockquote>
+                                            <input id="keywords" autocomplete="off" /><button onclick="de();">Send</button></input><br><br>
+                                            <div id="search-result"></div>
                                         </div>
-                                        <div class="col-md-9">
-                                            <p class="text-left">
-                                                 I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
-                                             </p>
-                                        </div>
+                                        <iframe id="insertweb" class="col-md-9" style="height:-webkit-fill-available" src=""></iframe>
                                         </div>
                                     </div>
                                     
@@ -288,5 +269,39 @@ function SendActionToSql(Sentcontent,ad){
     }
 
 	});
+</script>
+<script>
+    GetReferences();
+    function GetReferences(){
+        $.get("./ReferencesShow",
+            function(data,status){                
+                References_list = JSON.parse(data);
+                console.log(References_list['text']);
+                $('.links').remove();
+                
+                for (var i = 0; i < References_list["return"].length; i++){
+                    //htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
+                    htmltext ='<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\''+References_list["return"][i]["link"]+'\');" class="btn btn-info">'+References_list["return"][i]["title"]+'</button><small class = "text-right">'+References_list["return"][i]["memo"]+'</small></blockquote>'
+                    $('#search-result').append(htmltext);                    
+                }
+				/*
+                $('#TopicID').append('<optgroup id="HotTopic" label="Hot Topic">');
+                htmltext = '<option value="10">厭世的人其實是先扭曲的自己的心靈，來防禦自己不受到傷害。</option>'
+                $('#HotTopic').append(htmltext);
+                htmltext = '<option value="20">實作學習</option>'
+                $('#HotTopic').append(htmltext);  */
+            }
+        );
+	
+    }
+    rediract('http://ytwu.lst.ncu.edu.tw/wu/ch/');
+    function rediract(link){
+        $('#insertweb').attr("src",link);
+        SendActionToSql("viewed web",'4');
+    }
+     function searchkeword(){
+        SendActionToSql("searchkeyword",'3');
+        $('.links').remove();
+    } 
 </script>
 </html>

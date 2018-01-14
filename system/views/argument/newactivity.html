@@ -212,18 +212,19 @@
             function(data,status){                
                 activity_list = JSON.parse(data);
                 console.log(activity_list['text']);
-                $('#TopicID').append('<optgroup id="y_Topics" label="your Topics">');
+                //$('#TopicID').append('<optgroup id="y_Topics" label="your Topics">');
 
                 
                 for (var i = 0; i < activity_list["return"].length; i++){
                     htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
                     $('#y_Topics').append(htmltext);                    
                 }
+				/*
                 $('#TopicID').append('<optgroup id="HotTopic" label="Hot Topic">');
                 htmltext = '<option value="10">厭世的人其實是先扭曲的自己的心靈，來防禦自己不受到傷害。</option>'
                 $('#HotTopic').append(htmltext);
                 htmltext = '<option value="20">實作學習</option>'
-                $('#HotTopic').append(htmltext);  
+                $('#HotTopic').append(htmltext);  */
             }
         );
 	
