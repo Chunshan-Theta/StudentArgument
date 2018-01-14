@@ -52,7 +52,7 @@
 	            	<span class="icon-bar"></span>
 	            	<span class="icon-bar"></span>
 	        	</button>
-				<a href="#">
+				<a href="./login">
 	            	<div class="logo-container">
 	                    <div class="logo">
 	                        <img src="assets/img/logo.png" alt="site Logo" rel="tooltip" title="logo" data-placement="bottom" data-html="true">
@@ -69,27 +69,27 @@
 	        <div class="collapse navbar-collapse" id="navigation-index">
 	        	<ul class="nav navbar-nav navbar-right">
 				    <li>
-					    <a href="#" target="_blank">
+					    <a href="./signup">
 						    <i class="material-icons">person_add</i> Sign up
 					    </a><!--https://material.io/icons/-->
 				    </li>
 				    <li>
-					    <a href="#" target="_blank">
-						    <i class="material-icons">group_add</i> For Group
+					    <a href="./login">
+						    <i class="material-icons">chat</i> Enter activity
 					    </a>
 				    </li>
 				    <li>
-					    <a rel="tooltip" title="About ours" data-placement="bottom" href="#" target="_blank" class="btn btn-white btn-simple btn-just-icon">
+					    <a rel="tooltip" title="About ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
 						    <i class="fa fa-info-circle"></i><!--http://fontawesome.io/icons/-->
 					    </a>
 				    </li>
 				    <li>
-					    <a rel="tooltip" title="Contact ours" data-placement="bottom" href="#" target="_blank" class="btn btn-white btn-simple btn-just-icon">
+					    <a rel="tooltip" title="Contact ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
 						    <i class="fa fa-question-circle"></i>
 					    </a>
 				    </li>
 				    <li>
-					    <a rel="tooltip" title="Sitting" data-placement="bottom" href="#" target="_blank" class="btn btn-white btn-simple btn-just-icon">
+					    <a rel="tooltip" title="Sitting" data-placement="bottom" href="./sitting_login" class="btn btn-white btn-simple btn-just-icon">
 						    <i class="fa fa-cog"></i>
 					    </a>
 				    </li>
@@ -98,7 +98,7 @@
 	        </div>
 	    </div>
     </nav>
-<!-- End Navbar -->    
+<!-- End Navbar -->
 
 
 
@@ -150,8 +150,11 @@
 									<div class="tab-pane active" id="chatroom">
 										<div class="title">  
                                             <h4 style="text-align: left;">
-                                              <%=title%><%=room%>/使用者名稱：<%=UserName%><br>      
+                                              <%=title%><%=room%>/使用者名稱：<%=UserName%><br> 題目：<br>
                                             </h4>
+                                            <blockquote>
+                                                <p class="text-left"><%=t_con%></p> 
+                                            </blockquote> 
                                         </div>
                                         <div>
                                             
@@ -175,7 +178,7 @@
 										<p>關鍵字搜尋</p>
                                         <div class="row">
                                         <div class="col-md-3">
-                                            <input id="keywords" autocomplete="off" /><button onclick="de();">Send</button></input><br><br>
+                                            <input id="keywords" autocomplete="off" /><button onclick="searchkeword();">Send</button></input><br><br>
                                             <div id="search-result"></div>
                                         </div>
                                         <iframe id="insertweb" class="col-md-9" style="height:-webkit-fill-available" src=""></iframe>
@@ -281,7 +284,7 @@ function SendActionToSql(Sentcontent,ad){
                 
                 for (var i = 0; i < References_list["return"].length; i++){
                     //htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
-                    htmltext ='<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\''+References_list["return"][i]["link"]+'\');" class="btn btn-info">'+References_list["return"][i]["title"]+'</button><small class = "text-right">'+References_list["return"][i]["memo"]+'</small></blockquote>'
+                    htmltext ='<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\''+References_list["return"][i]["link"]+'\',\''+References_list["return"][i]["title"]+'\');" class="btn btn-info">'+References_list["return"][i]["title"]+'</button><small class = "text-right">'+References_list["return"][i]["memo"]+'</small></blockquote>'
                     $('#search-result').append(htmltext);                    
                 }
 				/*
@@ -294,10 +297,10 @@ function SendActionToSql(Sentcontent,ad){
         );
 	
     }
-    rediract('http://ytwu.lst.ncu.edu.tw/wu/ch/');
-    function rediract(link){
+    rediract('http://ytwu.lst.ncu.edu.tw/wu/ch/',"initial viewd");
+    function rediract(link,title){
         $('#insertweb').attr("src",link);
-        SendActionToSql("viewed web",'4');
+        SendActionToSql(title,'4');
     }
      function searchkeword(){
         SendActionToSql("searchkeyword",'3');

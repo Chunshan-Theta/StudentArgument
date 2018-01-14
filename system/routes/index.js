@@ -266,16 +266,16 @@ router.post('/argument2', function(req, res) {
         c = new controller_of_argument();
         
         // in controller
-        c.controller(user_id,activity_id,function(chatroom_id,tester_id){
+        c.controller(user_id,activity_id,function(chatroom_id,tester_id,topic_content){
 
             //console.log(typeof chatroom_id);
             //console.log(ActionDoc);
             
-            
+            console.log("chatroom_id",chatroom_id)
             if (chatroom_id != null){// case of not found tester
                 var user = 'NormalUser_'+user_id//req.param('user', null);
                 console.log(user,',Enter to chatroom: '+chatroom_id);
-                res.render('argument/ChatroomPage',{title:'聊天室代號：',room:chatroom_id,UserName:user,t_id:tester_id});
+                res.render('argument/ChatroomPage',{title:'聊天室代號：',room:chatroom_id,UserName:user,t_id:tester_id,t_con:topic_content});
             }
             else if(chatroom_id == '-1'){// case of not already room for user
                 res.render('argument/errorpage',{error_id:'#404',error_con:"Not yet arranged chat room, please talk this about this to your activity hoster"});
