@@ -19,6 +19,7 @@ module.exports = function (){
         querytext ="SELECT * FROM `activity_list`" 
         connection.query(querytext,function(returnValue){    
             console.log(returnValue);
+	    //connection.close();
             CallbackFunc(returnValue);
         });
 

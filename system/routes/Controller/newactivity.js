@@ -22,6 +22,7 @@ module.exports = function (){
         querytext ="INSERT INTO `activity_list` (`avtivity_id`, `topic_id`, `user_id`, `assessment_id`, `unicode`, `timeofactivity`) VALUES (NULL, '"+TopicID+"', '"+host_id+"', '1', '"+unicodeforactivity+"', '"+time+"');" 
         connection.query(querytext,function(returnValue){    
             //console.log(returnValue);
+	    //connection.close();
             CallbackFunc(returnValue['return']);
         });
 

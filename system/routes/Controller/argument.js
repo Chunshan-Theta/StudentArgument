@@ -54,9 +54,9 @@ module.exports = function (){
                     chatroom_id = null;
                     tester_id = null;
                 }
+	        //connection.close();
                 CallbackFunc(chatroom_id,tester_id,topic_content);
         });
-        connection.close();
         
         /*
         connection.query("SELECT * FROM `action_list`",function(returnValue) {

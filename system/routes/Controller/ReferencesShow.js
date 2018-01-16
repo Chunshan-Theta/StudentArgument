@@ -19,6 +19,7 @@ module.exports = function (){
         querytext ="SELECT * FROM `references_for_search` WHERE `title` LIKE '%"+keywords+"%'" 
         connection.query(querytext,function(returnValue){    
             console.log(returnValue);
+	    //connection.close();
             CallbackFunc(returnValue);
         });
 

@@ -20,6 +20,7 @@ module.exports = function (){
         querytext ="INSERT INTO `user_list` (`user_id`, `name`, `school`, `StudentID`) VALUES (NULL, '"+username+"', '"+userschool+"', '"+userStudentID+"');" 
         connection.query(querytext,function(returnValue){    
             //console.log(returnValue);
+	    //connection.close();
             CallbackFunc(returnValue);
         });
 

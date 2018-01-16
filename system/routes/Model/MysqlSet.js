@@ -35,8 +35,10 @@ module.exports = function (db){
     });
     connection.connect();
     this.query = function(Sql,callback){
-        console.log(Sql);
+        
         connection.query(Sql, function (err, result, fields) {
+            console.log(Sql);
+            console.log("Mysql connect state:",connection.state);
             if (err){
                 console.log(err["code"]);
                 callback({'text':err["code"],'status':err['errno']})
@@ -44,10 +46,36 @@ module.exports = function (db){
             else{
                 callback({'text':"success",'status':"200",'return':result});
             }
+            close();
         });    
     }
-    this.close = function(){
-        connection.end();
+    function close(){
+        try{
+            connection.end(function(err) {
+              // The connection is terminated now
+              console.log("1: Mysql connect state:",connection.state);
+            });
+
+        }
+        catch(e){
+            setTimeout(function(){
+
+                try{
+                    connection.end(function(err) {
+                      // The connection is terminated now
+                      console.log("2: Mysql connect state:",connection.state);
+                    });
+                } 
+                catch(e){
+                    console.log("Mysql connect is timeout, destroy the connection.");                   
+                    connection.destroy();
+                    console.log("Mysql connect state:",connection.state);            
+                }            
+            
+            }, 3000);
+        }
+
+        
     };    
     
 

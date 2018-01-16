@@ -20,8 +20,10 @@ module.exports = function (){
         querytext ="INSERT INTO `action_list` (`action_id`, `actionDoc_id`, `tester_id`, `exe_time`, `content`) VALUES (NULL, '"+actionDoc_id+"', '"+tester_id+"', CURRENT_TIMESTAMP,'"+content+"');" 
         connection.query(querytext,function(returnValue){    
             //console.log(returnValue);
+	    //connection.close();
             CallbackFunc(returnValue['return']);
         });
+
 
     
     } 

@@ -20,6 +20,7 @@ module.exports = function (){
         querytext ="INSERT INTO `topic_list` (`topic_id`, `user_id`, `content`) VALUES (NULL, '"+host_id+"', '"+content+"');" 
         connection.query(querytext,function(returnValue){    
             //console.log(returnValue);
+	    //connection.close();
             CallbackFunc(returnValue);
         });
 
