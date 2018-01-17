@@ -21,6 +21,10 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="assets/css/demo.css" rel="stylesheet" />
+    
+    <!--cheditor-->
+    <script src="/assets/js/ckeditor/ckeditor.js"></script>
+    
     <style>
         form { background: #000; padding: 3px; bottom: 0; width: 100%; }
         form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
@@ -44,59 +48,59 @@
 
 <!-- Navbar -->
     <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
-	    <div class="container">
+        <div class="container">
             <div class="navbar-header">
-	        	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
-	            	<span class="sr-only">Toggle navigation</span>
-	            	<span class="icon-bar"></span>
-	            	<span class="icon-bar"></span>
-	            	<span class="icon-bar"></span>
-	        	</button>
-				<a href="./login">
-	            	<div class="logo-container">
-	                    <div class="logo">
-	                        <img src="assets/img/logo.png" alt="site Logo" rel="tooltip" title="logo" data-placement="bottom" data-html="true">
-	                    </div>
-	                    <div class="brand">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="./login">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <img src="assets/img/logo.png" alt="site Logo" rel="tooltip" title="logo" data-placement="bottom" data-html="true">
+                        </div>
+                        <div class="brand">
                             Argument Sys 
-	                    </div>
+                        </div>
 
 
-				    </div>
-	          	</a>
-	        </div>
+                    </div>
+                </a>
+            </div>
 
-	        <div class="collapse navbar-collapse" id="navigation-index">
-	        	<ul class="nav navbar-nav navbar-right">
-				    <li>
-					    <a href="./signup">
-						    <i class="material-icons">person_add</i> Sign up
-					    </a><!--https://material.io/icons/-->
-				    </li>
-				    <li>
-					    <a href="./login">
-						    <i class="material-icons">chat</i> Enter activity
-					    </a>
-				    </li>
-				    <li>
-					    <a rel="tooltip" title="About ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
-						    <i class="fa fa-info-circle"></i><!--http://fontawesome.io/icons/-->
-					    </a>
-				    </li>
-				    <li>
-					    <a rel="tooltip" title="Contact ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
-						    <i class="fa fa-question-circle"></i>
-					    </a>
-				    </li>
-				    <li>
-					    <a rel="tooltip" title="Sitting" data-placement="bottom" href="./sitting_login" class="btn btn-white btn-simple btn-just-icon">
-						    <i class="fa fa-cog"></i>
-					    </a>
-				    </li>
+            <div class="collapse navbar-collapse" id="navigation-index">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="./signup">
+                            <i class="material-icons">person_add</i> Sign up
+                        </a><!--https://material.io/icons/-->
+                    </li>
+                    <li>
+                        <a href="./login">
+                            <i class="material-icons">chat</i> Enter activity
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="tooltip" title="About ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
+                            <i class="fa fa-info-circle"></i><!--http://fontawesome.io/icons/-->
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="tooltip" title="Contact ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="tooltip" title="Sitting" data-placement="bottom" href="./sitting_login" class="btn btn-white btn-simple btn-just-icon">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                    </li>
 
-	        	</ul>
-	        </div>
-	    </div>
+                </ul>
+            </div>
+        </div>
     </nav>
 <!-- End Navbar -->
 
@@ -113,42 +117,42 @@
     <div class="main main-raised">
         <div class="section section-basic">
             
-	        <div class="container">
+            <div class="container">
                 <!-- Tabs with icons on Card -->
-						<div class="card card-nav-tabs">
-							<div class="header header-primary">
-								<!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-								<div class="nav-tabs-navigation">
-									<div class="nav-tabs-wrapper">
-										<ul class="nav nav-tabs" data-tabs="tabs">
-											<li class="active">
-												<a href="#chatroom" data-toggle="tab">
-													<i class="material-icons">chat</i>
-													論證
-												</a>
-											</li>
-											<li>
-												<a href="#note" data-toggle="tab">
-													<i class="material-icons">note_add</i>
-													筆記
-												</a>
-											</li>
-											<li>
-												<a href="#search" data-toggle="tab">
-													<i class="material-icons">search</i>
-													搜尋資料
-												</a>
+                        <div class="card card-nav-tabs">
+                            <div class="header header-primary">
+                                <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="active">
+                                                <a href="#chatroom" data-toggle="tab">
+                                                    <i class="material-icons">chat</i>
+                                                    論證
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#note" data-toggle="tab">
+                                                    <i class="material-icons">note_add</i>
+                                                    筆記
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#search" data-toggle="tab">
+                                                    <i class="material-icons">search</i>
+                                                    搜尋資料
+                                                </a>
 
-											</li>
+                                            </li>
                                             
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="content">
-								<div class="tab-content text-center">
-									<div class="tab-pane active" id="chatroom">
-										<div class="title">  
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="tab-content text-center">
+                                    <div class="tab-pane active" id="chatroom">
+                                        <div class="title">  
                                             <h4 style="text-align: left;">
                                               <%=title%><%=room%>/使用者名稱：<%=UserName%><br> 題目：<br>
                                             </h4>
@@ -165,17 +169,19 @@
 
                                         </div>
                                     </div>
-									<div class="tab-pane" id="note">
-                                       <h4 style="text-align: left;">
-                                           筆記內容不會讓除了自己以外的其它使用者看到<br>      
-                                       </h4>
-                                       <div id="noteform">
-                                            <input id="m2" autocomplete="off" /><button onclick="addnote();">Send</button>
-                                       </div>
-                                       <ul id="note_bar"></ul>
-						            </div>
-									<div class="tab-pane" id="search">
-										<p>關鍵字搜尋</p>
+                                    <div class="tab-pane" id="note">
+                                        <form action="" method="post" enctype="multipart/form-data">
+                                            <textarea id="editor" class="ckeditor" name="editor"></textarea>
+                                            <script>
+                                            CKEDITOR.replace( 'editor', {
+                                            
+                                            });
+                                            </script>
+                                            <!--<input type="button" value="送出" onclick="processData()">-->
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane" id="search">
+                                        <p>關鍵字搜尋</p>
                                         <div class="row" style="min-height:400px;">
                                         <div class="col-md-3">
                                             <input id="keywords_input" autocomplete="off" /><button onclick="searchkeword();">Send</button></input><br><br>
@@ -185,12 +191,12 @@
                                         </div>
                                     </div>
                                     
-								</div>
-							</div>
-						</div>
+                                </div>
+                            </div>
+                        </div>
 <!-- End Tabs with icons on Card -->
                 
-	        </div>
+            </div>
         </div>
     </div>
 </div>
@@ -216,18 +222,7 @@
 
   
 </script>
-<script>
-function addnote(){
-    var con = $('#m2').val();
-    $('#note_bar').prepend($('<li>').text(con));
-    SendActionToSql($('#m2').val(),'2');
-    $('#m2').val('');
 
-
-}
-
-  
-</script>
 <script>
 function SendActionToSql(Sentcontent,ad){
     $.post("http://140.115.126.216:3000/argument_post_action_list",
@@ -240,7 +235,7 @@ function SendActionToSql(Sentcontent,ad){
             console.log(status);
         }
     );
-	
+    
 }
  
 </script>
@@ -271,7 +266,7 @@ function SendActionToSql(Sentcontent,ad){
         $(window).on('scroll', materialKitDemo_mini.checkScrollForParallax);
     }
 
-	});
+    });
 </script>
 <script>
     
@@ -287,7 +282,7 @@ function SendActionToSql(Sentcontent,ad){
                     htmltext ='<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\''+References_list["return"][i]["link"]+'\',\''+References_list["return"][i]["title"]+'\');" class="btn btn-info">'+References_list["return"][i]["title"]+'</button><small class = "text-right">'+References_list["return"][i]["memo"]+'</small></blockquote>'
                     $('#search-result').append(htmltext);                    
                 }
-				/*
+                /*
                 $('#TopicID').append('<optgroup id="HotTopic" label="Hot Topic">');
                 htmltext = '<option value="10">厭世的人其實是先扭曲的自己的心靈，來防禦自己不受到傷害。</option>'
                 $('#HotTopic').append(htmltext);
@@ -295,7 +290,7 @@ function SendActionToSql(Sentcontent,ad){
                 $('#HotTopic').append(htmltext);  */
             }
         );
-	
+    
     }
     rediract('http://ytwu.lst.ncu.edu.tw/wu/ch/',"initial viewd");
     function rediract(link,title){
@@ -309,5 +304,13 @@ function SendActionToSql(Sentcontent,ad){
         $('.links').remove();
         GetReferences(keyval);
     } 
+            
+
+</script>
+<script>
+    function processData(){
+       var data = CKEDITOR.instances["editor"].getData();
+       SendActionToSql(data,'2');
+    }
 </script>
 </html>

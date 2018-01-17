@@ -162,7 +162,7 @@ router.get('/ReferencesShow', function(req, res) {
     c.controller(keywords,function(respond){
         //console.log(respond);
         res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
-	//res.setHeader('Access-Control_Allow-Origin',"*");
+    //res.setHeader('Access-Control_Allow-Origin',"*");
         res.end(""+JSON.stringify(respond));
 
     });
@@ -234,11 +234,11 @@ router.post('/newuser', function(req, res) {
     
     // in controller
     c.controller(username,userschool,userStudentID,function(respond){
-	    //console.log(respond);
+        //console.log(respond);
         if(respond['text']=="ER_DUP_ENTRY"){
             res.render('argument/errorpage',{error_id:respond['status'],error_con:"帳號已存在"});
         }else{
-    	    res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+            res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
         }
     });
 
@@ -286,13 +286,56 @@ router.post('/argument2', function(req, res) {
             }
             else{
                 res.render('argument/errorpage',{error_id:'#404',error_con:"not found user or activity"});
-	        }
+            }
         });
     }
     
     
 });
 
+/*  ****preparation******    argument page. */
+router.get('/a', function(req, res) {
+
+
+    
+    var user_id = 1;
+    var activity_id = 1;
+    
+    if (typeof user_id == "undefined" ){// case of not catch u_id
+        res.render('argument/errorpage',{error_id:'#404',error_con:"not input user id to server"});
+    }
+
+    else if (typeof activity_id == "undefined" ){// case of not catch a_id
+        res.render('argument/errorpage',{error_id:'#404',error_con:"not input activity id to server"});
+    }
+    else{
+        // initialize controller
+        var controller_of_argument = require('./Controller/argument.js');
+        c = new controller_of_argument();
+        
+        // in controller
+        c.controller(user_id,activity_id,function(chatroom_id,tester_id,topic_content){
+
+            //console.log(typeof chatroom_id);
+            //console.log(ActionDoc);
+            
+            console.log("chatroom_id",chatroom_id)
+            if (chatroom_id != null){// case of not found tester
+                var user = 'NormalUser_'+user_id//req.param('user', null);
+                console.log(user,',Enter to chatroom: '+chatroom_id);
+                res.render('argument/ChatroomPage2',{title:'聊天室代號：',room:chatroom_id,UserName:user,t_id:tester_id,t_con:topic_content});
+            }
+            else if(chatroom_id == '-1'){// case of not already room for user
+                res.render('argument/errorpage',{error_id:'#404',error_con:"Not yet arranged chat room, please talk this about this to your activity hoster"});
+            }
+            else{
+                res.render('argument/errorpage',{error_id:'#404',error_con:"not found user or activity"});
+            }
+        });
+    }
+    
+    
+});
 
 
 
