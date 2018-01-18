@@ -36,6 +36,16 @@ router.get('/newactivity', function(req, res) {
 });
 
 /* GET new activity page. */
+router.get('/newTester', function(req, res) {
+    
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+    }else{//req.session.host_id
+        res.render('argument/newTester',{"host_id":req.session.host_id});
+    }
+});
+
+/* GET new activity page. */
 router.get('/newTopic', function(req, res) {
     
     if (!req.session){// if not setting session
@@ -95,6 +105,25 @@ router.post('/TopicShow', function(req, res) {
     // initialize controller
     var controller_of_action_list = require('./Controller/TopicShow.js');
     c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(function(respond){
+        //console.log(respond);
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
+        res.end(""+JSON.stringify(respond));
+
+    });
+
+});
+/* API of Search activity */
+router.get('/userShow', function(req, res) { 
+    //var host_id = req.param('host_id', null);
+    //req.session = { 'host_id': host_id };   
+    
+
+    // initialize controller
+    var controller_of_user_list = require('./Controller/userShow.js');
+    c = new controller_of_user_list();
     
     // in controller
     c.controller(function(respond){
