@@ -277,10 +277,18 @@
     		var PostData='[';
     		$( ".ui-selected", '#selectable' ).each(function() {
 	          var u_id = $(this).attr('value');
-	          PostData += '{'+activity_id+':'+u_id+'},';
+	          PostData += '["'+activity_id+'","'+u_id+'"],';
 	        });
     		PostData=PostData.substring(0,PostData.length-1)+']';
     		console.log(PostData);
+    		$.post("./newTester",
+    			{
+    			'JsonData':PostData
+    			},
+	            function(data,status){                
+	            	console.log(data);
+	            }
+	        );
     	}
     </script>
  

@@ -44,6 +44,27 @@ router.get('/newTester', function(req, res) {
         res.render('argument/newTester',{"host_id":req.session.host_id});
     }
 });
+/* API of new Tester. */
+router.post('/newTester', function(req, res) {
+    if (!req.session){// if not setting session
+        console.log('no login');
+        res.redirect('/sitting_login');
+    }
+
+    var JsonData = req.param('JsonData', null);
+    var host_id = req.session.host_id;   
+
+    JsonData = JSON.parse(JsonData);
+    // initialize controller
+    var controller_of_new_Tester = require('./Controller/newTester.js');
+    c = new controller_of_new_Tester();
+
+    // in controller
+    c.controller(JsonData,host_id,function(respond){
+        console.log(respond);
+        res.end("done.");
+    });
+});
 
 /* GET new activity page. */
 router.get('/newTopic', function(req, res) {
