@@ -6,7 +6,7 @@
 	<link rel="icon" type="image/png" href="assets/img/favicon.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Material Kit by Creative Tim</title>
+	<title><%=host_id%></title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
@@ -22,11 +22,23 @@
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link href="assets/css/demo.css" rel="stylesheet" />
 	<style>
-		#feedback { font-size: 1.4em; }
-	    #selectable .ui-selecting { background: #FECA40; }
-	    #selectable .ui-selected { background: #F39814; color: white; }
-	    #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-	    #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 38px; }
+	.sortable_col{
+		border: 4px solid #eee;
+	    min-height: 200px;
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 5px 0 0 0;
+	    float: left;
+	    width:-webkit-fill-available;
+	}
+    .sortable_col li {
+	    margin: 0 5px 5px 5px;
+	    padding: 5px;
+	    font-size: 1.2em;
+	}
+	#sortable_Unseted li{
+	    background-color: #A44;
+	}
 	</style>
 </head>
 
@@ -113,35 +125,23 @@
                     <h2>新增Tester</h2>
                 </div>
                 <!--Input 1 : -->
-                <div class="col-sm-6">
-                	<h3>user</h3>	                        			
-                	<p id="feedback">
-						<span>You've selected:</span><br> <span id="select-result"></span>
-					</p>
-					 
-					<ol id="selectable">
-					  <!--
-					  <li class="ui-widget-content" name='1'>Item 1</li>
-					  <li class="ui-widget-content" name='2'>Item 2</li>
-					  <li class="ui-widget-content" name='3'>Item 3</li>
-					  <li class="ui-widget-content" name='4'>Item 4</li>
-					  <li class="ui-widget-content" name='5'>Item 5</li>
-					  <li class="ui-widget-content" name='6'>Item 6</li>
-					  -->
-					</ol>	                            	
+                <div id='main-sortable' class="col-sm-9">
+                    
                 </div>
                 <!--/ Input 1 : -->
                 <!--Input 1 : -->
-                <div class="col-sm-6">
-                	<h3>Activity</h3>	                        			
-                	<select name="Activity_ID" id="Activity_ID"></select>
+                <div class="col-sm-3">
+                    <button  onclick="addsortable();" class="btn btn-primary">
+                    	<i class="fa fa-plus"></i> 新增聊天室
+                    </button>
+
                 </div>
                 <!--/ Input 1 : -->		
 
                     	
                 <!-- summit button-->
                 <div class="col-sm-12">
-                    <button  onclick="newTester();" class="btn btn-primary">確定</button>
+                    <button  onclick="SendtoRoom();" class="btn btn-primary">確定</button>
                 </div>
                 <!--/ summit button-->
 		        
@@ -219,77 +219,60 @@
             
 		});
 	</script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
+	$( function() {
+		$( ".connectedSortable" ).sortable({
+		  connectWith: ".connectedSortable"
+		}).disableSelection();
+		$("#main-sortable").append('<div class="col-sm-3"><h3>Unset</h3></span><ul id="sortable_Unseted" class="connectedSortable sortable_col" value="-1"></ul></div>');
 
-		$( "#selectable" ).selectable({
-	      stop: function() {
-	        var result = $( "#select-result" ).empty();
-	        $( ".ui-selected", this ).each(function() {
-	          var name = $(this).attr('name');
-	          result.append( "<li> #" + name+'</li>' );
-	        });
-	      }
-	    });
-    </script>
-    <script>
+		
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="1">Student 1</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="2">Student 2</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="3">Student 3</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="4">Student 4</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="5">Student 5</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="6">Student 6</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="7">Student 7</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="8">Student 8</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="9">Student 9</li>');
+		$("#sortable_Unseted").append('<li class="ui-state-default" value="0">Student 0</li>');
 
-    $.get("./userShow",
-        function(data,status){                
-            activity_list = JSON.parse(data);
-            console.log(activity_list['text']);
-            
 
-            
-            for (var i = 0; i < activity_list["return"].length; i++){
-                var user_id = activity_list["return"][i]["user_id"];
-                var user_name = activity_list["return"][i]["name"];
-                var user_school = activity_list["return"][i]["school"];
 
-                var htmltext = '<li class="ui-widget-content" value="'+user_id+'" name="'+user_name+'">'+user_name+' , '+user_school+'</li>';
-                $('#selectable').append(htmltext); 
-                
-              
-            }
-        }
-    );
-	$.get("./ActivityShow",
-            function(data,status){                
-                activity_list = JSON.parse(data);
-                console.log(activity_list['text']);
-                $('#Activity_ID').append('<optgroup id="y_Activitys" label="your Activity">');
+		
+	} );
+	sortableCount=0;
+	function addsortable(){
+		var id = 'sortable_'+sortableCount;
+		var chatroomName = 'chatroom_'+sortableCount;
+		$("#main-sortable").append('<div class="col-sm-3"><h3>'+chatroomName+'</h3></span><ul id="'+id+'" class="connectedSortable sortable_col" value="'+sortableCount+'"></ul></div>');
+		//$("#"+id).append('<p>room</p>');
+		//$("#"+id).append('<li class="ui-state-default">Item A</li>');
+		$( ".connectedSortable" ).sortable({
+		  connectWith: ".connectedSortable"
+		}).disableSelection();
+		sortableCount +=1;
 
-                
-                for (var i = 0; i < activity_list["return"].length; i++){
-                    htmltext = '<option value="'+activity_list["return"][i]["avtivity_id"]+'">'+activity_list["return"][i]["timeofactivity"].substring(0,10)+'</option>'
-                    $('#y_Activitys').append(htmltext);                    
-                }
-            }
-        );
-    
-     
-    </script>
+
+	}
+	</script>
     <script type="text/javascript"> 
-    	function newTester(){
-    		var activity_id = $('#Activity_ID').val();
+    	function SendtoRoom(){
     		var PostData='[';
-    		$( ".ui-selected", '#selectable' ).each(function() {
-	          var u_id = $(this).attr('value');
-	          PostData += '["'+activity_id+'","'+u_id+'"],';
+    		$( ".sortable_col", 'body' ).each(function() {
+    			var chatroom_id = $(this).attr('value');
+    			$( ".ui-state-default", this ).each(function() {
+		          var u_id = $(this).attr('value');
+		          PostData += '['+chatroom_id+','+u_id+'],';
+		        });
+
 	        });
-    		PostData=PostData.substring(0,PostData.length-1)+']';
-    		console.log(PostData);
-    		$.post("./newTester",
-    			{
-    			'JsonData':PostData
-    			},
-	            function(data,status){                
-	            	console.log(data);
-	            }
-	        );
+            PostData=PostData.substring(0,PostData.length-1)+']';
+
+	        console.log(PostData);
     	}
     </script>
- 
 </html>

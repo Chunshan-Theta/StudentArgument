@@ -62,10 +62,21 @@ router.post('/newTester', function(req, res) {
     // in controller
     c.controller(JsonData,host_id,function(respond){
         console.log(respond);
-        res.end("done.");
+        //res.end("done.");
+        res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+
     });
 });
 
+/* GET Send Tester To Chatroom page. */
+router.get('/SendTesterToChatroom', function(req, res) {
+    
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+    }else{//req.session.host_id
+        res.render('argument/SendTesterToChatroom',{"host_id":req.session.host_id});
+    }
+});
 /* GET new activity page. */
 router.get('/newTopic', function(req, res) {
     
