@@ -13,13 +13,22 @@ module.exports = function (){
     */
 
 
-    this.controller = function (CallbackFunc){
-        var sql = require('../Model/MysqlSet.js');
+    this.controller = function (CallbackFunc,a_id){
+        var sql = require('../Model/MysqlSet.js');        
         connection = new sql('argument');
-        querytext ="SELECT * FROM `tester_list`" 
+        console.log(a_id);
+
+        if (typeof a_id !=='undefined'){
+            querytext ="SELECT DISTINCT `user_id`,`tester_id`  FROM `tester_list` WHERE `avtivity_id`='"+a_id+"' ORDER BY `tester_list`.`tester_id` DESC" ;
+
+        } else{
+            querytext ="SELECT * FROM `tester_list`" ;
+
+        }
+        
         connection.query(querytext,function(returnValue){    
             console.log(returnValue);
-	    //connection.close();
+	        //connection.close();
             CallbackFunc(returnValue);
         });
 

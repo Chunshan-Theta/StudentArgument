@@ -131,10 +131,15 @@
                 <!--/ Input 1 : -->
                 <!--Input 1 : -->
                 <div class="col-sm-3">
+	                <div>
+	                	<h3>Select Activity</h3>	                        			
+	                	<select name="Activity_ID" id="Activity_ID"></select>
+	                </div>
+
                     <button  onclick="addsortable();" class="btn btn-primary">
                     	<i class="fa fa-plus"></i> 新增聊天室
                     </button>
-
+                    <!--Input 1 : -->
                 </div>
                 <!--/ Input 1 : -->		
 
@@ -229,16 +234,7 @@
 		$("#main-sortable").append('<div class="col-sm-3"><h3>Unset</h3></span><ul id="sortable_Unseted" class="connectedSortable sortable_col" value="-1"></ul></div>');
 
 		
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="1">Student 1</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="2">Student 2</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="3">Student 3</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="4">Student 4</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="5">Student 5</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="6">Student 6</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="7">Student 7</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="8">Student 8</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="9">Student 9</li>');
-		$("#sortable_Unseted").append('<li class="ui-state-default" value="0">Student 0</li>');
+
 
 
 
@@ -247,7 +243,7 @@
 	sortableCount=0;
 	function addsortable(){
 		var id = 'sortable_'+sortableCount;
-		var chatroomName = 'chatroom_'+sortableCount;
+		var chatroomName = 'chatroom_'+(sortableCount+1);
 		$("#main-sortable").append('<div class="col-sm-3"><h3>'+chatroomName+'</h3></span><ul id="'+id+'" class="connectedSortable sortable_col" value="'+sortableCount+'"></ul></div>');
 		//$("#"+id).append('<p>room</p>');
 		//$("#"+id).append('<li class="ui-state-default">Item A</li>');
@@ -261,18 +257,86 @@
 	</script>
     <script type="text/javascript"> 
     	function SendtoRoom(){
-    		var PostData='[';
+    		var PostData='';
     		$( ".sortable_col", 'body' ).each(function() {
     			var chatroom_id = $(this).attr('value');
     			$( ".ui-state-default", this ).each(function() {
 		          var u_id = $(this).attr('value');
-		          PostData += '['+chatroom_id+','+u_id+'],';
+		            if(chatroom_id != '-1'){
+		            	PostData += '['+chatroom_id+','+u_id+'],';
+		      		}
 		        });
 
 	        });
-            PostData=PostData.substring(0,PostData.length-1)+']';
-
+            PostData='['+PostData.substring(0,PostData.length-1)+']';            
 	        console.log(PostData);
+            $.post("./SendTesterToChatroom",
+    			{
+    			'Activity_id':$('#Activity_ID').val(),
+    			'JsonData':PostData
+    			},
+	            function(data,status){                
+	            	console.log(data);
+	            	alert('done.');
+	            	location.href='./sittingPage';
+	            }
+	        );
     	}
+    </script>
+    <script type="text/javascript">
+
+    	$.get("./userShow",
+        function(data,status){                
+            user_list = JSON.parse(data);
+            console.log(user_list['text']);
+	        users=user_list['return'];
+
+	            
+
+	        }
+	    );
+    </script>
+    <script type="text/javascript">
+    	$.get("./ActivityShow",
+            function(data,status){                
+                activity_list = JSON.parse(data);
+                console.log(activity_list['text']);
+                $('#Activity_ID').append('<optgroup id="y_Activitys" label="your Activity">');
+
+                
+                for (var i = 0; i < activity_list["return"].length; i++){
+                	var a_id = activity_list["return"][i]["avtivity_id"];
+                	var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0,10);
+                    htmltext = '<option value="'+a_id+'">activity:'+a_id+','+timeofactivity+'</option>'
+                    $('#y_Activitys').append(htmltext);                    
+                }
+            }
+        );
+        $('#Activity_ID').on("change",function(){
+        	$('.ui-state-default').remove();
+        	
+        	var a_id = this.value;
+        	$.post("./testerShow",{
+        		'a_id':a_id
+        	    },
+                function(data,status){                
+                Tester_list = JSON.parse(data);
+                //console.log(Tester_list['text']);
+
+	            for (var i = 0; i < Tester_list["return"].length; i++){
+	                var user_id = Tester_list["return"][i]["user_id"];
+	                var Tester_id = Tester_list["return"][i]["tester_id"];
+	                for(var key in users){
+	                	if(users[key]['user_id'] == user_id){
+	                		var user_tag = users[key]['name']+','+users[key]['school'];
+			                var htmltext = "<li class='ui-state-default' value='"+Tester_id+"'>"+user_tag+"</li>";
+			                $('#sortable_Unseted').append(htmltext);
+	                	};
+	                }
+	            }
+                
+                
+            });
+        });
     </script>
 </html>

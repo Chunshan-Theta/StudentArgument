@@ -262,8 +262,11 @@
                 $('#Activity_ID').append('<optgroup id="y_Activitys" label="your Activity">');
 
                 
+                
                 for (var i = 0; i < activity_list["return"].length; i++){
-                    htmltext = '<option value="'+activity_list["return"][i]["avtivity_id"]+'">'+activity_list["return"][i]["timeofactivity"].substring(0,10)+'</option>'
+                	var a_id = activity_list["return"][i]["avtivity_id"];
+                	var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0,10);
+                    htmltext = '<option value="'+a_id+'">activity:'+a_id+','+timeofactivity+'</option>'
                     $('#y_Activitys').append(htmltext);                    
                 }
             }
@@ -287,6 +290,8 @@
     			},
 	            function(data,status){                
 	            	console.log(data);
+	            	alert('done.');
+	            	location.href='./sittingPage';
 	            }
 	        );
     	}

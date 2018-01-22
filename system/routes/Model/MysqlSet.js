@@ -1,4 +1,4 @@
-console.log("Get MySQL connection");
+console.log("Model of Get MySQL connection");
 
 
 
@@ -33,14 +33,15 @@ module.exports = function (db){
       password: password,
       database: db
     });
+
     connection.connect();
     this.query = function(Sql,callback){
         
         connection.query(Sql, function (err, result, fields) {
             console.log(Sql);
-            console.log("Mysql connect state:",connection.state);
+            //console.log("Mysql connect state:",connection.state);
             if (err){
-                console.log(err["code"]);
+                //console.log(err["code"]);
                 callback({'text':err["code"],'status':err['errno']})
             }
             else{
@@ -53,7 +54,7 @@ module.exports = function (db){
         try{
             connection.end(function(err) {
               // The connection is terminated now
-              console.log("1: Mysql connect state:",connection.state);
+              console.log("1: The connection is terminated now");
             });
 
         }
@@ -63,7 +64,7 @@ module.exports = function (db){
                 try{
                     connection.end(function(err) {
                       // The connection is terminated now
-                      console.log("2: Mysql connect state:",connection.state);
+                      console.log("2: The connection is terminated now");
                     });
                 } 
                 catch(e){

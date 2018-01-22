@@ -44,6 +44,7 @@ router.get('/newTester', function(req, res) {
         res.render('argument/newTester',{"host_id":req.session.host_id});
     }
 });
+
 /* API of new Tester. */
 router.post('/newTester', function(req, res) {
     if (!req.session){// if not setting session
@@ -68,6 +69,34 @@ router.post('/newTester', function(req, res) {
     });
 });
 
+
+/* API of Send Tester To Chatroom. */
+router.post('/SendTesterToChatroom', function(req, res) {
+    if (!req.session){// if not setting session
+        console.log('no login');
+        res.redirect('/sitting_login');
+    }
+
+    var JsonData = req.param('JsonData', null);
+    var a_id = req.param('Activity_id', null);
+
+
+    JsonData = JSON.parse(JsonData);
+    console.log(JsonData);
+    // initialize controller
+    var controller_of_SendTesterToChatroom = require('./Controller/SendTesterToChatroom.js');
+
+    c = new controller_of_SendTesterToChatroom();
+
+    // in controller
+    c.controller(a_id,JsonData,function(respond){
+        console.log(respond);
+        res.end(respond['status']+','+respond['text']);
+        //res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+
+    });
+});
+
 /* GET Send Tester To Chatroom page. */
 router.get('/SendTesterToChatroom', function(req, res) {
     
@@ -83,6 +112,7 @@ router.get('/newTopic', function(req, res) {
     if (!req.session){// if not setting session
         res.redirect('/sitting_login');
     }else{//req.session.host_id
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
         res.render('argument/newTopic',{"host_id":req.session.host_id});
     }
 });
@@ -184,6 +214,29 @@ router.get('/ActivityShow', function(req, res) {
         res.end(""+JSON.stringify(respond));
 
     });
+
+});
+/* API of Search tester */
+router.post('/testerShow', function(req, res) { 
+    
+    if (!req.session){// if not setting session
+        res.redirect('/sitting_login');
+    }
+
+    var activity_id = req.param('a_id', null);   
+    
+
+    // initialize controller
+    var controller_of_action_list = require('./Controller/testerShow.js');
+    c = new controller_of_action_list();
+    
+    // in controller
+    c.controller(function(respond){
+        //console.log(respond);
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"})
+        res.end(""+JSON.stringify(respond));
+
+    },activity_id);
 
 });
 
@@ -299,13 +352,15 @@ router.post('/newuser', function(req, res) {
         if(respond['text']=="ER_DUP_ENTRY"){
             res.render('argument/errorpage',{error_id:respond['status'],error_con:"帳號已存在"});
         }else{
-            res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+            res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']+'.   Your ID: '+respond['return']['insertId']});
         }
     });
 
     
     
 });
+
+
 
 
 
@@ -340,7 +395,7 @@ router.post('/argument2', function(req, res) {
             if (chatroom_id != null){// case of not found tester
                 var user = 'NormalUser_'+user_id//req.param('user', null);
                 console.log(user,',Enter to chatroom: '+chatroom_id);
-                res.render('argument/ChatroomPage',{title:'聊天室代號：',room:chatroom_id,UserName:user,t_id:tester_id,t_con:topic_content});
+                res.render('argument/ChatroomPage2',{title:'聊天室代號：',room:chatroom_id,UserName:user,t_id:tester_id,t_con:topic_content});
             }
             else if(chatroom_id == '-1'){// case of not already room for user
                 res.render('argument/errorpage',{error_id:'#404',error_con:"Not yet arranged chat room, please talk this about this to your activity hoster"});

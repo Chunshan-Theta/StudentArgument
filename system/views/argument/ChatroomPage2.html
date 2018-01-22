@@ -354,17 +354,18 @@ $( function() {
             $(".search_in_sub_windows").remove();
             ////initail end.
             $('#insertweb').clone().removeClass('col-md-9').addClass("search_in_sub_windows").css({"width":"-webkit-fill-available"}).appendTo("#sub_windows_contain");
-        },           
-        "close": function() {
-            $("#sub_windows_contain").remove();
-            $(this ).dialog( "close" );
         }
       },
       open:function(event,ui){
-        $(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); //hide default close button of right-top.
+        //$(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); //hide default close button of right-top.
         $(this).append('<div id="sub_windows_contain">please select sub-windows mode</div>');
 
+      },
+      close:function(event,ui){
+        $("#sub_windows_contain").remove();
+
       }
+
     });
  
     $( "#sub_windows_opener" ).on( "click", function() {
