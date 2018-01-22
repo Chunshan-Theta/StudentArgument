@@ -22,7 +22,7 @@ module.exports = function (){
             querytext ="SELECT DISTINCT `user_id`,`tester_id`  FROM `tester_list` WHERE `avtivity_id`='"+a_id+"' ORDER BY `tester_list`.`tester_id` DESC" ;
 
         } else{
-            querytext ="SELECT * FROM `tester_list`" ;
+            querytext ="SELECT * FROM `tester_list` DESC" ;
 
         }
         

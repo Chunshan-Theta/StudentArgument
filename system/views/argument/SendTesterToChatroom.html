@@ -278,7 +278,7 @@
 	            function(data,status){                
 	            	console.log(data);
 	            	alert('done.');
-	            	location.href='./sittingPage';
+	            	//location.href='./sittingPage';
 	            }
 	        );
     	}
@@ -303,7 +303,8 @@
                 console.log(activity_list['text']);
                 $('#Activity_ID').append('<optgroup id="y_Activitys" label="your Activity">');
 
-                
+                htmltext = '<option value="-1"></option>'
+                $('#y_Activitys').append(htmltext); 
                 for (var i = 0; i < activity_list["return"].length; i++){
                 	var a_id = activity_list["return"][i]["avtivity_id"];
                 	var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0,10);
@@ -338,5 +339,6 @@
                 
             });
         });
+        
     </script>
 </html>

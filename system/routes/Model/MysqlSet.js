@@ -41,8 +41,8 @@ module.exports = function (db){
             console.log(Sql);
             //console.log("Mysql connect state:",connection.state);
             if (err){
-                //console.log(err["code"]);
-                callback({'text':err["code"],'status':err['errno']})
+                console.log(err);
+                callback({"text":err['code'],"status":err['errno']})
             }
             else{
                 callback({'text':"success",'status':"200",'return':result});

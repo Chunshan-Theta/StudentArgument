@@ -7,11 +7,17 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
+    
     res.render('argument/login',{});
+
 });
 
 /* GET login page. */
 router.get('/login', function(req, res) {
+    
+    if (req.session){// if setted session
+        req.session = null;
+    }
     res.render('argument/login',{});
 });
 
@@ -22,6 +28,9 @@ router.get('/signup', function(req, res) {
 
 /* GET sitting_page_login page. */
 router.get('/sitting_login', function(req, res) {
+    if (req.session){// if not setting session
+        res.redirect('/sittingPage');
+    }
     res.render('argument/sitting_login',{});
 });
 
@@ -111,10 +120,10 @@ router.get('/newTopic', function(req, res) {
     
     if (!req.session){// if not setting session
         res.redirect('/sitting_login');
-    }else{//req.session.host_id
-        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
-        res.render('argument/newTopic',{"host_id":req.session.host_id});
     }
+    //res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
+    res.render('argument/newTopic',{"host_id":req.session.host_id});
+    
 });
 /* API of new Topic. */
 router.post('/newTopic', function(req, res) {
@@ -340,7 +349,7 @@ router.post('/newuser', function(req, res) {
     
     var username = req.param('u_name', null);
     var userschool = req.param('u_school', null);
-    var userStudentID = req.param('u_account', null);
+    var userStudentID = req.param('u_account', null)?req.param('u_account', null):'-1';
     
     // initialize controller
     var controller_of_newuser = require('./Controller/newuser.js');

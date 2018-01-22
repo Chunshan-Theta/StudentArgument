@@ -38,13 +38,13 @@ module.exports = function (){
             roomid_base = returnValue['return']['insertId'];
             //console.log(roomid_base,JsonData);
             for(key in JsonData){
+                connection = new sql('argument');
                 NewRoomId = JsonData[key][0]+roomid_base;
                 //console.log(NewRoomId);
-
                 querytext = "UPDATE `tester_list` SET `chatroom_id` = '"+NewRoomId+"' WHERE `tester_list`.`tester_id` = "+JsonData[key][1]+";"
                 //console.log('Doing: '+querytext);
-                connection.query(querytext,function(returnValue){
-                    //console.log('done.'+querytext);
+                connection.query(querytext,function(returnValue2){
+                    console.log(returnValue2);
                 });
             }
         });
