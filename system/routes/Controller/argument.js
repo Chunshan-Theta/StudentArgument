@@ -29,11 +29,11 @@ module.exports = function (){
 	    //SELECT `topic_id` FROM `activity_list` WHERE `avtivity_id` = '1'
 	    //SELECT `content` FROM `topic_list` WHERE `topic_id` = '2'
         
-        connection.query("SELECT `topic_id` FROM `activity_list` WHERE `avtivity_id` = '1'",function(returnValue) 
+        connection.query("SELECT `topic_id` FROM `activity_list` WHERE `avtivity_id` = '"+activity_id+"'",function(returnValue) 
 	    {      
             setglobalvar_topic_id(returnValue['return'][0]["topic_id"]);
         });
-        connection.query("SELECT `content` FROM `topic_list` WHERE `topic_id` = '2'",function(returnValue) 
+        connection.query("SELECT `content` FROM `topic_list` WHERE `topic_id` = '"+topic_id+"'",function(returnValue) 
 	    {      
             setglobalvar_con(returnValue['return'][0]["content"]);
         });

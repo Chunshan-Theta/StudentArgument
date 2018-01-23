@@ -116,11 +116,11 @@
                                             </blockquote> 
                                         </div>
                                         <div>
-                                            
+                                            <ul id="mess_bar"></ul>
                                             <form id="chat_input">
                                               <input id="m" autocomplete="off" /><button class="btn btn-primary">Send</button>
                                             </form>
-                                            <ul id="mess_bar"></ul>
+                                            
 
                                         </div>
                                     </div>
@@ -194,7 +194,7 @@
   });
 
   socket.on(room_ID+'_upload_message', function(msg){
-    $('#mess_bar').prepend($('<li class="chat_message">').text(msg));
+    $('#mess_bar').append($('<li class="chat_message">').text(msg));
   });
 
   
