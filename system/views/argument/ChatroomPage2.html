@@ -1,430 +1,458 @@
 <!doctype html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
     <title>Chatroom</title>
-
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-
     <!--     Fonts and icons     -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-
     <!-- CSS Files -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/css/material-kit.css" rel="stylesheet"/>
+    <link href="assets/css/material-kit.css" rel="stylesheet" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="assets/css/demo.css" rel="stylesheet" />
-    
     <!--cheditor-->
     <script src="/assets/js/ckeditor/ckeditor.js"></script>
-    
     <style>
-        #chat_input { padding: 3px; bottom: 0; width: 100%; }
-        #chat_input input { padding: 10px; width: 90%; margin-right: .5%; }
-        #chat_input button { width: 9%;border: none; padding: 10px; }
-        .row-searchbar { padding: 3px; bottom: 0; width: 100%; }
-        .row-searchbar input {  padding: 10px; width: 60%; margin-right: .5%; }
-        .row-searchbar button { width: 20%; padding: 10px; }
-        #noteform { background: #000; padding: 3px; bottom: 0; width: 100%; }
-        #noteform input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-        #noteform button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-        #mess_bar { list-style-type: none; margin: 0; padding: 0;    }
-        .chat_message { list-style-type: none; margin: 0; padding: 0;    }
-        .chat_message { padding: 5px 10px;text-align: left; }
-        .chat_message:nth-child(odd) { background: #eee; }
-        #note_bar { list-style-type: none; margin: 0; padding: 0;    }
-        #note_bar li { padding: 5px 10px;text-align: left; }
-        #note_bar li:nth-child(odd) { background: #eee; }
-        #draggable { width: 50%; height: 500px; padding: 0.5em;background: #eee; }
-        #errortxt{color:rgb(255,0,0)}
+    #chat_input {
+        padding: 3px;
+        bottom: 0;
+        width: 100%;
+    }
 
+    #chat_input input {
+        padding: 10px;
+        width: 90%;
+        margin-right: .5%;
+    }
+
+    #chat_input button {
+        width: 9%;
+        border: none;
+        padding: 10px;
+    }
+
+    .row-searchbar {
+        padding: 3px;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .row-searchbar input {
+        padding: 10px;
+        width: 60%;
+        margin-right: .5%;
+    }
+
+    .row-searchbar button {
+        width: 20%;
+        padding: 10px;
+    }
+
+    #noteform {
+        background: #000;
+        padding: 3px;
+        bottom: 0;
+        width: 100%;
+    }
+
+    #noteform input {
+        border: 0;
+        padding: 10px;
+        width: 90%;
+        margin-right: .5%;
+    }
+
+    #noteform button {
+        width: 9%;
+        background: rgb(130, 224, 255);
+        border: none;
+        padding: 10px;
+    }
+
+    #mess_bar {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .chat_message {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .chat_message {
+        padding: 5px 10px;
+        text-align: left;
+    }
+
+    .chat_message:nth-child(odd) {
+        background: #eee;
+    }
+
+    #note_bar {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #note_bar li {
+        padding: 5px 10px;
+        text-align: left;
+    }
+
+    #note_bar li:nth-child(odd) {
+        background: #eee;
+    }
+
+    #draggable {
+        width: 50%;
+        height: 500px;
+        padding: 0.5em;
+        background: #eee;
+    }
+
+    #errortxt {
+        color: rgb(255, 0, 0)
+    }
     </style>
-  </head>
+</head>
+
 <body class="index-page">
-
-
-
-
-
-
-<div class="wrapper">
-    <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg'); min-height:190px;height:0px;">
-        <div class="container">
-
-
+    <div class="wrapper">
+        <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg'); min-height:190px;height:0px;">
+            <div class="container">
+            </div>
         </div>
-    </div>
-    <div class="main main-raised">
-        <div class="">
-            
+        <div class="main main-raised">
             <div class="">
-
-<!-- Tabs with icons on Card -->
-                        <div class="card card-nav-tabs">
-                            <div class="header header-primary">
-                                <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-                                <div class="nav-tabs-navigation">
-                                    <div class="nav-tabs-wrapper">
-                                        <ul class="nav nav-tabs" data-tabs="tabs">
-                                            <li class="active">
-                                                <a href="#chatroom" id="chat_opener" data-toggle="tab">
+                <div class="">
+                    <!-- Tabs with icons on Card -->
+                    <div class="card card-nav-tabs">
+                        <div class="header header-primary">
+                            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="active">
+                                            <a href="#chatroom" id="chat_opener" data-toggle="tab">
                                                     <i class="material-icons">chat</i>
                                                     論證
                                                 </a>
-                                            </li>                                            
-                                            <li>
-                                                <a href="#search" id="search_opener" data-toggle="tab">
+                                        </li>
+                                        <li>
+                                            <a href="#search" id="search_opener" data-toggle="tab">
                                                     <i class="material-icons">search</i>
                                                     搜尋資料
                                                 </a>
-
-                                            </li>
-                                            <li>
-                                                <a href="#note" id="note_opener" data-toggle="tab">
+                                        </li>
+                                        <li>
+                                            <a href="#note" id="note_opener" data-toggle="tab">
                                                     <i class="material-icons">note_add</i>
                                                     筆記
                                                 </a>
-                                            </li>
-                                            <li>
-                                                <a href="#sub_windows_opener" id="sub_windows_opener" data-toggle="tab">
+                                        </li>
+                                        <li>
+                                            <a href="#sub_windows_opener" id="sub_windows_opener" data-toggle="tab">
                                                     <i class="material-icons">add</i>
                                                     子視窗
                                                 </a>
-                                            </li>
-                                            
-                                        </ul>
-                                    </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="content">
-                                <div class="tab-content text-center">
-                                    <div class="tab-pane active" id="chatroom">
-                                        <div class="title">  
-                                            <h4 style="text-align: left;">
+                        </div>
+                        <div class="content">
+                            <div class="tab-content text-center">
+                                <div class="tab-pane active" id="chatroom">
+                                    <div class="title">
+                                        <h4 style="text-align: left;">
                                               <%=title%><%=room%>/使用者名稱：<%=UserName%><br> 題目：<br>
                                             </h4>
-                                            <blockquote>
-                                                <p class="text-left"><%=t_con%></p> 
-                                            </blockquote> 
-                                        </div>
-                                        <div>
-                                            <ul id="mess_bar"></ul>
-                                            <form id="chat_input">
-                                              <input id="m" autocomplete="off" /><button class="btn btn-primary">Send</button>
-                                            </form>
-                                            
-
-                                        </div>
+                                        <blockquote>
+                                            <p class="text-left">
+                                                <%=t_con%>
+                                            </p>
+                                        </blockquote>
                                     </div>
-                                    <div class="tab-pane" id="note">
-                                        <form action="" id="note_form" method="post" enctype="multipart/form-data">
-                                            <textarea id="editor" class="ckeditor" name="editor"></textarea>
-                                            
-                                            <!--<input type="button" value="送出" onclick="processData()">-->
+                                    <div>
+                                        <ul id="mess_bar"></ul>
+                                        <form id="chat_input">
+                                            <input id="m" autocomplete="off" />
+                                            <button class="btn btn-primary">Send</button>
                                         </form>
                                     </div>
-                                    <div class="tab-pane" id="search">
-                                        <p>關鍵字搜尋</p>
-                                        <div class="row" style="min-height:400px;">
+                                </div>
+                                <div class="tab-pane" id="note">
+                                    <form action="" id="note_form" method="post" enctype="multipart/form-data">
+                                        <textarea id="editor" class="ckeditor" name="editor"></textarea>
+                                        <!--<input type="button" value="送出" onclick="processData()">-->
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="search">
+                                    <p>關鍵字搜尋</p>
+                                    <div class="row" style="min-height:400px;">
                                         <div class="col-md-3">
                                             <div class="row-searchbar">
                                                 <input id="keywords_input" autocomplete="off" /></input>
-                                                <button class="btn btn-primary"onclick="searchkeword();">go</button>
+                                                <button class="btn btn-primary" onclick="searchkeword();">go</button>
                                             </div>
                                             <div id="search-result"></div>
                                         </div>
                                         <iframe id="insertweb" class="col-md-9" style="height:-webkit-fill-available" src=""></iframe>
-                                        </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
-<!-- End Tabs with icons on Card -->
                     </div>
+                    <!-- End Tabs with icons on Card -->
                 </div>
-                
-            <!--container end-->
-
             </div>
+            <!--container end-->
         </div>
     </div>
-</div>
-<!--dialog start-->
-<div id="sub_windows" title="子視窗"></div>
-
-<!--dialog end-->
+    </div>
+    </div>
+    <!--dialog start-->
+    <div id="sub_windows" title="子視窗"></div>
+    <!--dialog end-->
 </body>
-
-
-
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+var socket = io();
+var room_ID = '<%=room%>'
+var UserName = '<%=UserName%>'
+$('form').submit(function() {
+    if ($('.sub-window_mode_of_message').length) {
+        SendActionToSql($('#m').val(), '11');
+    } else if ($('.sub-window_mode_of_note').length) {
+        SendActionToSql($('#m').val(), '12');
+    } else if ($('.sub-window_mode_of_search').length) {
+        SendActionToSql($('#m').val(), '14');
+    } else {
+        SendActionToSql($('#m').val(), '1');
+    }
 
-  var socket = io();
-  var room_ID = '<%=room%>'
-  var UserName = '<%=UserName%>'
-  $('form').submit(function(){
-    if($('.sub-window_mode_of_message').length){
-        SendActionToSql($('#m').val(),'11');
-    }
-    else if($('.sub-window_mode_of_note').length){
-        SendActionToSql($('#m').val(),'12');
-    }
-    else if($('.sub-window_mode_of_search').length){
-        SendActionToSql($('#m').val(),'14');
-    }
-    else{
-        SendActionToSql($('#m').val(),'1');
-    }
-    
-    socket.emit('Push_message', UserName+': '+$('#m').val(),room_ID);
+    socket.emit('Push_message', UserName + ': ' + $('#m').val(), room_ID);
     $('#m').val('');
     return false;
-  });
+});
 
-  socket.on(room_ID+'_upload_message', function(msg){
+socket.on(room_ID + '_upload_message', function(msg) {
     $('#mess_bar').append($('<li class="chat_message">').text(msg));
-  });
-
-  
+});
 </script>
-
 <script>
-function SendActionToSql(Sentcontent,ad){
-    $.post("http://140.115.126.216:3000/argument_post_action_list",
-        {
-            ad_id:ad,
-            t_id:<%=t_id%>,
-            content:Sentcontent
+function SendActionToSql(Sentcontent, ad) {
+    $.post("http://140.115.126.216:3000/argument_post_action_list", {
+            ad_id: ad,
+            t_id: <%=t_id%>,
+            content: Sentcontent
         },
-        function(data,status){
+        function(data, status) {
             console.log(status);
         }
     );
-    
+
 }
- 
 </script>
 <!--   Core JS Files   -->
 <script src="assets/js/jquery.min.js" type="text/javascript"></script>
 <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="assets/js/material.min.js"></script>
-
 <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
 <script src="assets/js/nouislider.min.js" type="text/javascript"></script>
-
 <!--  Plugin for the Datepicker, full documentation here: http://www.eyecon.ro/bootstrap-datepicker/ -->
 <script src="assets/js/bootstrap-datepicker.js" type="text/javascript"></script>
-
 <!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
 <script src="assets/js/material-kit.js" type="text/javascript"></script>
-
 <script type="text/javascript">
-
-    $().ready(function(){
+$().ready(function() {
     // the body of this function is in assets/materiial-kit.js
     materialKit.initSliders();
     window_width = $(window).width();
 
-    if (window_width >= 992){
+    if (window_width >= 992) {
         big_image = $('.wrapper > .header');
 
         $(window).on('scroll', materialKitDemo_mini.checkScrollForParallax);
     }
 
-    });
+});
 </script>
 <script>
-    
-    function GetReferences(keywords){
-        $.get("./ReferencesShow?keywords="+keywords,
-            function(data,status){                
-                References_list = JSON.parse(data);
-                console.log(References_list['text']);
-                $('.links').remove();
-                
-                for (var i = 0; i < References_list["return"].length; i++){
-                    //htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
-                    htmltext ='<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\''+References_list["return"][i]["link"]+'\',\''+References_list["return"][i]["title"]+'\');" class="btn btn-info">'+References_list["return"][i]["title"]+'</button><small class = "text-right">'+References_list["return"][i]["memo"]+'</small></blockquote>'
-                    $('#search-result').append(htmltext);                    
-                }
-                /*
-                $('#TopicID').append('<optgroup id="HotTopic" label="Hot Topic">');
-                htmltext = '<option value="10">厭世的人其實是先扭曲的自己的心靈，來防禦自己不受到傷害。</option>'
-                $('#HotTopic').append(htmltext);
-                htmltext = '<option value="20">實作學習</option>'
-                $('#HotTopic').append(htmltext);  */
+function GetReferences(keywords) {
+    $.get("./ReferencesShow?keywords=" + keywords,
+        function(data, status) {
+            References_list = JSON.parse(data);
+            console.log(References_list['text']);
+            $('.links').remove();
+
+            for (var i = 0; i < References_list["return"].length; i++) {
+                //htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
+                htmltext = '<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\'' + References_list["return"][i]["link"] + '\',\'' + References_list["return"][i]["title"] + '\');" class="btn btn-info">' + References_list["return"][i]["title"] + '</button><small class = "text-right">' + References_list["return"][i]["memo"] + '</small></blockquote>'
+                $('#search-result').append(htmltext);
             }
-        );
-    
-    }
-    $('#insertweb').attr("src",'http://ytwu.lst.ncu.edu.tw/wu/ch/');
+            /*
+            $('#TopicID').append('<optgroup id="HotTopic" label="Hot Topic">');
+            htmltext = '<option value="10">厭世的人其實是先扭曲的自己的心靈，來防禦自己不受到傷害。</option>'
+            $('#HotTopic').append(htmltext);
+            htmltext = '<option value="20">實作學習</option>'
+            $('#HotTopic').append(htmltext);  */
+        }
+    );
 
-    function rediract(link,title){
-        $('#insertweb').attr("src",link);
-        
-        if($('.sub-window_mode_of_message').length){
-            SendActionToSql(title,'41');
-        }
-        else if($('.sub-window_mode_of_note').length){
-            SendActionToSql(title,'42');
-        }
-        else if($('.sub-window_mode_of_search').length){
-            SendActionToSql(title,'44');
-        }
-        else{
-            SendActionToSql(title,'4');
-        }
-    }
-    function searchkeword(){
-        var keyval = $('#keywords_input').val();
-        //console.log(keyval);
-        
-        if($('.sub-window_mode_of_message').length){
-            SendActionToSql(keyval,'31');
-        }
-        else if($('.sub-window_mode_of_note').length){
-            SendActionToSql(keyval,'32');
-        }
-        else if($('.sub-window_mode_of_search').length){
-            SendActionToSql(keyval,'34');
-        }
-        else{
-            SendActionToSql(keyval,'3');
-        }
-        $('.links').remove();
-        GetReferences(keyval);
-    } 
-            
+}
+$('#insertweb').attr("src", 'http://ytwu.lst.ncu.edu.tw/wu/ch/');
 
+function rediract(link, title) {
+    $('#insertweb').attr("src", link);
+
+    if ($('.sub-window_mode_of_message').length) {
+        SendActionToSql(title, '41');
+    } else if ($('.sub-window_mode_of_note').length) {
+        SendActionToSql(title, '42');
+    } else if ($('.sub-window_mode_of_search').length) {
+        SendActionToSql(title, '44');
+    } else {
+        SendActionToSql(title, '4');
+    }
+}
+
+function searchkeword() {
+    var keyval = $('#keywords_input').val();
+    //console.log(keyval);
+
+    if ($('.sub-window_mode_of_message').length) {
+        SendActionToSql(keyval, '31');
+    } else if ($('.sub-window_mode_of_note').length) {
+        SendActionToSql(keyval, '32');
+    } else if ($('.sub-window_mode_of_search').length) {
+        SendActionToSql(keyval, '34');
+    } else {
+        SendActionToSql(keyval, '3');
+    }
+    $('.links').remove();
+    GetReferences(keyval);
+}
 </script>
-
 <script>
-$('#note').on("click",function(){
+$('#note').on("click", function() {
     console.log("enter");
-   
+
 })
-
 </script>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-$( function() {
-    $( "#sub_windows" ).dialog({
-      autoOpen: false,  
-      resizable: true,
-      height: "auto",
-      width: 'auto',
-      modal: false,
-      buttons: {
+$(function() {
+    $("#sub_windows").dialog({
+        autoOpen: false,
+        resizable: true,
+        height: "auto",
+        width: 'auto',
+        modal: false,
+        buttons: {
 
-        "message": function() {
-            $("#sub_windows_contain").remove();
-            $(this).append('<div id="sub_windows_contain"></div>');
-            $("#sub_windows_contain").addClass("sub-window_mode_of_message");
-            $(".chat_message_in_sub_windows").remove();
-            ////initail end.
-            $('.chat_message').clone().addClass("chat_message_in_sub_windows").appendTo("#sub_windows_contain");
-        }, 
-        "note": function() {
-            $("#sub_windows_contain").remove();
-            $(this).append('<div id="sub_windows_contain"></div>');
-            $("#sub_windows_contain").addClass("sub-window_mode_of_note");
-            $(".note_in_sub_windows").remove();
-            ////initail end.
-            var text = CKEDITOR.instances.editor.getData();
-            $('<p>'+text+'</p>').addClass("note_in_sub_windows").appendTo("#sub_windows_contain");
+            "message": function() {
+                $("#sub_windows_contain").remove();
+                $(this).append('<div id="sub_windows_contain"></div>');
+                $("#sub_windows_contain").addClass("sub-window_mode_of_message");
+                $(".chat_message_in_sub_windows").remove();
+                ////initail end.
+                $('.chat_message').clone().addClass("chat_message_in_sub_windows").appendTo("#sub_windows_contain");
+            },
+            "note": function() {
+                $("#sub_windows_contain").remove();
+                $(this).append('<div id="sub_windows_contain"></div>');
+                $("#sub_windows_contain").addClass("sub-window_mode_of_note");
+                $(".note_in_sub_windows").remove();
+                ////initail end.
+                var text = CKEDITOR.instances.editor.getData();
+                $('<p>' + text + '</p>').addClass("note_in_sub_windows").appendTo("#sub_windows_contain");
+            },
+            "search": function() {
+                $("#sub_windows_contain").remove();
+                $(this).append('<div id="sub_windows_contain"></div>');
+                $("#sub_windows_contain").addClass("sub-window_mode_of_search");
+                $(".search_in_sub_windows").remove();
+                ////initail end.
+                $('#insertweb').clone().removeClass('col-md-9').addClass("search_in_sub_windows").css({ "width": "-webkit-fill-available" }).appendTo("#sub_windows_contain");
+            }
         },
-        "search": function() {
+        open: function(event, ui) {
+            //$(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); //hide default close button of right-top.
+            $(this).append('<div id="sub_windows_contain">please select sub-windows mode</div>');
+
+        },
+        close: function(event, ui) {
             $("#sub_windows_contain").remove();
-            $(this).append('<div id="sub_windows_contain"></div>');
-            $("#sub_windows_contain").addClass("sub-window_mode_of_search");
-            $(".search_in_sub_windows").remove();
-            ////initail end.
-            $('#insertweb').clone().removeClass('col-md-9').addClass("search_in_sub_windows").css({"width":"-webkit-fill-available"}).appendTo("#sub_windows_contain");
+
         }
-      },
-      open:function(event,ui){
-        //$(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); //hide default close button of right-top.
-        $(this).append('<div id="sub_windows_contain">please select sub-windows mode</div>');
-
-      },
-      close:function(event,ui){
-        $("#sub_windows_contain").remove();
-
-      }
-
-    });
- 
-    $( "#sub_windows_opener" ).on( "click", function() {
-      $( "#sub_windows" ).dialog( "open" );
 
     });
 
-  } );
+    $("#sub_windows_opener").on("click", function() {
+        $("#sub_windows").dialog("open");
+
+    });
+
+});
 </script>
 <script type="text/javascript">
+note_handler = 0;
+$("#note_opener").on("click", function() {
+    note_handler = 1;
+
+});
+$("#chat_opener").on("click", function() {
+    if (note_handler == 1) {
+        var CKEDITORtext = CKEDITOR.instances.editor.getData();
+        if ($('.sub-window_mode_of_message').length) {
+            SendActionToSql($(CKEDITORtext).text(), '21');
+
+        } else if ($('.sub-window_mode_of_note').length) {
+            SendActionToSql($(CKEDITORtext).text(), '22');
+        } else if ($('.sub-window_mode_of_search').length) {
+            SendActionToSql($(CKEDITORtext).text(), '24');
+        } else {
+            SendActionToSql($(CKEDITORtext).text(), '2');
+        }
+
+    }
+    //initial
     note_handler = 0;
-    $( "#note_opener" ).on( "click", function() {
-        note_handler = 1;
+});
+$("#search_opener").on("click", function() {
+    if (note_handler == 1) {
+        var CKEDITORtext = CKEDITOR.instances.editor.getData();
+        if ($('.sub-window_mode_of_message').length) {
+            SendActionToSql($(CKEDITORtext).text(), '21');
 
-    });
-    $( "#chat_opener" ).on( "click", function() {
-        if(note_handler ==1){
-            var CKEDITORtext = CKEDITOR.instances.editor.getData();
-            if($('.sub-window_mode_of_message').length){
-                SendActionToSql($(CKEDITORtext).text(),'21');
-
-            }
-            else if($('.sub-window_mode_of_note').length){
-                SendActionToSql($(CKEDITORtext).text(),'22');
-            }
-            else if($('.sub-window_mode_of_search').length){
-                SendActionToSql($(CKEDITORtext).text(),'24');
-            }
-            else{
-                SendActionToSql($(CKEDITORtext).text(),'2');
-            }
-
+        } else if ($('.sub-window_mode_of_note').length) {
+            SendActionToSql($(CKEDITORtext).text(), '22');
+        } else if ($('.sub-window_mode_of_search').length) {
+            SendActionToSql($(CKEDITORtext).text(), '24');
+        } else {
+            SendActionToSql($(CKEDITORtext).text(), '2');
         }
-        //initial
-        note_handler = 0;
-    });
-    $( "#search_opener" ).on( "click", function() {
-        if(note_handler ==1){
-            var CKEDITORtext = CKEDITOR.instances.editor.getData();
-            if($('.sub-window_mode_of_message').length){
-                SendActionToSql($(CKEDITORtext).text(),'21');
-
-            }
-            else if($('.sub-window_mode_of_note').length){
-                SendActionToSql($(CKEDITORtext).text(),'22');
-            }
-            else if($('.sub-window_mode_of_search').length){
-                SendActionToSql($(CKEDITORtext).text(),'24');
-            }
-            else{
-                SendActionToSql($(CKEDITORtext).text(),'2');
-            }
-        }
-        //initial
-        note_handler = 0;
-    });
+    }
+    //initial
+    note_handler = 0;
+});
 </script>
 <script>
-    CKEDITOR.replace( 'editor', {});
+CKEDITOR.replace('editor', {});
 </script>
 
 </html>

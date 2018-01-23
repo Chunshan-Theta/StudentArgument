@@ -206,7 +206,7 @@
     <script>
     Gettopic();
     function Gettopic(){
-        $.post("./TopicShow",{
+        $.get("./Topic",{
                 'host_id':<%=host_id%>            
             },
             function(data,status){                

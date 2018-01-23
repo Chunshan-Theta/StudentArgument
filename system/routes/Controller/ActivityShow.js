@@ -1,32 +1,60 @@
-console.log("controller of ShowActivity");
+/*
+* @Author            : Theta
+* @Author contact    : https://studentcodebank.wordpress.com/
+* @Date              : 2018-01-23 14:10:09
+* @Last Modified by  : Theta
+* @Last Modified time: 2018-01-23 15:10:51
+* @purpose           : Defined controller of ActivityShow
+* @copyright         : @Theta, all rights reserved.
+*/
+console.log("Enter the controller of Activity Show");
 
-module.exports = function (){
-    /*
-    // controller of ShowActivity
-    // 
-    // using :
-        ar controller = require('./Controller/ShowActivity.js');
-        c = new controller();
-        c.controller(connection,function(QuestionDoc,ActionDoc){});
 
-    // coding: gavin
+
+
+module.exports = function() {
+    /**
+     * @method  controller
+     * @author  Theta
+     * @date    2018-01-23
+     * @purpose Request activity_list's Data(SELECT), then output it. 
+     * @param   {[function]}
+     * @return  {[JsonString]} 
+     * @return example 
+     * {text: 'success',
+        status: '200',
+        return: 
+            [RowDataPacket {
+                    avtivity_id: 1,
+                    topic_id: 5,
+                    user_id: 1,
+                    assessment_id: 1,
+                    unicode: '1-1516633107',
+                    timeofactivity: Sat Jan 13 2018 00: 00: 00 GMT + 0800(CST)
+                },
+                RowDataPacket {
+                    avtivity_id: 2,
+                    topic_id: 5,
+                    user_id: 1,
+                    assessment_id: 1,
+                    unicode: '1-1516633503',
+                    timeofactivity: Sun Jan 07 2018 00: 00: 00 GMT + 0800(CST)
+                }
+            ] 
+        }
+
     */
-
-
-    this.controller = function (CallbackFunc){
+    this.controller = function(CallbackFunc) {
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext ="SELECT * FROM `activity_list`" 
-        connection.query(querytext,function(returnValue){    
+        querytext = "SELECT * FROM `activity_list`"
+        connection.query(querytext, function(returnValue) {
             console.log(returnValue);
-	    //connection.close();
             CallbackFunc(returnValue);
         });
 
-    
-    } 
+
+    }
 
 
 }
-
-
