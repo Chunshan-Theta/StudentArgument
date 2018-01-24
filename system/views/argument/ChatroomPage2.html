@@ -391,7 +391,18 @@ $(function() {
             }
         },
         open: function(event, ui) {
-            //$(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); //hide default close button of right-top.
+            $(".ui-dialog-buttonpane").insertBefore($("#sub_windows"));//add to upper block;
+            $(".ui-dialog-buttonset").css("float","left");
+            $(".ui-dialog-buttonset button").addClass('btn btn-primary');
+            $(".ui-dialog-titlebar ").css('background','linear-gradient(60deg, #ab47bc, #7b1fa2)');
+            $(".ui-dialog-titlebar ").css('color','#FFFFFF');
+            $('<button id="new-close-button" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="material-icons">clear</i></span></button>').insertBefore($(".ui-dialog-titlebar-close"));
+            $(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); //hide default close button of right-top.
+            $('#new-close-button').click(function(){
+                $("#sub_windows_contain").remove();
+                $("#new-close-button").remove();
+                $("#sub_windows").dialog("close");
+            });
             $(this).append('<div id="sub_windows_contain">please select sub-windows mode</div>');
 
         },
