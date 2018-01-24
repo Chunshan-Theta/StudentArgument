@@ -1,18 +1,26 @@
-console.log("controller of action_list");
+/*
+* @Author            : Theta
+* @Author contact    : https://studentcodebank.wordpress.com/
+* @Date              : 2018-01-24 10:46:18
+* @Last Modified by  : Theta
+* @Last Modified time: 2018-01-24 10:47:24
+* @purpose           : Defined controller of action_list.
+* @copyright         : @Theta, all rights reserved.
+*/
+console.log("Enter the controller of action_list");
 
 module.exports = function (){
-    /*
-    // controller of argument
-    // 
-    // using :
-        ar controller = require('./Controller/argument.js');
-        c = new controller();
-        c.controller(connection,function(QuestionDoc,ActionDoc){});
-
-    // coding: gavin
-    */
-
-
+    /**
+     * @method  controller
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose Insert user action's data to SQL.
+     * @param   {[int]actionDoc_id}
+     * @param   {[int]tester_id}
+     * @param   {[String]content}
+     * @param   {[function]}
+     * @return  {[type]}
+     */
     this.controller = function (actionDoc_id,tester_id,content,CallbackFunc){
         console.log("actionDoc_id: ",actionDoc_id,"tester_id:",tester_id);
         var sql = require('../Model/MysqlSet.js');

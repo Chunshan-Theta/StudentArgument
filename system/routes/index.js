@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-23 17:35:35
+ * @Last Modified time: 2018-01-24 14:35:00
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -74,8 +74,16 @@ router.get('/newTester', function(req, res) {
     }
 });
 
-/* API of new Tester. */
-router.post('/newTester', function(req, res) {
+/**
+ * @method  Restful API
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose Enterance of api for create new testers.
+ * @param   {[http.post.String]JsonData}
+ * @param   {[req.session.host_id]host_id}
+ * @return  {[responds tetxt]}
+ */
+router.post('/tester', function(req, res) {
     if (!req.session) { // if not setting session
         console.log('no login');
         res.redirect('/sitting_login');
@@ -89,7 +97,15 @@ router.post('/newTester', function(req, res) {
     var controller_of_new_Tester = require('./Controller/newTester.js');
     c = new controller_of_new_Tester();
 
-    // in controller
+    /**
+     * @method  Defined
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose Defined a function for operate result of the controller.
+     * @param   {[String]JsonData}
+     * @param   {[int]host_id}
+     * @return  {[responds text]}
+     */
     c.controller(JsonData, host_id, function(respond) {
         console.log(respond);
         //res.end("done.");
@@ -100,15 +116,16 @@ router.post('/newTester', function(req, res) {
 
 
 /**
- * @method  internet Api - post 
+ * @method  Restful Api - put 
  * @author  Theta
  * @date    2018-01-23
  * @purpose Enterance of Api for Setting testers to chatroom.
  * @param   {[http.post]JsonData}
  * @param   {[http.post]Activity_id}
  */
-router.post('/SendTesterToChatroom', function(req, res) {
-    if (!req.session) { // if not setting session
+router.put('/tester', function(req, res) {
+    if (!req.session) {
+        // if not setting session
         console.log('no login');
         res.redirect('/sitting_login');
     }
@@ -120,11 +137,19 @@ router.post('/SendTesterToChatroom', function(req, res) {
     JsonData = JSON.parse(JsonData);
     console.log(JsonData);
     // initialize controller
-    var controller_of_SendTesterToChatroom = require('./Controller/SendTesterToChatroom.js');
 
+    var controller_of_SendTesterToChatroom = require('./Controller/SendTesterToChatroom.js');
     c = new controller_of_SendTesterToChatroom();
 
-    // in controller
+    /**
+     * @method  Defined
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose Defined a function for operate result of controller.
+     * @param   {[int]a_id}
+     * @param   {[Json String]JsonData}
+     * @return  {[responds text]}
+     */
     c.controller(a_id, JsonData, function(respond) {
         console.log(respond);
         res.end(respond['status'] + ',' + respond['text']);
@@ -134,9 +159,11 @@ router.post('/SendTesterToChatroom', function(req, res) {
 });
 router.get('/SendTesterToChatroom', function(req, res) {
 
-    if (!req.session) { // if not setting session
+    if (!req.session) {
+        // if not setting session
         res.redirect('/sitting_login');
-    } else { //req.session.host_id
+    } else {
+        //req.session.host_id
         res.render('argument/SendTesterToChatroom', { "host_id": req.session.host_id });
     }
 });
@@ -232,8 +259,8 @@ router.get('/Topic', function(req, res) {
 
 
     // initialize controller
-    var controller_of_action_list = require('./Controller/TopicShow.js');
-    c = new controller_of_action_list();
+    var controller_of_Topic = require('./Controller/TopicShow.js');
+    c = new controller_of_Topic();
 
     // in controller
     c.controller(host_id, function(respond) {
@@ -244,8 +271,17 @@ router.get('/Topic', function(req, res) {
     });
 
 });
-/* API of Search activity */
-router.get('/userShow', function(req, res) {
+
+/**
+ * @method  Restful api - get 
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose Enterance of api for get user's data.
+ * @param   {[type]}
+ * @param   {[type]}
+ * @return  {[type]}
+ */
+router.get('/user', function(req, res) {
     //var host_id = req.param('host_id', null);
     //req.session = { 'host_id': host_id };   
 
@@ -270,11 +306,11 @@ router.get('/userShow', function(req, res) {
  * @date    2018-01-23
  * @purpose Enterance of Api for SELECT activity list.
  */
-router.get('/ActivityShow', function(req, res) {
+router.get('/activity', function(req, res) {
 
     // initialize controller
-    var controller_of_action_list = require('./Controller/ActivityShow.js');
-    c = new controller_of_action_list();
+    var controller_of_ActivityShow = require('./Controller/ActivityShow.js');
+    c = new controller_of_ActivityShow();
 
     /**
      * @method  Defined
@@ -303,8 +339,8 @@ router.post('/testerShow', function(req, res) {
 
 
     // initialize controller
-    var controller_of_action_list = require('./Controller/testerShow.js');
-    c = new controller_of_action_list();
+    var controller_of_testerShow = require('./Controller/testerShow.js');
+    c = new controller_of_testerShow();
 
     // in controller
     c.controller(function(respond) {
@@ -323,8 +359,8 @@ router.get('/testerShow', function(req, res) {
 
 
     // initialize controller
-    var controller_of_action_list = require('./Controller/testerShow.js');
-    c = new controller_of_action_list();
+    var controller_of_testerShow = require('./Controller/testerShow.js');
+    c = new controller_of_testerShow();
 
     // in controller
     c.controller(function(respond) {
@@ -365,9 +401,18 @@ router.get('/ReferencesShow', function(req, res) {
     });
 
 });
-/* API of insert activity */
-router.post('/newactivity', function(req, res) {
-    if (!req.session) { // if not setting session
+/**
+ * @method  Restful Api - post
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose Enterance of api for create a new activity.
+ * @param   {[http.post]time}
+ * @param   {[http.post]TopicID}
+ * @return  {[req.session]host_id}
+ */
+router.post('/activity', function(req, res) {
+    if (!req.session) {
+        // if not setting session
         res.redirect('/sitting_login');
         return;
     }
@@ -380,7 +425,16 @@ router.post('/newactivity', function(req, res) {
     var controller_of_action_list = require('./Controller/newactivity.js');
     c = new controller_of_action_list();
 
-    // in controller
+    /**
+     * @method  Defined
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose Defined a function for operate result of controller.
+     * @param   {[String]time}
+     * @param   {[type]TopicID}
+     * @param   {[type]host_id}
+     * @return  {[type]}
+     */
     c.controller(time, TopicID, host_id, function(respond) {
         console.log(respond);
         res.render('argument/errorpage', { error_id: "#200", error_con: "成功新增" });
@@ -391,10 +445,17 @@ router.post('/newactivity', function(req, res) {
 
 });
 
-/* API of insert user's action */
-router.post('/argument_post_action_list', function(req, res) {
-
-    //INSERT INTO `action_list` (`action_id`, `actionDoc_id`, `tester_id`, `exe_time`) VALUES (NULL, '1', '1', CURRENT_TIMESTAMP);
+/**
+ * @method  Restful API
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose insert tester's action to SQL for record.
+ * @param   {[http.post.int]ad_id}
+ * @param   {[http.post.int]t_id}
+ * @param   {[http.post.String]content}
+ * @return  {[responds text]}
+ */
+router.post('/action_list', function(req, res) {
 
     var actionDoc_id = req.param('ad_id', null);
     var tester_id = req.param('t_id', null);
@@ -404,9 +465,14 @@ router.post('/argument_post_action_list', function(req, res) {
     var controller_of_action_list = require('./Controller/action_list.js');
     c = new controller_of_action_list();
 
-    // in controller
+    /**
+     * @method  Defined.
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose Defined function for operating the output of the controller.
+     * @return  {[responds text]}
+     */
     c.controller(actionDoc_id, tester_id, content, function(respond) {
-        //console.log(respond);
         res.render('argument/errorpage', { error_id: '#200', error_con: respond["message"] });
 
     });
@@ -415,9 +481,17 @@ router.post('/argument_post_action_list', function(req, res) {
 
 });
 
-
-/* API of add a new user */
-router.post('/newuser', function(req, res) {
+/**
+ * @method  Restful api - post
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose Enterance of api for new a user.
+ * @param   {[type]username}
+ * @param   {[type]userschool}
+ * @param   {[type]userStudentID}
+ * @return  {[html].argument/errorpage}
+ */
+router.post('/user', function(req, res) {
 
     //INSERT INTO `user_list` (`user_id`, `name`, `school`, `StudentID`) VALUES (NULL, '王王王', '哭哭國小', '9453');
 
@@ -448,35 +522,49 @@ router.post('/newuser', function(req, res) {
 
 
 
-/* post argument page. */
+/**
+ * @method  director
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose initial chatroom and direct to chatroom.
+ * @param   {[http.post.int]user_id}
+ * @param   {[http.post.int]activity_id}
+ * @return  {[html]argument/ChatroomPage2}
+ */
 router.post('/argument2', function(req, res) {
-
-
-
     var user_id = req.param('u_id', null);
     var activity_id = req.param('a_id', null);
 
-    if (typeof user_id == "undefined") { // case of not catch u_id
+    if (typeof user_id == "undefined") {
+        // case of not catch u_id
         res.render('argument/errorpage', { error_id: '#404', error_con: "not input user id to server" });
-    } else if (typeof activity_id == "undefined") { // case of not catch a_id
+    } else if (typeof activity_id == "undefined") {
+        // case of not catch a_id
         res.render('argument/errorpage', { error_id: '#404', error_con: "not input activity id to server" });
     } else {
         // initialize controller
         var controller_of_argument = require('./Controller/argument.js');
         c = new controller_of_argument();
 
-        // in controller
+        /**
+         * @method  Defined
+         * @author  Theta
+         * @date    2018-01-24
+         * @purpose Defined a function for operate result of controller.
+         * @param   {[http.post.int]chatroom_id}
+         * @param   {[http.post.int]tester_id}
+         * @param   {[http.post.String]topic_content]}
+         * @return  {[html]argument/ChatroomPage2}
+         */
         c.controller(user_id, activity_id, function(chatroom_id, tester_id, topic_content) {
-
-            //console.log(typeof chatroom_id);
-            //console.log(ActionDoc);
-
             console.log("chatroom_id", chatroom_id)
-            if (chatroom_id != null) { // case of not found tester
-                var user = 'NormalUser_' + user_id //req.param('user', null);
+            if (chatroom_id != null) {
+                // case of not found tester
+                var user = 'User_' + user_id;
                 console.log(user, ',Enter to chatroom: ' + chatroom_id);
                 res.render('argument/ChatroomPage2', { title: '聊天室代號：', room: chatroom_id, UserName: user, t_id: tester_id, t_con: topic_content });
-            } else if (chatroom_id == '-1') { // case of not already room for user
+            } else if (chatroom_id == '-1') {
+                // case of not already room for user
                 res.render('argument/errorpage', { error_id: '#404', error_con: "Not yet arranged chat room, please talk this about this to your activity hoster" });
             } else {
                 res.render('argument/errorpage', { error_id: '#404', error_con: "not found user or activity" });

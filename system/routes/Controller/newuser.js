@@ -1,18 +1,26 @@
-console.log("controller of newuser");
+/*
+* @Author            : Theta
+* @Author contact    : https://studentcodebank.wordpress.com/
+* @Date              : 2018-01-24 14:19:25
+* @Last Modified by  : Theta
+* @Last Modified time: 2018-01-24 14:32:19
+* @purpose           : Defined the controller of new a user.
+* @copyright         : @Theta, all rights reserved.
+*/
+console.log("Ente the controller of newuser.");
 
 module.exports = function (){
-    /*
-    // controller of argument
-    // 
-    // using :
-        ar controller = require('./Controller/argument.js');
-        c = new controller();
-        c.controller(connection,function(QuestionDoc,ActionDoc){});
-
-    // coding: gavin
-    */
-
-
+    /**
+     * @method  controller
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose Insert a new user. 
+     * @param   {[string]username}
+     * @param   {[string]userschool}
+     * @param   {[int]parent_user_id}
+     * @param   {[function]}
+     * @return  {[reaponds text]}
+     */
     this.controller = function (username,userschool,parent_user_id,CallbackFunc){
         console.log(username,userschool,parent_user_id);
         var sql = require('../Model/MysqlSet.js');
@@ -20,7 +28,6 @@ module.exports = function (){
         querytext ="INSERT INTO `user_list` (`user_id`, `name`, `school`, `parent_user`) VALUES (NULL, '"+username+"', '"+userschool+"', '"+parent_user_id+"');" 
         connection.query(querytext,function(returnValue){    
             console.log(returnValue);
-	        //connection.close();
             CallbackFunc(returnValue);
         });
 

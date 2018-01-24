@@ -1,12 +1,25 @@
 /*
-* @Author: gavin
-* @Date:   2018-01-23 13:23:09
-* @Last Modified by:   gavin
-* @Last Modified time: 2018-01-23 13:31:54
+* @Author            : Theta
+* @Author contact    : https://studentcodebank.wordpress.com/
+* @Date              : 2018-01-23 13:31:54
+* @Last Modified by  : Theta
+* @Last Modified time: 2018-01-24 11:22:48
+* @purpose           : Defined controller of Argument.
+* @copyright         : @Theta, all rights reserved.
 */
-console.log("controller of Argument");
+console.log("Enter the controller of Argument.");
 
 module.exports = function() {
+    /**
+     * @method  controller
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose 1.Get Topic of the activity and Chatroom's id of testers then return its.
+     * @param   {[int]user_id}
+     * @param   {[int]activity_id}
+     * @param   {[function]}
+     * @return  {[type]}
+     */
     this.controller = function(user_id, activity_id, CallbackFunc) {
 
         console.log("user_id: ", user_id, "activity_id:", activity_id);

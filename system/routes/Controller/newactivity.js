@@ -1,18 +1,26 @@
-console.log("controller of action_list");
+/*
+* @Author            : Theta
+* @Author contact    : https://studentcodebank.wordpress.com/
+* @Date              : 2018-01-24 12:38:20
+* @Last Modified by  : Theta
+* @Last Modified time: 2018-01-24 12:49:27
+* @purpose           : Defined controller of new activity. 
+* @copyright         : @Theta, all rights reserved.
+*/
+console.log("Enter the controller of new activity");
 
 module.exports = function (){
-    /*
-    // controller of argument
-    // 
-    // using :
-        ar controller = require('./Controller/argument.js');
-        c = new controller();
-        c.controller(connection,function(QuestionDoc,ActionDoc){});
-
-    // coding: gavin
-    */
-
-
+    /**
+     * @method  controller
+     * @author  Theta
+     * @date    2018-01-24
+     * @purpose create a new activity.
+     * @param   {[type]time}
+     * @param   {[type]TopicID}
+     * @param   {[type]host_id}
+     * @param   {[function]}
+     * @return  {[type]}
+     */
     this.controller = function (time,TopicID,host_id,CallbackFunc){
 	const dateTime = Date.now();
 	var unicodeforactivity = Math.floor(dateTime / 1000);

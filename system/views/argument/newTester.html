@@ -236,7 +236,7 @@
     </script>
     <script>
 
-    $.get("./userShow",
+    $.get("./user",
         function(data,status){                
             activity_list = JSON.parse(data);
             console.log(activity_list['text']);
@@ -255,7 +255,7 @@
             }
         }
     );
-	$.get("./ActivityShow",
+	$.get("./activity",
             function(data,status){                
                 activity_list = JSON.parse(data);
                 console.log(activity_list['text']);
@@ -284,7 +284,7 @@
 	        });
     		PostData=PostData.substring(0,PostData.length-1)+']';
     		console.log(PostData);
-    		$.post("./newTester",
+    		$.post("./tester",
     			{
     			'JsonData':PostData
     			},
