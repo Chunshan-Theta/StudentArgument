@@ -257,17 +257,6 @@ function SendtoRoom() {
             location.href = './sittingPage';
         }
     });
-    /*
-    $.put("./SendTesterToChatroom", {
-            'Activity_id': $('#Activity_ID').val(),
-            'JsonData': PostData
-        },
-        function(data, status) {
-            console.log(data);
-            alert('done.');
-            location.href = './sittingPage';
-        }
-    );*/
 }
 </script>
 <script type="text/javascript">
@@ -303,7 +292,7 @@ $('#Activity_ID').on("change", function() {
     $('.ui-state-default').remove();
 
     var a_id = this.value;
-    $.post("./testerShow", {
+    $.get("./tester", {
             'a_id': a_id
         },
         function(data, status) {

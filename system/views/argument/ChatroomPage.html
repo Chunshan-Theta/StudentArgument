@@ -271,7 +271,7 @@ function SendActionToSql(Sentcontent,ad){
 <script>
     
     function GetReferences(keywords){
-        $.get("./ReferencesShow?keywords="+keywords,
+        $.get("./References?keywords="+keywords,
             function(data,status){                
                 References_list = JSON.parse(data);
                 console.log(References_list['text']);
