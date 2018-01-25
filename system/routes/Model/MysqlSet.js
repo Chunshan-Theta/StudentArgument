@@ -68,7 +68,7 @@ module.exports = function (db){
                     });
                 } 
                 catch(e){
-                    console.log("Mysql connect is timeout, destroy the connection.");                   
+                    console.log(e,"Mysql connect is timeout, destroy the connection.");                   
                     connection.destroy();
                     console.log("Mysql connect state:",connection.state);            
                 }            

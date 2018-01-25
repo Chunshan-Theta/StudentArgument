@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-23 14:10:09
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-23 15:10:51
+* @Last Modified time: 2018-01-25 23:28:06
 * @purpose           : Defined controller of ActivityShow
 * @copyright         : @Theta, all rights reserved.
 */
@@ -49,7 +49,11 @@ module.exports = function() {
         connection = new sql('argument');
         querytext = "SELECT * FROM `activity_list`"
         connection.query(querytext, function(returnValue) {
-            console.log(returnValue);
+            //console.log(returnValue['return'][0]['timeofactivity'].toLocaleDateString('zh-TW'));
+            for(var row in returnValue['return']){
+                //set timeshamp for taiwan.
+                returnValue['return'][row]['timeofactivity']=returnValue['return'][row]['timeofactivity'].toLocaleDateString('zh-TW');
+            }
             CallbackFunc(returnValue);
         });
 

@@ -265,7 +265,7 @@
                 
                 for (var i = 0; i < activity_list["return"].length; i++){
                 	var a_id = activity_list["return"][i]["avtivity_id"];
-                	var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0,10);
+                	var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0,100);
                     htmltext = '<option value="'+a_id+'">activity:'+a_id+','+timeofactivity+'</option>'
                     $('#y_Activitys').append(htmltext);                    
                 }
