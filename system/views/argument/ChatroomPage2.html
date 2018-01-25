@@ -194,10 +194,10 @@
                                             <div style="float: left;">
                                                 <label for="speech_type">Speech Type</label>
                                                 <select id="speech_type">
-                                                  <option value="提出新想法">提出新想法</option>
-                                                  <option value="反對對方意見">反對對方意見</option>
-                                                  <option value="贊同對方意見">贊同對方意見</option>
-                                                  <option value="發表論述" selected="selected">發表論述</option>
+                                                    <option value="提出新想法">提出新想法</option>
+                                                    <option value="反對對方意見">反對對方意見</option>
+                                                    <option value="贊同對方意見">贊同對方意見</option>
+                                                    <option value="發表論述" selected="selected">發表論述</option>
                                                 </select>
                                             </div>
                                             <input id="m" autocomplete="off" />
@@ -260,7 +260,7 @@ function change_color_code() {
 }
 change_color_code();
 $('form').submit(function() {
-    var speech_text= '['+$("#speech_type").val()+']  '+$('#m').val();
+    var speech_text = '[' + $("#speech_type").val() + ']  ' + $('#m').val();
     console.log(speech_text);
     if ($('.sub-window_mode_of_message').length) {
         SendActionToSql(speech_text, '11');
@@ -271,8 +271,8 @@ $('form').submit(function() {
     } else {
         SendActionToSql(speech_text, '1');
     }
-    speech_text=UserName + ': ' + speech_text;
-    socket.emit('Push_message', speech_text , room_ID, color_code);
+    speech_text = UserName + ': ' + speech_text;
+    socket.emit('Push_message', speech_text, room_ID, color_code);
     $('#m').val('');
     return false;
 });
@@ -282,11 +282,20 @@ socket.on(room_ID + '_upload_message', function(msg, color_code) {
 });
 </script>
 <script>
+sub_windows_click_last_time = '1000-01-01 00:00:00';
+
 function SendActionToSql(Sentcontent, ad) {
-    $.post("http://140.115.126.216:3000/action_list", {
+    var last_time;
+    if (sub_windows_click_last_time!='1000-01-01 00:00:00'){
+        last_time = sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false });
+    }else{
+        last_time = sub_windows_click_last_time;
+    }
+    $.post("./action_list", {
             ad_id: ad,
             t_id: <%=t_id%>,
-            content: Sentcontent
+            content: Sentcontent,
+            l_t: last_time
         },
         function(data, status) {
             console.log(status);
@@ -316,6 +325,7 @@ $().ready(function() {
 
         $(window).on('scroll', materialKitDemo_mini.checkScrollForParallax);
     }
+    
 
 });
 </script>
@@ -375,12 +385,6 @@ function searchkeword() {
     GetReferences(keyval);
 }
 </script>
-<script>
-$('#note').on("click", function() {
-    console.log("enter");
-
-})
-</script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
@@ -400,6 +404,15 @@ $(function() {
                 $(".chat_message_in_sub_windows").remove();
                 ////initail end.
                 $('.chat_message').clone().addClass("chat_message_in_sub_windows").appendTo("#sub_windows_contain");
+
+                ///last exe time
+                sub_windows_click_last_time = new Date(Date.now());
+                console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
+
+                $('#sub_windows_contain').click(function() {
+                    sub_windows_click_last_time = new Date(Date.now());
+                    console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
+                });
             },
             "note": function() {
                 $("#sub_windows_contain").remove();
@@ -409,6 +422,15 @@ $(function() {
                 ////initail end.
                 var text = CKEDITOR.instances.editor.getData();
                 $('<p>' + text + '</p>').addClass("note_in_sub_windows").appendTo("#sub_windows_contain");
+
+                ////last exe time
+                sub_windows_click_last_time = new Date(Date.now());
+                console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
+
+                $('#sub_windows_contain').click(function() {
+                    sub_windows_click_last_time = new Date(Date.now());
+                    console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
+                });
             },
             "search": function() {
                 $("#sub_windows_contain").remove();
@@ -417,6 +439,15 @@ $(function() {
                 $(".search_in_sub_windows").remove();
                 ////initail end.
                 $('#insertweb').clone().removeClass('col-md-9').addClass("search_in_sub_windows").css({ "width": "-webkit-fill-available" }).appendTo("#sub_windows_contain");
+
+                ////last exe time
+                sub_windows_click_last_time = new Date(Date.now());
+                console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
+
+                $('#sub_windows_contain').click(function() {
+                    sub_windows_click_last_time = new Date(Date.now());
+                    console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
+                });
             }
         },
         open: function(event, ui) {

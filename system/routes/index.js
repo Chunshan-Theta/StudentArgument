@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-25 19:36:33
+ * @Last Modified time: 2018-01-26 00:19:16
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -509,8 +509,8 @@ router.post('/activity', function(req, res) {
     var host_id = req.session.host_id;
 
     // initialize controller
-    var controller_of_action_list = require('./Controller/newactivity.js');
-    c = new controller_of_action_list();
+    var controller_of_new_activity = require('./Controller/newactivity.js');
+    c = new controller_of_new_activity();
 
     /**
      * @method  Defined
@@ -579,6 +579,7 @@ router.post('/action_list', function(req, res) {
     var actionDoc_id = req.param('ad_id', null);
     var tester_id = req.param('t_id', null);
     var content = req.param('content', null);
+    var last_time = req.param('l_t', null);
 
     // initialize controller
     var controller_of_action_list = require('./Controller/action_list.js');
@@ -591,7 +592,7 @@ router.post('/action_list', function(req, res) {
      * @purpose Defined function for operating the output of the controller.
      * @return  {[responds text]}
      */
-    c.controller(actionDoc_id, tester_id, content, function(respond) {
+    c.controller(actionDoc_id, tester_id, content,last_time, function(respond) {
         res.render('argument/errorpage', { error_id: '#200', error_con: respond["message"] });
 
     });
