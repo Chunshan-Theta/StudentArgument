@@ -13,10 +13,10 @@ var io = require('socket.io')(server);
 
 
 io.on('connection', function(socket){
-    socket.on('Push_message', function(msg,roomID){
-        console.log('In roomID:'+roomID)
-        console.log(msg)
-        io.emit(roomID+'_upload_message', msg);
+    socket.on('Push_message', function(msg,roomID,color_code){
+        console.log('In roomID:'+roomID);
+        console.log(msg);
+        io.emit(roomID+'_upload_message', msg ,color_code);
     });
     
 });

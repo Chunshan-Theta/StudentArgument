@@ -173,6 +173,11 @@
                         <div class="content">
                             <div class="tab-content text-center">
                                 <div class="tab-pane active" id="chatroom">
+                                    <div id='toolbar' class="col-md-12" style="text-align: left;">
+                                        <button id='change_color_code_handler' class="btn btn-primary" onclick="change_color_code();" style="float: right;">change color</button>
+                                        <div id="user_text_color" style="width: 20px;height: 20px;background-color: #000000;float: right;margin-top: 10px;margin-bottom: 10px;margin-left: 1px;margin-right: 10px">
+                                        </div>
+                                    </div>
                                     <div class="title">
                                         <h4 style="text-align: left;">
                                               <%=title%><%=room%>/使用者名稱：<%=UserName%><br> 題目：<br>
@@ -183,9 +188,18 @@
                                             </p>
                                         </blockquote>
                                     </div>
-                                    <div>
+                                    <div id='chatroom-board'>
                                         <ul id="mess_bar"></ul>
                                         <form id="chat_input">
+                                            <div style="float: left;">
+                                                <label for="speech_type">Speech Type</label>
+                                                <select id="speech_type">
+                                                  <option value="提出新想法">提出新想法</option>
+                                                  <option value="反對對方意見">反對對方意見</option>
+                                                  <option value="贊同對方意見">贊同對方意見</option>
+                                                  <option value="發表論述" selected="selected">發表論述</option>
+                                                </select>
+                                            </div>
                                             <input id="m" autocomplete="off" />
                                             <button class="btn btn-primary">Send</button>
                                         </form>
@@ -232,24 +246,39 @@
 var socket = io();
 var room_ID = '<%=room%>'
 var UserName = '<%=UserName%>'
-$('form').submit(function() {
-    if ($('.sub-window_mode_of_message').length) {
-        SendActionToSql($('#m').val(), '11');
-    } else if ($('.sub-window_mode_of_note').length) {
-        SendActionToSql($('#m').val(), '12');
-    } else if ($('.sub-window_mode_of_search').length) {
-        SendActionToSql($('#m').val(), '14');
-    } else {
-        SendActionToSql($('#m').val(), '1');
-    }
+color_code = '#FF0000';
 
-    socket.emit('Push_message', UserName + ': ' + $('#m').val(), room_ID);
+function change_color_code() {
+
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    color_code = color;
+    $('#user_text_color').css("background-color", color);
+}
+change_color_code();
+$('form').submit(function() {
+    var speech_text= '['+$("#speech_type").val()+']  '+$('#m').val();
+    console.log(speech_text);
+    if ($('.sub-window_mode_of_message').length) {
+        SendActionToSql(speech_text, '11');
+    } else if ($('.sub-window_mode_of_note').length) {
+        SendActionToSql(speech_text, '12');
+    } else if ($('.sub-window_mode_of_search').length) {
+        SendActionToSql(speech_text, '14');
+    } else {
+        SendActionToSql(speech_text, '1');
+    }
+    speech_text=UserName + ': ' + speech_text;
+    socket.emit('Push_message', speech_text , room_ID, color_code);
     $('#m').val('');
     return false;
 });
 
-socket.on(room_ID + '_upload_message', function(msg) {
-    $('#mess_bar').append($('<li class="chat_message">').text(msg));
+socket.on(room_ID + '_upload_message', function(msg, color_code) {
+    $('#mess_bar').append($('<li class="chat_message" style="color:' + color_code + ';">').text(msg));
 });
 </script>
 <script>
@@ -391,14 +420,14 @@ $(function() {
             }
         },
         open: function(event, ui) {
-            $(".ui-dialog-buttonpane").insertBefore($("#sub_windows"));//add to upper block;
-            $(".ui-dialog-buttonset").css("float","left");
+            $(".ui-dialog-buttonpane").insertBefore($("#sub_windows")); //add to upper block;
+            $(".ui-dialog-buttonset").css("float", "left");
             $(".ui-dialog-buttonset button").addClass('btn btn-primary');
-            $(".ui-dialog-titlebar ").css('background','linear-gradient(60deg, #ab47bc, #7b1fa2)');
-            $(".ui-dialog-titlebar ").css('color','#FFFFFF');
+            $(".ui-dialog-titlebar ").css('background', 'linear-gradient(60deg, #ab47bc, #7b1fa2)');
+            $(".ui-dialog-titlebar ").css('color', '#FFFFFF');
             $('<button id="new-close-button" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="material-icons">clear</i></span></button>').insertBefore($(".ui-dialog-titlebar-close"));
             $(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); //hide default close button of right-top.
-            $('#new-close-button').click(function(){
+            $('#new-close-button').click(function() {
                 $("#sub_windows_contain").remove();
                 $("#new-close-button").remove();
                 $("#sub_windows").dialog("close");
