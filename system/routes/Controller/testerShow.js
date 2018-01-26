@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-25 19:29:51
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-25 19:30:21
+* @Last Modified time: 2018-01-26 22:39:57
 * @purpose           : Defined a controll of tester show.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -21,10 +21,10 @@ module.exports = function (){
      */
     this.controller = function (CallbackFunc,a_id){
         var sql = require('../Model/MysqlSet.js');        
-        connection = new sql('argument');
+        
         console.log(a_id);
 
-        
+        connection = new sql('argument');
         querytext ="SELECT DISTINCT `user_id`,`tester_id`  FROM `tester_list` WHERE `avtivity_id`='"+a_id+"' ORDER BY `tester_list`.`tester_id` DESC" ;
 
         

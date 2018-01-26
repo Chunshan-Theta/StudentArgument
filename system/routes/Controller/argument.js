@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-23 13:31:54
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-24 11:22:48
+* @Last Modified time: 2018-01-26 23:05:36
 * @purpose           : Defined controller of Argument.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -22,7 +22,7 @@ module.exports = function() {
      */
     this.controller = function(user_id, activity_id, CallbackFunc) {
 
-        console.log("user_id: ", user_id, "activity_id:", activity_id);
+        //console.log("user_id: ", user_id, "activity_id:", activity_id);
         var sql = require('../Model/MysqlSet.js');
         var re_QuestionDocList, re_ActionDocList;
 

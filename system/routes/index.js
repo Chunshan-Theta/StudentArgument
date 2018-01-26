@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-26 00:19:16
+ * @Last Modified time: 2018-01-27 00:28:19
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -181,7 +181,7 @@ router.get('/tester', function(req, res) {
     }
 
     var activity_id = req.query.a_id;
-
+    var host_id = req.session.host_id;
 
     // initialize controller
     var controller_of_testerShow = require('./Controller/testerShow.js');
@@ -298,7 +298,17 @@ router.put('/tester', function(req, res) {
  * @return  {[Json string] Result of Search}
  */
 router.get('/Topic', function(req, res) {
-    var host_id = req.query.host_id;
+    if (req.param('host_id_API', null)) {
+        console.log('Enter api test process');
+        var host_id = req.param('host_id_API', null);
+    } else if (!req.session) {
+        // if not setting session
+        console.log('no login');
+        res.end("error 403");
+    } else {
+        var host_id = req.session.host_id;
+    }
+    
 
 
     // initialize controller
@@ -327,16 +337,15 @@ router.get('/Topic', function(req, res) {
 router.post('/Topic', function(req, res) {
 
     if (req.param('host_id_API', null)) { // for api testing
-        var content = req.param('content', null);
         var host_id = req.param('host_id_API', null);
 
     } else if (!req.session) { // if not setting session
         res.redirect('/sitting_login');
     } else {
-        var content = req.param('content', null);
-        var host_id = req.session.host_id;;
+        
+        var host_id = req.session.host_id;
     }
-
+    var content = req.param('content', null);
 
     // initialize controller
     var controller_of_action_list = require('./Controller/newTopic.js');
@@ -394,17 +403,32 @@ router.post('/EnterHost', function(req, res) {
  * @param   {[type]}
  * @return  {[type]}
  */
-router.get('/user', function(req, res) {
-    //var host_id = req.param('host_id', null);
-    //req.session = { 'host_id': host_id };   
+router.get('/user/subuser', function(req, res) {
+    if (req.param('host_id_API', null)) {
+        console.log('Enter api test process');
+        var host_id = req.param('host_id_API', null);
+    } else if (!req.session) {
+        // if not setting session
+        console.log('no login');
+        res.redirect('/sitting_login');
+    } else {
+        var host_id = req.session.host_id;
+    }
 
 
     // initialize controller
-    var controller_of_user_list = require('./Controller/userShow.js');
+    var controller_of_user_list = require('./Controller/sub_userShow.js');
     c = new controller_of_user_list();
 
-    // in controller
-    c.controller(function(respond) {
+    /**
+     * @method  Defined
+     * @author  Theta
+     * @date    2018-01-26
+     * @purpose Defined a function for operate the result of controller.
+     * @param   {[type]}
+     * @return  {[type]}
+     */
+    c.controller(host_id, function(respond) {
         //console.log(respond);
         res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
         res.end("" + JSON.stringify(respond));
@@ -425,12 +449,14 @@ router.get('/user', function(req, res) {
  * @return  {[html].argument/errorpage}
  */
 router.post('/user', function(req, res) {
-
-    //INSERT INTO `user_list` (`user_id`, `name`, `school`, `StudentID`) VALUES (NULL, '王王王', '哭哭國小', '9453');
-
+    if (req.param('host_id_API', null)) {
+        console.log('Enter api test process');
+        var parent_id = req.param('host_id_API', null);
+    } else {
+        var parent_id = req.param('parent_id', '-1');
+    }
     var username = req.param('u_name', null);
     var userschool = req.param('u_school', null);
-    var parent_id = req.param('u_account', null) ? req.param('u_account', null) : '-1';
 
     // initialize controller
     var controller_of_newuser = require('./Controller/newuser.js');
@@ -448,8 +474,10 @@ router.post('/user', function(req, res) {
      */
     c.controller(username, userschool, parent_id, function(respond) {
         //console.log(respond);
-        if (respond['text'] == "ER_DUP_ENTRY") {
-            res.render('argument/errorpage', { error_id: respond['status'], error_con: "帳號已存在" });
+        if (req.param('host_id_API', null)) { 
+            // in API testint process.
+            res.end("" + JSON.stringify(respond), 'utf-8');
+
         } else {
             res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text'] + '.   Your ID: ' + respond['return']['insertId'] });
         }
@@ -467,6 +495,17 @@ router.post('/user', function(req, res) {
  */
 router.get('/activity', function(req, res) {
 
+    if (req.param('host_id_API', null)) {
+        var host_id = req.param('host_id_API', null);
+    } else if (!req.session.host_id) {
+        // if not setting session
+        console.log('no login host_id');
+        res.redirect('/sitting_login');
+    } else {
+        var host_id = req.session.host_id;
+    }
+
+
     // initialize controller
     var controller_of_ActivityShow = require('./Controller/ActivityShow.js');
     c = new controller_of_ActivityShow();
@@ -479,7 +518,7 @@ router.get('/activity', function(req, res) {
      * @param   {[function]}
      * @return  {[Json String] Result of search}
      */
-    c.controller(function(respond) {
+    c.controller(host_id, function(respond) {
         //console.log(respond);
         //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
         res.end("" + JSON.stringify(respond), 'utf-8');
@@ -498,15 +537,20 @@ router.get('/activity', function(req, res) {
  * @return  {[req.session]host_id}
  */
 router.post('/activity', function(req, res) {
-    if (!req.session) {
+
+    if (req.param('host_id_API', null)) {
+        var host_id = req.param('host_id_API', null);
+    } else if (!req.session) {
         // if not setting session
         res.redirect('/sitting_login');
         return;
+    } else {
+        var host_id = req.session.host_id;
+
     }
 
     var time = req.param('time', null);
     var TopicID = req.param('TopicID', null);
-    var host_id = req.session.host_id;
 
     // initialize controller
     var controller_of_new_activity = require('./Controller/newactivity.js');
@@ -524,6 +568,11 @@ router.post('/activity', function(req, res) {
      */
     c.controller(time, TopicID, host_id, function(respond) {
         console.log(respond);
+        if (req.param('host_id_API', null)) {
+            // if in testing, respond json data
+            res.end("" + JSON.stringify(respond));
+
+        }
         res.render('argument/errorpage', { error_id: "#200", error_con: "成功新增" });
 
     });
@@ -542,11 +591,10 @@ router.post('/activity', function(req, res) {
  */
 router.get('/References', function(req, res) {
 
-    var keywords = req.query.keywords;
-
     //if keywords is not exist,then search all data of reference_list.
-    if (typeof keywords == "undefined") { keywords = ""; }
+    var keywords = req.query.keywords?req.query.keywords:"";
 
+    
 
     // initialize controller
     var controller_of_References_list = require('./Controller/ReferencesShow.js');
@@ -592,7 +640,7 @@ router.post('/action_list', function(req, res) {
      * @purpose Defined function for operating the output of the controller.
      * @return  {[responds text]}
      */
-    c.controller(actionDoc_id, tester_id, content,last_time, function(respond) {
+    c.controller(actionDoc_id, tester_id, content, last_time, function(respond) {
         res.render('argument/errorpage', { error_id: '#200', error_con: respond["message"] });
 
     });

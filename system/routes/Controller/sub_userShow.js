@@ -3,11 +3,11 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-24 14:36:14
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-24 14:39:36
+ * @Last Modified time: 2018-01-26 23:10:07
  * @purpose           : Defined the controller of ShowActivity.
  * @copyright         : @Theta, all rights reserved.
  */
-console.log("Enter the controller of ShowActivity");
+console.log("Enter the controller of Show User");
 
 module.exports = function() {
     /**
@@ -18,10 +18,10 @@ module.exports = function() {
      * @param   {[type]}
      * @return  {[type]}
      */
-    this.controller = function(CallbackFunc) {
+    this.controller = function(host_id,CallbackFunc) {
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext = "SELECT * FROM `user_list`"
+        querytext = "SELECT `user_id`,`name`,`school` FROM `user_list` WHERE `parent_user` = '"+host_id+"';"
         connection.query(querytext, function(returnValue) {
             console.log(returnValue);
             //connection.close();

@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-24 14:19:25
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-25 18:23:07
+* @Last Modified time: 2018-01-27 00:03:41
 * @purpose           : Defined the controller of new a user.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -25,7 +25,7 @@ module.exports = function (){
         console.log(username,userschool,parent_id);
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext ="INSERT INTO `user_list` (`user_id`, `name`, `school`, `parent_user`) VALUES (NULL, '"+username+"', '"+userschool+"', '"+parent_user_id+"');" 
+        querytext ="INSERT INTO `user_list` (`user_id`, `name`, `school`, `parent_user`) VALUES (NULL, '"+username+"', '"+userschool+"', '"+parent_id+"');" 
         connection.query(querytext,function(returnValue){    
             console.log(returnValue);
             CallbackFunc(returnValue);
