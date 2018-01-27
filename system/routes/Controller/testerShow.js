@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-25 19:29:51
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-26 22:39:57
+* @Last Modified time: 2018-01-27 00:38:18
 * @purpose           : Defined a controll of tester show.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -19,7 +19,7 @@ module.exports = function (){
      * @param   {[function]}
      * @return  {[Json Data]}
      */
-    this.controller = function (CallbackFunc,a_id){
+    this.controller = function (a_id,CallbackFunc){
         var sql = require('../Model/MysqlSet.js');        
         
         console.log(a_id);

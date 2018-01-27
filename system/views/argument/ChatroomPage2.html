@@ -291,7 +291,7 @@ function SendActionToSql(Sentcontent, ad) {
     }else{
         last_time = sub_windows_click_last_time;
     }
-    $.post("./action_list", {
+    $.post("./action", {
             ad_id: ad,
             t_id: <%=t_id%>,
             content: Sentcontent,

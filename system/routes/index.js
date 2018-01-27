@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-27 00:28:19
+ * @Last Modified time: 2018-01-27 11:38:40
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -175,13 +175,16 @@ router.post('/argument2', function(req, res) {
  * @return  {[type]}
  */
 router.get('/tester', function(req, res) {
-
-    if (!req.session) { // if not setting session
+    if (req.query.host_id_API) {
+        console.log("Enter to API testing mode.");
+        var host_id = req.query.host_id_API;
+    } else if (!req.session) { // if not setting session
         res.redirect('/sitting_login');
+    } else {
+        var host_id = req.session.host_id;
     }
 
     var activity_id = req.query.a_id;
-    var host_id = req.session.host_id;
 
     // initialize controller
     var controller_of_testerShow = require('./Controller/testerShow.js');
@@ -195,12 +198,12 @@ router.get('/tester', function(req, res) {
      * @param   {[int]activity_id}
      * @return  {[Json String]}
      */
-    c.controller(function(respond) {
+    c.controller(activity_id, function(respond) {
         //console.log(respond);
         res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
         res.end("" + JSON.stringify(respond));
 
-    }, activity_id);
+    });
 
 });
 
@@ -215,13 +218,18 @@ router.get('/tester', function(req, res) {
  * @return  {[responds tetxt]}
  */
 router.post('/tester', function(req, res) {
-    if (!req.session) { // if not setting session
+    if (req.param('host_id_API', null)) {
+        console.log('Enter to API testing mode.');
+        //var host_id = req.param('host_id_API', null);
+    } else if (!req.session) { // if not setting session
         console.log('no login');
         res.redirect('/sitting_login');
+    } else {
+        var host_id = req.session.host_id;
+
     }
 
     var JsonData = req.param('JsonData', null);
-    var host_id = req.session.host_id;
 
     JsonData = JSON.parse(JsonData);
     // initialize controller
@@ -237,10 +245,16 @@ router.post('/tester', function(req, res) {
      * @param   {[int]host_id}
      * @return  {[responds text]}
      */
-    c.controller(JsonData, host_id, function(respond) {
+    c.controller(JsonData, function(respond) {
         console.log(respond);
         //res.end("done.");
-        res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text'] });
+        if (req.param('host_id_API', null)) {
+            res.end("" + JSON.stringify(respond));
+
+        } else {
+            res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text'] });
+
+        }
 
     });
 });
@@ -255,20 +269,25 @@ router.post('/tester', function(req, res) {
  * @param   {[http.post]Activity_id}
  */
 router.put('/tester', function(req, res) {
-    if (!req.session) {
+    if (req.param('host_id_API', null)) {
+        var a_id = req.param('host_id_API', null);
+
+    } else if (!req.session) {
         // if not setting session
         console.log('no login');
         res.redirect('/sitting_login');
-    }
+    } else {
 
+        var a_id = req.param('Activity_id', null);
+    }
     var JsonData = req.param('JsonData', null);
-    var a_id = req.param('Activity_id', null);
+
 
 
     JsonData = JSON.parse(JsonData);
     console.log(JsonData);
-    // initialize controller
 
+    // initialize controller
     var controller_of_SendTesterToChatroom = require('./Controller/SendTesterToChatroom.js');
     c = new controller_of_SendTesterToChatroom();
 
@@ -283,9 +302,13 @@ router.put('/tester', function(req, res) {
      */
     c.controller(a_id, JsonData, function(respond) {
         console.log(respond);
-        res.end(respond['status'] + ',' + respond['text']);
-        //res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+        if (req.param('host_id_API', null)) {
+            res.end("" + JSON.stringify(respond));
 
+        } else {
+            res.end(respond['status'] + ',' + respond['text']);
+            //res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
+        }
     });
 });
 
@@ -308,7 +331,7 @@ router.get('/Topic', function(req, res) {
     } else {
         var host_id = req.session.host_id;
     }
-    
+
 
 
     // initialize controller
@@ -342,7 +365,7 @@ router.post('/Topic', function(req, res) {
     } else if (!req.session) { // if not setting session
         res.redirect('/sitting_login');
     } else {
-        
+
         var host_id = req.session.host_id;
     }
     var content = req.param('content', null);
@@ -474,7 +497,7 @@ router.post('/user', function(req, res) {
      */
     c.controller(username, userschool, parent_id, function(respond) {
         //console.log(respond);
-        if (req.param('host_id_API', null)) { 
+        if (req.param('host_id_API', null)) {
             // in API testint process.
             res.end("" + JSON.stringify(respond), 'utf-8');
 
@@ -592,9 +615,9 @@ router.post('/activity', function(req, res) {
 router.get('/References', function(req, res) {
 
     //if keywords is not exist,then search all data of reference_list.
-    var keywords = req.query.keywords?req.query.keywords:"";
+    var keywords = req.query.keywords ? req.query.keywords : "";
 
-    
+
 
     // initialize controller
     var controller_of_References_list = require('./Controller/ReferencesShow.js');
@@ -622,7 +645,7 @@ router.get('/References', function(req, res) {
  * @param   {[http.post.String]content}
  * @return  {[responds text]}
  */
-router.post('/action_list', function(req, res) {
+router.post('/action', function(req, res) {
 
     var actionDoc_id = req.param('ad_id', null);
     var tester_id = req.param('t_id', null);
@@ -641,7 +664,14 @@ router.post('/action_list', function(req, res) {
      * @return  {[responds text]}
      */
     c.controller(actionDoc_id, tester_id, content, last_time, function(respond) {
-        res.render('argument/errorpage', { error_id: '#200', error_con: respond["message"] });
+        if (req.param('host_id_API', null)) {
+            // if in testing, respond json data
+            res.end("" + JSON.stringify(respond));
+
+        } else {
+            res.render('argument/errorpage', { error_id: '#200', error_con: respond["message"] });
+
+        }
 
     });
 

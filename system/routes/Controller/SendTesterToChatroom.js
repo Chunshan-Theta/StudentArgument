@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-22 23:36:37
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-23 16:12:43
+ * @Last Modified time: 2018-01-27 11:31:25
  * @purpose           : Defined controller of SendTesterToChatroom.
  * @copyright         : @Theta, all rights reserved.
  */
@@ -37,7 +37,6 @@ module.exports = function() {
         var CreateNewCount = RoomArray[RoomArray.length - 1];
 
         //create new rooms
-        //INSERT INTO `chatroom_list` (`chatroom_id`, `avtivity_id`) VALUES (NULL, '1');
         querytext = 'INSERT INTO `chatroom_list` (`chatroom_id`, `avtivity_id`) VALUES ';
         for (var i = 0; i <= CreateNewCount; i++) {
             querytext += "(NULL, '" + a_id + "'),";
