@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-27 11:38:40
+ * @Last Modified time: 2018-01-28 18:07:21
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -478,9 +478,11 @@ router.post('/user', function(req, res) {
     } else {
         var parent_id = req.param('parent_id', '-1');
     }
-    var username = req.param('u_name', null);
-    var userschool = req.param('u_school', null);
-
+    var mail = req.param('mail', null);
+    var pws = req.param('pws', null);
+    var school = req.param('u_school', null);
+    var name = req.param('u_name', null);
+    console.log(mail,pws);
     // initialize controller
     var controller_of_newuser = require('./Controller/newuser.js');
     c = new controller_of_newuser();
@@ -490,12 +492,12 @@ router.post('/user', function(req, res) {
      * @author  Theta
      * @date    2018-01-25
      * @purpose Defined a function for operate the results that from controller.
-     * @param   {[string]username}
-     * @param   {[string]userschool}
+     * @param   {[string]mail}
+     * @param   {[string]pws}
      * @param   {[int]parent_id}
      * @return  {[responds text]}
      */
-    c.controller(username, userschool, parent_id, function(respond) {
+    c.controller(mail, pws, school,name,function(respond) {
         //console.log(respond);
         if (req.param('host_id_API', null)) {
             // in API testint process.
