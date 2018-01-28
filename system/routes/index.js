@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-28 18:07:21
+ * @Last Modified time: 2018-01-29 03:11:20
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -117,12 +117,12 @@ router.get('/sittingPage', function(req, res) {
  * @return  {[html]argument/ChatroomPage2}
  */
 router.post('/argument2', function(req, res) {
-    var user_id = req.param('u_id', null);
+    var mail = req.param('mail', null);
     var activity_id = req.param('a_id', null);
 
-    if (typeof user_id == "undefined") {
+    if (typeof mail == "undefined") {
         // case of not catch u_id
-        res.render('argument/errorpage', { error_id: '#404', error_con: "not input user id to server" });
+        res.render('argument/errorpage', { error_id: '#404', error_con: "not input mail to server" });
     } else if (typeof activity_id == "undefined") {
         // case of not catch a_id
         res.render('argument/errorpage', { error_id: '#404', error_con: "not input activity id to server" });
@@ -141,11 +141,11 @@ router.post('/argument2', function(req, res) {
          * @param   {[http.post.String]topic_content]}
          * @return  {[html]argument/ChatroomPage2}
          */
-        c.controller(user_id, activity_id, function(chatroom_id, tester_id, topic_content) {
+        c.controller(mail, activity_id, function(chatroom_id, tester_id, topic_content) {
             console.log("chatroom_id", chatroom_id)
             if (chatroom_id != null) {
                 // case of not found tester
-                var user = 'User_' + user_id;
+                var user = mail;
                 console.log(user, ',Enter to chatroom: ' + chatroom_id);
                 res.render('argument/ChatroomPage2', { title: '聊天室代號：', room: chatroom_id, UserName: user, t_id: tester_id, t_con: topic_content });
             } else if (chatroom_id == '-1') {
@@ -421,7 +421,7 @@ router.post('/EnterHost', function(req, res) {
  * @method  Restful api - get 
  * @author  Theta
  * @date    2018-01-24
- * @purpose Enterance of api for get user's data.
+ * @purpose Enterance of api for get sub-user's data.
  * @param   {[type]}
  * @param   {[type]}
  * @return  {[type]}
@@ -474,7 +474,7 @@ router.get('/user/subuser', function(req, res) {
 router.post('/user', function(req, res) {
     if (req.param('host_id_API', null)) {
         console.log('Enter api test process');
-        var parent_id = req.param('host_id_API', null);
+        var parent_id = req.param('host_id_API', '-1');
     } else {
         var parent_id = req.param('parent_id', '-1');
     }
@@ -482,7 +482,9 @@ router.post('/user', function(req, res) {
     var pws = req.param('pws', null);
     var school = req.param('u_school', null);
     var name = req.param('u_name', null);
-    console.log(mail,pws);
+    var birday = req.param('u_birthday', null);
+
+    console.log("birday",birday);
     // initialize controller
     var controller_of_newuser = require('./Controller/newuser.js');
     c = new controller_of_newuser();
@@ -497,12 +499,14 @@ router.post('/user', function(req, res) {
      * @param   {[int]parent_id}
      * @return  {[responds text]}
      */
-    c.controller(mail, pws, school,name,function(respond) {
+    c.controller(mail, pws, school,name,parent_id,birday,function(respond) {
         //console.log(respond);
         if (req.param('host_id_API', null)) {
             // in API testint process.
             res.end("" + JSON.stringify(respond), 'utf-8');
 
+        } else if(returnValue['text'] == "ER_DUP_ENTRY"){
+            res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text']});
         } else {
             res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text'] + '.   Your ID: ' + respond['return']['insertId'] });
         }
@@ -511,6 +515,24 @@ router.post('/user', function(req, res) {
 
 
 });
+
+
+
+/**
+ * @method  Restful api - get 
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose Enterance of api for get user's public data.
+ * @param   {[type]}
+ * @param   {[type]}
+ * @return  {[type]}
+ */
+router.get('/user/public_data', function(req, res) {
+    
+    ////////
+
+});
+
 
 /**
  * @method  Restful Api - get

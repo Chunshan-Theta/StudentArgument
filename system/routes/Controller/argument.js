@@ -1,12 +1,12 @@
 /*
-* @Author            : Theta
-* @Author contact    : https://studentcodebank.wordpress.com/
-* @Date              : 2018-01-23 13:31:54
-* @Last Modified by  : Theta
-* @Last Modified time: 2018-01-26 23:05:36
-* @purpose           : Defined controller of Argument.
-* @copyright         : @Theta, all rights reserved.
-*/
+ * @Author            : Theta
+ * @Author contact    : https://studentcodebank.wordpress.com/
+ * @Date              : 2018-01-23 13:31:54
+ * @Last Modified by  : Theta
+ * @Last Modified time: 2018-01-29 02:46:32
+ * @purpose           : Defined controller of Argument.
+ * @copyright         : @Theta, all rights reserved.
+ */
 console.log("Enter the controller of Argument.");
 
 module.exports = function() {
@@ -20,40 +20,35 @@ module.exports = function() {
      * @param   {[function]}
      * @return  {[type]}
      */
-    this.controller = function(user_id, activity_id, CallbackFunc) {
+    this.controller = function(u_mail, activity_id, CallbackFunc) {
 
         //console.log("user_id: ", user_id, "activity_id:", activity_id);
         var sql = require('../Model/MysqlSet.js');
         var re_QuestionDocList, re_ActionDocList;
 
         connection = new sql('argument');
-        connection.query("SELECT `topic_id` FROM `activity_list` WHERE `avtivity_id` = '" + activity_id + "'", function(returnValue) {
+        var querytext ="SELECT topic_list.`content` FROM topic_list,`activity_list` WHERE activity_list.`avtivity_id` = '"+activity_id+"' AND topic_list.`topic_id`=`activity_list`.`topic_id`";
+        connection.query(querytext, function(returnValue) {
 
-            topic_id = returnValue['return'][0]["topic_id"];
-            console.log(topic_id);
+            topic_content = returnValue['return'][0]["content"];
+            console.log(topic_content);
             connection = new sql('argument');
-            connection.query("SELECT `content` FROM `topic_list` WHERE `topic_id` = '" + topic_id + "'", function(returnValue) {
-                topic_content = returnValue['return'][0]["content"];
-                console.log(topic_content);
-                connection = new sql('argument');
-                connection.query("SELECT * FROM `tester_list` WHERE `user_id` = '" + user_id + "' AND `avtivity_id` = '" + activity_id + "'", function(returnValue) {
-                    //console.log(returnValue);
-                    console.log("topic_id", topic_id);
-                    console.log("topic_content", topic_content);
-                    try {
-                        chatroom_id = returnValue['return'][0]["chatroom_id"];
-                        tester_id = returnValue['return'][0]["tester_id"];
-                        console.log(returnValue);
-                        console.log("room id is :", chatroom_id);
-                        console.log("tester_id", tester_id);
+            querytext = "SELECT tester_id,`chatroom_id` FROM tester_list,`user_list` WHERE tester_list.`user_id` = user_list.`user_id` AND user_list.`mail`='"+u_mail+"' AND avtivity_id = '"+activity_id+"';"; 
+            connection.query(querytext, function(returnValue) {
+                //console.log(returnValue);                
+                console.log("topic_content", topic_content);
+                try {
+                    chatroom_id = returnValue['return'][0]["chatroom_id"];
+                    tester_id = returnValue['return'][0]["tester_id"];
+                    console.log(returnValue);
+                    console.log("room id is :", chatroom_id);
+                    console.log("tester_id", tester_id);
 
-                    } catch (e) {
-                        chatroom_id = null;
-                        tester_id = null;
-                    }
-                    CallbackFunc(chatroom_id, tester_id, topic_content);
-                });
-
+                } catch (e) {
+                    chatroom_id = null;
+                    tester_id = null;
+                }
+                CallbackFunc(chatroom_id, tester_id, topic_content);
             });
         });
 
