@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:31:54
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-30 13:23:19
+ * @Last Modified time: 2018-01-31 06:46:10
  * @purpose           : Defined controller of Argument.
  * @copyright         : @Theta, all rights reserved.
  */
@@ -42,7 +42,7 @@ module.exports = function() {
                     topic_content = returnValue2['return'][0]["content"];
                     
                     connection3 = new sql('argument');
-                    querytext = "SELECT tester_id,`chatroom_id` FROM tester_list,`user_list` WHERE tester_list.`user_id` = user_list.`user_id` AND user_list.`mail`='" + u_mail + "' AND avtivity_id = '" + activity_id + "';";
+                    querytext = "SELECT `tester_id`,`chatroom_id` FROM `tester_list`,`user_list` WHERE tester_list.`user_id` = user_list.`user_id` AND user_list.`mail`='" + u_mail + "' AND avtivity_id = '" + activity_id + "';";
                     connection3.query(querytext, function(returnValue3) {
                         //console.log(returnValue);                
                         console.log("topic_content", topic_content);
@@ -57,7 +57,7 @@ module.exports = function() {
                             chatroom_id = null;
                             tester_id = null;
                         }
-                        CallbackFunc(chatroom_id, tester_id, topic_content);
+                        CallbackFunc(chatroom_id, tester_id,activity_id, topic_content);
                     });
                 });
             }

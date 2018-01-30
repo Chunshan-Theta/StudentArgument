@@ -168,14 +168,14 @@ CREATE TABLE `tester_list` (
   `user_id` int(11) NOT NULL,
   `avtivity_id` int(11) NOT NULL,
   `chatroom_id` int(11) NOT NULL DEFAULT '-1',
-  `group` int(2) NOT NULL DEFAULT '-1'
+  `group_score` int(2) NOT NULL DEFAULT '-1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 資料表的匯出資料 `tester_list`
 --
 
-INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group`) VALUES
+INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group_score`) VALUES
 (1, 2, 1, 2, -1),
 (2, 3, 1, 1, -1),
 (3, 4, 1, 1, -1),

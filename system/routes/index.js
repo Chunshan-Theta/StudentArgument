@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-31 02:08:19
+ * @Last Modified time: 2018-01-31 07:16:50
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -33,9 +33,23 @@ router.get('/', function(req, res) {
 });
 
 /* GET login page. */
+router.get('/newassessment', function(req, res) {
+
+    res.render('argument/newassessment', {});
+});
+
+/* GET login page. */
 router.get('/login', function(req, res) {
 
     res.render('argument/login', {});
+});
+
+/* GET login page. */
+router.get('/front-test', function(req, res) {
+    var t_id = req.param('t_id', null);
+    var a_id = req.param('a_id', null);
+
+    res.render('argument/fronttest', {"t_id":t_id,"a_id":a_id});
 });
 
 /* GET singup page. */
@@ -138,16 +152,18 @@ router.post('/argument2', function(req, res) {
          * @param   {[http.post.String]topic_content]}
          * @return  {[html]argument/ChatroomPage2}
          */
-        c.controller(mail, a_tag, function(chatroom_id, tester_id, topic_content) {
+        c.controller(mail, a_tag, function(chatroom_id, tester_id,activity_id, topic_content) {
             console.log("chatroom_id", chatroom_id)
-            if (chatroom_id != null) {
+            if (chatroom_id == '-1') {
+                // case of not already room for user
+                var link = "http://140.115.126.216:3000/front-test?a_id="+activity_id+"&t_id="+tester_id;
+                res.redirect(link);
+            } 
+            else if (chatroom_id != null) {
                 // case of not found tester
                 var user = mail;
                 console.log(user, ',Enter to chatroom: ' + chatroom_id);
                 res.render('argument/ChatroomPage2', { title: '聊天室代號：', room: chatroom_id, UserName: user, t_id: tester_id, t_con: topic_content });
-            } else if (chatroom_id == '-1') {
-                // case of not already room for user
-                res.render('argument/errorpage', { error_id: '#404', error_con: "Not yet arranged chat room, please talk this about this to your activity hoster" });
             } else {
                 res.render('argument/errorpage', { error_id: '#404', error_con: "not found user or activity" });
             }
@@ -271,7 +287,7 @@ router.post('/tester', function(req, res) {
  * @param   {[http.post]JsonData}
  * @param   {[http.post]Activity_id}
  */
-router.put('/tester', function(req, res) {
+router.put('/tester/chatroom', function(req, res) {
     if (req.param('host_id_API', null)) {
         var a_id = req.param('host_id_API', null);
 
@@ -312,6 +328,31 @@ router.put('/tester', function(req, res) {
             res.end(respond['status'] + ',' + respond['text']);
             //res.render('argument/errorpage',{error_id:respond['status'],error_con:respond['text']});
         }
+    });
+});
+
+
+
+router.put('/tester/score', function(req, res) {
+    if (req.param('host_id_API', null)) {
+        var stu_id = req.param('host_id_API', null);
+
+    } else {
+
+        var stu_id = req.param('stu_id', null);
+    }
+    var scores = req.param('scores', null);
+    console.log(stu_id,scores);
+
+
+
+    // initialize controller
+    var controller_of_testergroup = require('./Controller/testergroup.js');
+    c = new controller_of_testergroup();
+    c.controller(stu_id, scores, function(respond) {
+
+        console.log(respond);
+        res.end("" + JSON.stringify(respond));
     });
 });
 
@@ -404,7 +445,7 @@ router.post('/Topic', function(req, res) {
 
 router.get('/user/logout', function(req, res) {
 
-    var link = req.param('link', '../');
+    var link = req.param('link', '/sittingPage');
 
     user_logout(req, link, function(link) {
         console.log("user logout ending.");
@@ -426,7 +467,7 @@ router.get('/user/admin', function(req, res) {
     var host_id = req.param('host_id_API', null);
     var mail = text_filter(req.param('mail', null), 1);
     var pws = text_filter(req.param('pws', null), 2);
-    if (mail != req.param('mail', null) | pws != req.param('pws', null)) {
+    if (mail != req.param('mail', null) || pws != req.param('pws', null)) {
         res.redirect("/alert?error_id=400&error_con=輸入中含有非法字元");
 
     } else {
@@ -624,8 +665,8 @@ router.post('/user/teacher', function(req, res) {
     var controller_of_addTeacher = require('./Controller/addTeacher.js');
     c = new controller_of_addTeacher();
 
-    c.controller(stu_id,tea_mail, function(respond) {
-        console.log(respond);
+    c.controller(stu_id, tea_mail, function(respond) {
+        //console.log(respond);
         //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
         res.end("" + JSON.stringify(respond), 'utf-8');
 
@@ -833,6 +874,47 @@ router.post('/action', function(req, res) {
 
 });
 
+router.get('/assessment', function(req, res) {
+
+    var activity_id = req.param('a_id', null);
+
+
+    console.log(activity_id);
+    // initialize controller
+    var controller_of_assessmentShow = require('./Controller/assessmentShow.js');
+    c = new controller_of_assessmentShow();
+
+    // in controller
+    c.controller(activity_id, function(respond) {
+        //console.log(respond);
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        //res.setHeader('Access-Control_Allow-Origin',"*");
+        res.end("" + JSON.stringify(respond));
+
+    });
+
+});
+router.post('/assessment', function(req, res) {
+
+    var activity_id = req.param('a_id', null);
+    var content = req.param('con', null);
+
+
+    console.log(content,activity_id);
+    // initialize controller
+    var controller_of_newassessment = require('./Controller/newassessment.js');
+    c = new controller_of_newassessment();
+
+    // in controller
+    c.controller(activity_id,content, function(respond) {
+        //console.log(respond);
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        //res.setHeader('Access-Control_Allow-Origin',"*");
+        res.end("" + JSON.stringify(respond));
+
+    });
+
+});
 
 
 

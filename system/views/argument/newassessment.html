@@ -6,9 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>
-        Send Tester To Chatroom
-    </title>
+    <title>Material Kit by Creative Tim</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <!--     Fonts and icons     -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -19,27 +17,6 @@
     <link href="assets/css/material-kit.css" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="assets/css/demo.css" rel="stylesheet" />
-    <style>
-    .sortable_col {
-        border: 4px solid #eee;
-        min-height: 200px;
-        list-style-type: none;
-        margin: 0;
-        padding: 5px 0 0 0;
-        float: left;
-        width: -webkit-fill-available;
-    }
-
-    .sortable_col li {
-        margin: 0 5px 5px 5px;
-        padding: 5px;
-        font-size: 1.2em;
-    }
-
-    #sortable_Unseted li {
-        background-color: #F44;
-    }
-    </style>
 </head>
 
 <body class="index-page">
@@ -83,7 +60,7 @@
                         </a>
                     </li>
                     <li>
-                        <a rel="tooltip" title="log-out" data-placement="bottom" href="./user/logout"  class="btn btn-white btn-simple btn-just-icon">
+                        <a rel="tooltip" title="log-out" data-placement="bottom" href="./user/logout" class="btn btn-white btn-simple btn-just-icon">
                             <i class="fa fa-sign-out"></i>
                         </a>
                     </li>
@@ -113,30 +90,34 @@
         <div class="main main-raised">
             <div class="section section-basic">
                 <div class="container">
-                    <div class="title">
-                        <h2>新增Tester</h2>
-                    </div>
-                    <!--Input 1 : -->
-                    <div id='main-sortable' class="col-sm-9">
-                    </div>
-                    <!--/ Input 1 : -->
-                    <!--Input 1 : -->
-                    <div class="col-sm-3">
-                        <div>
-                            <h3>Select Activity</h3>
+                        <div class="title">
+                            <h2>newassessment</h2>
+                        </div>
+                        <!--Input 1 : content-->
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-comment-o"></i>
+                                </span>
+                                <div class="form-group label-floating">
+                                    <label class="control-label">content</label>
+                                    <input type="text" id="content" name='content' class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Input 1 : User id-->
+                        <!--Input 1 : -->
+                        <div class="col-sm-6">
+                            <h3>Activity</h3>
                             <select name="Activity_ID" id="Activity_ID"></select>
                         </div>
-                        <button onclick="addsortable();" class="btn btn-primary">
-                            <i class="fa fa-plus"></i> 新增聊天室
-                        </button>
-                        <!--Input 1 : -->
-                    </div>
-                    <!--/ Input 1 : -->
-                    <!-- summit button-->
-                    <div class="col-sm-12">
-                        <button onclick="SendtoRoom();" class="btn btn-primary">確定</button>
-                    </div>
-                    <!--/ summit button-->
+                        <!--/ Input 1 : -->
+                        <!-- summit button-->
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary" onclick="newAssessment();" >進入活動</button>
+                        </div>
+                        <!--/ summit button-->
+                    
                 </div>
             </div>
         </div>
@@ -197,80 +178,6 @@ $().ready(function() {
 
 });
 </script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-$(function() {
-    $(".connectedSortable").sortable({
-        connectWith: ".connectedSortable"
-    }).disableSelection();
-    $("#main-sortable").append('<div class="col-sm-3"><h3>Unset</h3></span><ul id="sortable_Unseted" class="connectedSortable sortable_col" value="-1"></ul></div>');
-
-
-
-
-
-
-
-});
-sortableCount = 0;
-
-function addsortable() {
-    var id = 'sortable_' + sortableCount;
-    var chatroomName = 'chatroom_' + (sortableCount + 1);
-    $("#main-sortable").append('<div class="col-sm-3"><h3>' + chatroomName + '</h3></span><ul id="' + id + '" class="connectedSortable sortable_col" value="' + sortableCount + '"></ul></div>');
-    //$("#"+id).append('<p>room</p>');
-    //$("#"+id).append('<li class="ui-state-default">Item A</li>');
-    $(".connectedSortable").sortable({
-        connectWith: ".connectedSortable"
-    }).disableSelection();
-    sortableCount += 1;
-
-
-}
-</script>
-<script type="text/javascript">
-function SendtoRoom() {
-    var PostData = '';
-    $(".sortable_col", 'body').each(function() {
-        var chatroom_id = $(this).attr('value');
-        $(".ui-state-default", this).each(function() {
-            var u_id = $(this).attr('value');
-            if (chatroom_id != '-1') {
-                PostData += '[' + chatroom_id + ',' + u_id + '],';
-            }
-        });
-
-    });
-    PostData = '[' + PostData.substring(0, PostData.length - 1) + ']';
-    console.log(PostData);
-    $.ajax({
-        url: './tester/chatroom',
-        type: 'PUT',
-        data: {
-            'Activity_id': $('#Activity_ID').val(),
-            'JsonData': PostData
-        },
-        success: function(response) {
-            console.log(response);
-            alert('done.');
-            location.href = './sittingPage';
-        }
-    });
-}
-</script>
-<script type="text/javascript">
-$.get("./user/subuser",
-    function(data, status) {
-        user_list = JSON.parse(data);
-        console.log(user_list['text']);
-        users = user_list['return'];
-
-
-
-    }
-);
-</script>
 <script type="text/javascript">
 $.get("./activity",
     function(data, status) {
@@ -278,44 +185,35 @@ $.get("./activity",
         console.log(activity_list['text']);
         $('#Activity_ID').append('<optgroup id="y_Activitys" label="your Activity">');
 
-        htmltext = '<option value="-1"></option>'
-        $('#y_Activitys').append(htmltext);
+
+
         for (var i = 0; i < activity_list["return"].length; i++) {
             var a_id = activity_list["return"][i]["avtivity_id"];
-            var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0, 10);
+            var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0, 100);
             htmltext = '<option value="' + a_id + '">activity:' + a_id + ',' + timeofactivity + '</option>'
             $('#y_Activitys').append(htmltext);
         }
     }
 );
-$('#Activity_ID').on("change", function() {
-    $('.ui-state-default').remove();
 
-    var a_id = this.value;
-    $.get("./tester", {
-            'a_id': a_id
+
+</script>
+<script type="text/javascript">
+function newAssessment() {
+    var activity_id = $('#Activity_ID').val();
+    var PostData = $("#content").val();
+    console.log(activity_id,PostData);
+    
+    $.post("./assessment", {
+            'a_id': activity_id,
+            'con':PostData
         },
         function(data, status) {
-            Tester_list = JSON.parse(data);
-            //console.log(Tester_list['text']);
-
-            for (var i = 0; i < Tester_list["return"].length; i++) {
-                var user_id = Tester_list["return"][i]["user_id"];
-                var Tester_id = Tester_list["return"][i]["tester_id"];
-                var group = Tester_list["return"][i]["group_score"]=='-1'?"not do front-list":Tester_list["return"][i]["group_score"];
-
-                for (var key in users) {
-                    if (users[key]['user_id'] == user_id) {
-                        var user_tag = users[key]['name'] + ',' + users[key]['school']+' | '+group;
-                        var htmltext = "<li class='ui-state-default' value='" + Tester_id + "'>" + user_tag + "</li>";
-                        $('#sortable_Unseted').append(htmltext);
-                    };
-                }
-            }
-
-
-        });
-});
+            console.log(data);
+            alert('done.');
+            location.href = './sittingPage';
+        }
+    );
+}
 </script>
-
 </html>

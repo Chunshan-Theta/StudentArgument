@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-24 11:36:17
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-27 11:04:53
+* @Last Modified time: 2018-01-31 04:34:02
 * @purpose           : Defined Controller of tester_list.
 *
 *
@@ -23,10 +23,10 @@ module.exports = function() {
      * @return  {[responds text]}
      */
     this.controller = function(JsonData, CallbackFunc) {
-        //INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group`) VALUES (NULL, '7', '1', '3', '-1');
+        //INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group_score`) VALUES (NULL, '7', '1', '3', '-1');
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext = 'INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group`) VALUES ';
+        querytext = 'INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group_score`) VALUES ';
 
         for (var key in JsonData) {
             var activity = JsonData[key][0];

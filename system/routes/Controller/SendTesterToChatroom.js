@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-22 23:36:37
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-30 15:48:34
+ * @Last Modified time: 2018-01-31 04:34:01
  * @purpose           : Defined controller of SendTesterToChatroom.
  * @copyright         : @Theta, all rights reserved.
  */
@@ -22,7 +22,7 @@ module.exports = function() {
      * '{ "text": "success",  "status": "200"}'
      */
     this.controller = function(a_id, JsonData, CallbackFunc) {
-        //INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group`) VALUES (NULL, '7', '1', '3', '-1');
+        //INSERT INTO `tester_list` (`tester_id`, `user_id`, `avtivity_id`, `chatroom_id`, `group_score`) VALUES (NULL, '7', '1', '3', '-1');
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
         RoomArray = [];
@@ -34,10 +34,11 @@ module.exports = function() {
                 RoomArray.push(roomid);
             }
         }
+        console.log(RoomArray.length);
         var CreateNewCount = RoomArray[RoomArray.length - 1];
+        console.log(CreateNewCount);
 
-
-        if (CreateNewCount > 0) {
+        if (CreateNewCount >= 0) {
             //create new rooms
             querytext = 'INSERT INTO `chatroom_list` (`chatroom_id`, `avtivity_id`) VALUES ';
             for (var i = 0; i <= CreateNewCount; i++) {
@@ -48,8 +49,10 @@ module.exports = function() {
 
             roomid_base = -1;
             connection.query(querytext, function(returnValue) {
+                console.log(returnValue);
                 //get the start id of new rooms.
-                if (returnValue['return']['insertId'].length) {
+                try {
+                    console.log(returnValue['return']['insertId']);
                     roomid_base = returnValue['return']['insertId'];
                     for (key in JsonData) {
                         //update the id of the room.
@@ -62,15 +65,22 @@ module.exports = function() {
                             console.log(returnValue2);
                         });
                     }
+                    var respond = JSON.parse('{ "text": "success",  "status": "200"}');
+                    CallbackFunc(respond);
+                } catch (e) {
+                    var respond = { "text": e, "status": "200" };
+                    CallbackFunc(respond);
                 }
             });
 
+        } else {
+            var respond = { "text": "undefined error : STTC1", "status": "500" };
+            CallbackFunc(respond);
         }
 
 
 
-        var respond = JSON.parse('{ "text": "success",  "status": "200"}');
-        CallbackFunc(respond);
+
 
 
 
