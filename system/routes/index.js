@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-30 13:25:52
+ * @Last Modified time: 2018-01-30 14:38:30
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -35,9 +35,6 @@ router.get('/', function(req, res) {
 /* GET login page. */
 router.get('/login', function(req, res) {
 
-    if (req.session) { // if setted session
-        req.session = null;
-    }
     res.render('argument/login', {});
 });
 
@@ -48,7 +45,7 @@ router.get('/signup', function(req, res) {
 
 /* GET sitting_page_login page. */
 router.get('/sitting_login', function(req, res) {
-    if (req.session) { // if not setting session
+    if (req.session) { // if setting session
         res.redirect('/sittingPage');
     }
     res.render('argument/sitting_login', {});
@@ -399,19 +396,57 @@ router.post('/Topic', function(req, res) {
 
 
 
+router.get('/user/logout', function(req, res) {
+
+    var link = req.param('link', '../');
+
+    user_logout(req,link,function(link) {
+        console.log("user logout ending.");
+        if (req.param('host_id_API', null)) {
+            res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+            res.end("{\"text\":\"success\",\"status\":\"200\"}");
+        } else {
+            res.redirect(link);
+        }
+
+    });
 
 
-/**
- * 
- * 
- * !!!!!!!!!!!!! temporary login api !!!!!!!!!!!
- * 
- * 
- */
-router.post('/EnterHost', function(req, res) {
-    var host_id = req.param('host_id', null);
-    req.session = { 'host_id': host_id };
-    res.redirect('/sittingPage');
+
+});
+
+
+router.get('/user/admin', function(req, res) {
+    var host_id = req.param('host_id_API', null);
+    var mail = req.param('mail', null);
+    var pws = req.param('pws', null);
+    // initialize controller
+    var controller_of_user_admin = require('./Controller/user_admin.js');
+    c = new controller_of_user_admin();
+
+    /**
+     * @method  Defined
+     * @author  Theta
+     * @date    2018-01-26
+     * @purpose Defined a function for operate the result of controller.
+     * @param   {[type]}
+     * @return  {[type]}
+     */
+    c.controller(mail, pws, function(respond) {
+        //console.log(respond);
+        if (req.param('host_id_API', null)) {
+            res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+            res.end("" + JSON.stringify(respond));
+        } else {
+            console.log(respond);
+            req.session = { 'host_id': respond['return'][0]['user_id'] };
+            res.redirect('/sittingPage');
+        }
+
+
+    });
+
+
 
 });
 
@@ -473,11 +508,11 @@ router.get('/user/subuser', function(req, res) {
  */
 router.post('/user', function(req, res) {
 
-    if(req.param('host_id_API', null)){
+    if (req.param('host_id_API', null)) {
         console.log('Enter to API testing process.');
-        var parent_mail = req.param('host_id_API', null);    
-    }else{
-        var parent_mail = req.param('parent_mail', null);    
+        var parent_mail = req.param('host_id_API', null);
+    } else {
+        var parent_mail = req.param('parent_mail', null);
 
     }
     var mail = req.param('mail', null);
@@ -500,16 +535,16 @@ router.post('/user', function(req, res) {
      * @param   {[int]parent_id}
      * @return  {[responds text]}
      */
-    c.controller(mail, pws, school,name,parent_mail,birday,function(respond) {
+    c.controller(mail, pws, school, name, parent_mail, birday, function(respond) {
         //console.log(respond);
         if (req.param('host_id_API', null)) {
             // in API testint process.
             res.end("" + JSON.stringify(respond), 'utf-8');
 
-        } else if(respond['text'] == "ER_DUP_ENTRY"){
-            res.render('argument/errorpage', { error_id: "1062", error_con: "ER_DUP_ENTRY"});
+        } else if (respond['text'] == "ER_DUP_ENTRY") {
+            res.render('argument/errorpage', { error_id: "1062", error_con: "ER_DUP_ENTRY" });
         } else {
-            res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text']});
+            res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text'] });
         }
     });
 
@@ -529,10 +564,10 @@ router.post('/user', function(req, res) {
  * @return  {[type]}
  */
 router.get('/user/public_data', function(req, res) {
-    
-    if(req.param('host_id_API', null)){
+
+    if (req.param('host_id_API', null)) {
         var mail = req.param('host_id_API', null);
-    }else{
+    } else {
         var mail = req.param('mail', null);
 
     }
@@ -729,7 +764,15 @@ router.post('/action', function(req, res) {
 
 
 
-
+//function
+function user_logout(req,link,callback) {
+    console.log("user logout process.");
+    if (req.session) {
+        req.session = null;
+    }
+    console.log("user logouted.");
+    callback(link);
+}
 
 
 
