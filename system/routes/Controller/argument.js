@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:31:54
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-29 02:46:32
+ * @Last Modified time: 2018-01-30 13:09:10
  * @purpose           : Defined controller of Argument.
  * @copyright         : @Theta, all rights reserved.
  */
@@ -20,37 +20,46 @@ module.exports = function() {
      * @param   {[function]}
      * @return  {[type]}
      */
-    this.controller = function(u_mail, activity_id, CallbackFunc) {
+    this.controller = function(u_mail, unicode, CallbackFunc) {
 
         //console.log("user_id: ", user_id, "activity_id:", activity_id);
         var sql = require('../Model/MysqlSet.js');
         var re_QuestionDocList, re_ActionDocList;
 
+
         connection = new sql('argument');
-        var querytext ="SELECT topic_list.`content` FROM topic_list,`activity_list` WHERE activity_list.`avtivity_id` = '"+activity_id+"' AND topic_list.`topic_id`=`activity_list`.`topic_id`";
+        var querytext = "SELECT `activity_id` FROM `activity_list` WHERE `unicode` = '"+unicode+"';";
         connection.query(querytext, function(returnValue) {
-
-            topic_content = returnValue['return'][0]["content"];
-            console.log(topic_content);
+            var activity_id = returnValue['return'][0]["activity_id"]
             connection = new sql('argument');
-            querytext = "SELECT tester_id,`chatroom_id` FROM tester_list,`user_list` WHERE tester_list.`user_id` = user_list.`user_id` AND user_list.`mail`='"+u_mail+"' AND avtivity_id = '"+activity_id+"';"; 
+            var querytext = "SELECT topic_list.`content` FROM topic_list,`activity_list` WHERE activity_list.`avtivity_id` = '" + activity_id + "' AND topic_list.`topic_id`=`activity_list`.`topic_id`";
             connection.query(querytext, function(returnValue) {
-                //console.log(returnValue);                
-                console.log("topic_content", topic_content);
-                try {
-                    chatroom_id = returnValue['return'][0]["chatroom_id"];
-                    tester_id = returnValue['return'][0]["tester_id"];
-                    console.log(returnValue);
-                    console.log("room id is :", chatroom_id);
-                    console.log("tester_id", tester_id);
 
-                } catch (e) {
-                    chatroom_id = null;
-                    tester_id = null;
-                }
-                CallbackFunc(chatroom_id, tester_id, topic_content);
+                topic_content = returnValue['return'][0]["content"];
+                console.log(topic_content);
+                connection = new sql('argument');
+                querytext = "SELECT tester_id,`chatroom_id` FROM tester_list,`user_list` WHERE tester_list.`user_id` = user_list.`user_id` AND user_list.`mail`='" + u_mail + "' AND avtivity_id = '" + activity_id + "';";
+                connection.query(querytext, function(returnValue) {
+                    //console.log(returnValue);                
+                    console.log("topic_content", topic_content);
+                    try {
+                        chatroom_id = returnValue['return'][0]["chatroom_id"];
+                        tester_id = returnValue['return'][0]["tester_id"];
+                        console.log(returnValue);
+                        console.log("room id is :", chatroom_id);
+                        console.log("tester_id", tester_id);
+
+                    } catch (e) {
+                        chatroom_id = null;
+                        tester_id = null;
+                    }
+                    CallbackFunc(chatroom_id, tester_id, topic_content);
+                });
             });
+
         });
+
+
 
     }
 

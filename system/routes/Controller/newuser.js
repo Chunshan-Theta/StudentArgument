@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-24 14:19:25
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-29 02:25:56
+ * @Last Modified time: 2018-01-30 00:25:47
  * @purpose           : Defined the controller of new a user.
  * @copyright         : @Theta, all rights reserved.
  */
@@ -21,7 +21,7 @@ module.exports = function() {
      * @param   {[function]}
      * @return  {[reaponds text]}
      */
-    this.controller = function(mail, pws, school, name, parent_id, birthday, CallbackFunc) {
+    this.controller = function(mail, pws, school, name, parent_mail, birthday, CallbackFunc) {
         console.log(mail, pws);
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
@@ -29,7 +29,6 @@ module.exports = function() {
         //console.log(querytext);
 
         connection.query(querytext, function(returnValue) {
-            console.log(returnValue);
 
 
             if (returnValue['text'] == "ER_DUP_ENTRY") {
@@ -38,26 +37,53 @@ module.exports = function() {
 
                 var new_user_id = returnValue['return']['insertId'];
 
-                if (parent_id != '-1') {
-                    connection3 = new sql('argument');
-                    querytext = "INSERT INTO `user_contact_list` (`id`,`main_user_id`,`sub_user_id`,`contact`) VALUES (NULL,'" + parent_id + "','" + new_user_id + "','1');";
-                    //console.log(querytext);
-                    connection3.query(querytext, function(returnValue3) {
-                        console.log(returnValue3);
 
-                    });
-                }
+                connection3 = new sql('argument');
+                querytext = "SELECT `user_id` FROM `user_list` WHERE `mail` = '" + parent_mail + "';";
+                console.log(querytext);
+
+                connection3.query(querytext, function(returnValue3) {
+                    console.log(returnValue3['return']);
+
+                    if (returnValue3['return'].length) {
+
+                        var parent_id = returnValue3['return'][0]['user_id'];
+                        connection4 = new sql('argument');
+                        querytext = "INSERT INTO `user_contact_list` (`id`,`main_user_id`,`sub_user_id`,`contact`) VALUES (NULL,'" + parent_id + "','" + new_user_id + "','1');";
+                        //console.log(querytext);
+                        connection4.query(querytext, function(returnValue4) {
+                            console.log(returnValue4);
+                            connection2 = new sql('argument');
+                            querytext = "INSERT INTO `user_list_public_data` (`user_id`,`school`,`name`,`birthday`) VALUES ('" + new_user_id + "','" + school + "','" + name + "','" + birthday + "')";
+                            //console.log(querytext);
+
+                            connection2.query(querytext, function(returnValue2) {
+                                console.log(returnValue);
+
+                                CallbackFunc(returnValue);
+                            });
+
+                        });
+
+                    } else {
+                        connection2 = new sql('argument');
+                        querytext = "INSERT INTO `user_list_public_data` (`user_id`,`school`,`name`,`birthday`) VALUES ('" + new_user_id + "','" + school + "','" + name + "','" + birthday + "')";
+                        //console.log(querytext);
+
+                        connection2.query(querytext, function(returnValue2) {
+                            console.log(returnValue);
+
+                            CallbackFunc(returnValue);
+                        });
+                    }
 
 
-                connection2 = new sql('argument');
-                querytext = "INSERT INTO `user_list_public_data` (`user_id`,`school`,`name`,`birthday`) VALUES ('" + new_user_id + "','" + school + "','" + name + "','" + birthday + "')";
-                //console.log(querytext);
 
-                connection2.query(querytext, function(returnValue2) {
-                    console.log(returnValue);
+                });
 
-                    CallbackFunc(returnValue);
-                });;
+
+
+
             }
 
 

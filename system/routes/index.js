@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-29 03:11:20
+ * @Last Modified time: 2018-01-30 00:25:58
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -472,19 +472,20 @@ router.get('/user/subuser', function(req, res) {
  * @return  {[html].argument/errorpage}
  */
 router.post('/user', function(req, res) {
-    if (req.param('host_id_API', null)) {
-        console.log('Enter api test process');
-        var parent_id = req.param('host_id_API', '-1');
-    } else {
-        var parent_id = req.param('parent_id', '-1');
+
+    if(req.param('host_id_API', null)){
+        console.log('Enter to API testing process.');
+        var parent_mail = req.param('host_id_API', null);    
+    }else{
+        var parent_mail = req.param('parent_mail', null);    
+
     }
     var mail = req.param('mail', null);
     var pws = req.param('pws', null);
     var school = req.param('u_school', null);
     var name = req.param('u_name', null);
-    var birday = req.param('u_birthday', null);
+    var birday = req.param('u_birthday', '1001-01-01');
 
-    console.log("birday",birday);
     // initialize controller
     var controller_of_newuser = require('./Controller/newuser.js');
     c = new controller_of_newuser();
@@ -499,16 +500,16 @@ router.post('/user', function(req, res) {
      * @param   {[int]parent_id}
      * @return  {[responds text]}
      */
-    c.controller(mail, pws, school,name,parent_id,birday,function(respond) {
+    c.controller(mail, pws, school,name,parent_mail,birday,function(respond) {
         //console.log(respond);
         if (req.param('host_id_API', null)) {
             // in API testint process.
             res.end("" + JSON.stringify(respond), 'utf-8');
 
-        } else if(returnValue['text'] == "ER_DUP_ENTRY"){
-            res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text']});
+        } else if(respond['text'] == "ER_DUP_ENTRY"){
+            res.render('argument/errorpage', { error_id: "1062", error_con: "ER_DUP_ENTRY"});
         } else {
-            res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text'] + '.   Your ID: ' + respond['return']['insertId'] });
+            res.render('argument/errorpage', { error_id: respond['status'], error_con: respond['text']});
         }
     });
 
@@ -529,8 +530,30 @@ router.post('/user', function(req, res) {
  */
 router.get('/user/public_data', function(req, res) {
     
-    ////////
+    if(req.param('host_id_API', null)){
+        var mail = req.param('host_id_API', null);
+    }else{
+        var mail = req.param('mail', null);
 
+    }
+    // initialize controller
+    var controller_of_userShowPublic = require('./Controller/userShowPublic.js');
+    c = new controller_of_userShowPublic();
+
+    /**
+     * @method  Defined
+     * @author  Theta
+     * @date    2018-01-29
+     * @purpose Defined a function for operate the result of controller.
+     * @param   {[http.get.string]mail}
+     * @return  {[type]}
+     */
+    c.controller(mail, function(respond) {
+        //console.log(respond);
+        //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+        res.end("" + JSON.stringify(respond), 'utf-8');
+
+    });
 });
 
 
