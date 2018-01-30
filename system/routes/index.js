@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-30 00:25:58
+ * @Last Modified time: 2018-01-30 13:25:52
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -118,14 +118,14 @@ router.get('/sittingPage', function(req, res) {
  */
 router.post('/argument2', function(req, res) {
     var mail = req.param('mail', null);
-    var activity_id = req.param('a_id', null);
+    var a_tag = req.param('a_tag', null);
 
     if (typeof mail == "undefined") {
         // case of not catch u_id
         res.render('argument/errorpage', { error_id: '#404', error_con: "not input mail to server" });
-    } else if (typeof activity_id == "undefined") {
+    } else if (typeof a_tag == "undefined") {
         // case of not catch a_id
-        res.render('argument/errorpage', { error_id: '#404', error_con: "not input activity id to server" });
+        res.render('argument/errorpage', { error_id: '#404', error_con: "not input activity tag to server" });
     } else {
         // initialize controller
         var controller_of_argument = require('./Controller/argument.js');
@@ -141,7 +141,7 @@ router.post('/argument2', function(req, res) {
          * @param   {[http.post.String]topic_content]}
          * @return  {[html]argument/ChatroomPage2}
          */
-        c.controller(mail, activity_id, function(chatroom_id, tester_id, topic_content) {
+        c.controller(mail, a_tag, function(chatroom_id, tester_id, topic_content) {
             console.log("chatroom_id", chatroom_id)
             if (chatroom_id != null) {
                 // case of not found tester
