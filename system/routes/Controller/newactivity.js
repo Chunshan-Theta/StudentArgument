@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-24 12:38:20
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-25 22:50:12
+ * @Last Modified time: 2018-01-30 15:42:41
  * @purpose           : Defined controller of new activity. 
  * @copyright         : @Theta, all rights reserved.
  */
@@ -27,7 +27,7 @@ module.exports = function() {
         unicodeforactivity = host_id + '-' + unicodeforactivity;
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext = "INSERT INTO `activity_list` (`avtivity_id`, `topic_id`, `user_id`, `assessment_id`, `unicode`, `timeofactivity`) VALUES (NULL, '" + TopicID + "', '" + host_id + "', '1', '" + unicodeforactivity + "', '" + time + "');"
+        querytext = "INSERT INTO `activity_list` (`avtivity_id`, `topic_id`, `user_id`, `unicode`, `timeofactivity`) VALUES (NULL, '" + TopicID + "', '" + host_id + "', '" + unicodeforactivity + "', '" + time + "');"
         connection.query(querytext, function(returnValue) {
             //console.log(returnValue);
             //connection.close();

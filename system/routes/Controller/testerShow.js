@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-25 19:29:51
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-27 00:38:18
+* @Last Modified time: 2018-01-30 15:53:35
 * @purpose           : Defined a controll of tester show.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -25,7 +25,7 @@ module.exports = function (){
         console.log(a_id);
 
         connection = new sql('argument');
-        querytext ="SELECT DISTINCT `user_id`,`tester_id`  FROM `tester_list` WHERE `avtivity_id`='"+a_id+"' ORDER BY `tester_list`.`tester_id` DESC" ;
+        querytext ="SELECT DISTINCT `user_id`,`tester_id`,`group`  FROM `tester_list` WHERE `avtivity_id`='"+a_id+"' ORDER BY `tester_list`.`tester_id` DESC" ;
 
         
         

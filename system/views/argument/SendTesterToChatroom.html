@@ -79,12 +79,12 @@
                     </li>
                     <li>
                         <a rel="tooltip" title="About ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
-                            <i class="fa fa-sign-out"></i><!--http://fontawesome.io/icons/-->
+                            <i class="fa fa-info-circle"></i><!--http://fontawesome.io/icons/-->
                         </a>
                     </li>
                     <li>
                         <a rel="tooltip" title="log-out" data-placement="bottom" href="./user/logout"  class="btn btn-white btn-simple btn-just-icon">
-                            <i class="fa fa-question-circle"></i>
+                            <i class="fa fa-sign-out"></i>
                         </a>
                     </li>
                     <li>
@@ -302,9 +302,11 @@ $('#Activity_ID').on("change", function() {
             for (var i = 0; i < Tester_list["return"].length; i++) {
                 var user_id = Tester_list["return"][i]["user_id"];
                 var Tester_id = Tester_list["return"][i]["tester_id"];
+                var group = Tester_list["return"][i]["group"];
+
                 for (var key in users) {
                     if (users[key]['user_id'] == user_id) {
-                        var user_tag = users[key]['name'] + ',' + users[key]['school'];
+                        var user_tag = users[key]['name'] + ',' + users[key]['school']+' | '+group;
                         var htmltext = "<li class='ui-state-default' value='" + Tester_id + "'>" + user_tag + "</li>";
                         $('#sortable_Unseted').append(htmltext);
                     };

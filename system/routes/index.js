@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-30 14:38:30
+ * @Last Modified time: 2018-01-30 23:32:29
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -157,6 +157,12 @@ router.post('/argument2', function(req, res) {
 
 });
 
+router.get('/alert', function(req, res) {
+    var id = text_filter(req.param('error_id', null), 3);
+    var con = text_filter(req.param('error_con', null), 3);
+    res.render('argument/errorpage', { error_id: id, error_con: con });
+
+});
 //// view end
 
 
@@ -400,7 +406,7 @@ router.get('/user/logout', function(req, res) {
 
     var link = req.param('link', '../');
 
-    user_logout(req,link,function(link) {
+    user_logout(req, link, function(link) {
         console.log("user logout ending.");
         if (req.param('host_id_API', null)) {
             res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
@@ -418,34 +424,44 @@ router.get('/user/logout', function(req, res) {
 
 router.get('/user/admin', function(req, res) {
     var host_id = req.param('host_id_API', null);
-    var mail = req.param('mail', null);
-    var pws = req.param('pws', null);
-    // initialize controller
-    var controller_of_user_admin = require('./Controller/user_admin.js');
-    c = new controller_of_user_admin();
+    var mail = text_filter(req.param('mail', null), 1);
+    var pws = text_filter(req.param('pws', null), 2);
+    if (mail != req.param('mail', null) | pws != req.param('pws', null)) {
+        res.redirect("/alert?error_id=400&error_con=輸入中含有非法字元");
 
-    /**
-     * @method  Defined
-     * @author  Theta
-     * @date    2018-01-26
-     * @purpose Defined a function for operate the result of controller.
-     * @param   {[type]}
-     * @return  {[type]}
-     */
-    c.controller(mail, pws, function(respond) {
-        //console.log(respond);
-        if (req.param('host_id_API', null)) {
-            res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-            res.end("" + JSON.stringify(respond));
-        } else {
-            console.log(respond);
-            req.session = { 'host_id': respond['return'][0]['user_id'] };
-            res.redirect('/sittingPage');
-        }
+    } else {
+        // initialize controller
+        var controller_of_user_admin = require('./Controller/user_admin.js');
+        c = new controller_of_user_admin();
+
+        /**
+         * @method  Defined
+         * @author  Theta
+         * @date    2018-01-26
+         * @purpose Defined a function for operate the result of controller.
+         * @param   {[type]}
+         * @return  {[type]}
+         */
+        c.controller(mail, pws, function(respond) {
+            //console.log(respond);
+            if (req.param('host_id_API', null)) {
+                res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+                res.end("" + JSON.stringify(respond));
+            } else {
+                console.log(respond);
+                if (respond['return'].length) {
+                    req.session = { 'host_id': respond['return'][0]['user_id'] };
+                    res.redirect('/sittingPage');
+
+                } else {
+                    res.redirect("/alert?error_id=400&error_con=查無使用者");
+
+                }
+            }
 
 
-    });
-
+        });
+    }
 
 
 });
@@ -596,7 +612,7 @@ router.get('/user/public_data', function(req, res) {
  * @method  Restful Api - get
  * @author  Theta
  * @date    2018-01-23
- * @purpose Enterance of Api for SELECT activity list.
+ * @purpose Enterance of Api for request the activity that you created.
  */
 router.get('/activity', function(req, res) {
 
@@ -631,6 +647,38 @@ router.get('/activity', function(req, res) {
     });
 
 });
+
+/**
+ * @method  Restful Api - get
+ * @author  Theta
+ * @date    2018-01-30
+ * @purpose Enterance of Api for request the activity that you join.
+ */
+router.get('/activity/join', function(req, res) {
+
+    if (req.param('host_id_API', null)) {
+        var host_id = req.param('host_id_API', null);
+    } else if (!req.session.host_id) {
+        // if not setting session
+        console.log('no login host_id');
+        res.redirect('/sitting_login');
+    } else {
+        var host_id = req.session.host_id;
+    }
+
+
+    // initialize controller
+    var controller_of_JoinActivityShow = require('./Controller/JoinActivityShow.js');
+    c = new controller_of_JoinActivityShow();
+    c.controller(host_id, function(respond) {
+        //console.log(respond);
+        //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+        res.end("" + JSON.stringify(respond), 'utf-8');
+
+    });
+
+});
+
 
 /**
  * @method  Restful Api - post
@@ -765,7 +813,7 @@ router.post('/action', function(req, res) {
 
 
 //function
-function user_logout(req,link,callback) {
+function user_logout(req, link, callback) {
     console.log("user logout process.");
     if (req.session) {
         req.session = null;
@@ -774,6 +822,18 @@ function user_logout(req,link,callback) {
     callback(link);
 }
 
+function text_filter(str, type) {
+    if (type == 1) { //for mail
+        str = str.replace(/[\ |\~|\`|\!|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\>|\/|\?]/g, "");
+    }
+    if (type == 2) { //for pws
+        str = str.replace(/[\ |\~|\`|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\>|\/|\?]/g, "");
+    }
+    if (type == 3) { //for URL
+        str = str.replace(/[\ |\~|\`|\!|\@|\#|\$|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\>|\/|\?]/g, "");
+    }
+    return str;
+}
 
 
 

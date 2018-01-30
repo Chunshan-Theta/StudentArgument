@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-22 23:36:37
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-27 11:31:25
+ * @Last Modified time: 2018-01-30 15:48:34
  * @purpose           : Defined controller of SendTesterToChatroom.
  * @copyright         : @Theta, all rights reserved.
  */
@@ -36,30 +36,37 @@ module.exports = function() {
         }
         var CreateNewCount = RoomArray[RoomArray.length - 1];
 
-        //create new rooms
-        querytext = 'INSERT INTO `chatroom_list` (`chatroom_id`, `avtivity_id`) VALUES ';
-        for (var i = 0; i <= CreateNewCount; i++) {
-            querytext += "(NULL, '" + a_id + "'),";
-        }
-        querytext = querytext.substring(0, querytext.length - 1) + ';';
 
-
-        roomid_base = -1;
-        connection.query(querytext, function(returnValue) {
-            //get the start id of new rooms.
-            roomid_base = returnValue['return']['insertId'];
-            for (key in JsonData) {
-                //update the id of the room.
-                NewRoomId = JsonData[key][0] + roomid_base;
-
-                //Setting the tester to a chatroom.
-                connection = new sql('argument');
-                querytext = "UPDATE `tester_list` SET `chatroom_id` = '" + NewRoomId + "' WHERE `tester_list`.`tester_id` = " + JsonData[key][1] + ";"
-                connection.query(querytext, function(returnValue2) {
-                    console.log(returnValue2);
-                });
+        if (CreateNewCount > 0) {
+            //create new rooms
+            querytext = 'INSERT INTO `chatroom_list` (`chatroom_id`, `avtivity_id`) VALUES ';
+            for (var i = 0; i <= CreateNewCount; i++) {
+                querytext += "(NULL, '" + a_id + "'),";
             }
-        });
+            querytext = querytext.substring(0, querytext.length - 1) + ';';
+
+
+            roomid_base = -1;
+            connection.query(querytext, function(returnValue) {
+                //get the start id of new rooms.
+                if (returnValue['return']['insertId'].length) {
+                    roomid_base = returnValue['return']['insertId'];
+                    for (key in JsonData) {
+                        //update the id of the room.
+                        NewRoomId = JsonData[key][0] + roomid_base;
+
+                        //Setting the tester to a chatroom.
+                        connection = new sql('argument');
+                        querytext = "UPDATE `tester_list` SET `chatroom_id` = '" + NewRoomId + "' WHERE `tester_list`.`tester_id` = " + JsonData[key][1] + ";"
+                        connection.query(querytext, function(returnValue2) {
+                            console.log(returnValue2);
+                        });
+                    }
+                }
+            });
+
+        }
+
 
 
         var respond = JSON.parse('{ "text": "success",  "status": "200"}');
