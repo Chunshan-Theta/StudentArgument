@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-30 23:32:29
+ * @Last Modified time: 2018-01-31 02:08:19
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -513,6 +513,43 @@ router.get('/user/subuser', function(req, res) {
 
 
 /**
+ * @method  Restful api - get 
+ * @author  Theta
+ * @date    2018-01-24
+ * @purpose Enterance of api for get user's public data.
+ * @param   {[type]}
+ * @param   {[type]}
+ * @return  {[type]}
+ */
+router.get('/user/public_data', function(req, res) {
+
+    if (req.param('host_id_API', null)) {
+        var mail = req.param('host_id_API', null);
+    } else {
+        var mail = req.param('mail', null);
+
+    }
+    // initialize controller
+    var controller_of_userShowPublic = require('./Controller/userShowPublic.js');
+    c = new controller_of_userShowPublic();
+
+    /**
+     * @method  Defined
+     * @author  Theta
+     * @date    2018-01-29
+     * @purpose Defined a function for operate the result of controller.
+     * @param   {[http.get.string]mail}
+     * @return  {[type]}
+     */
+    c.controller(mail, function(respond) {
+        //console.log(respond);
+        //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+        res.end("" + JSON.stringify(respond), 'utf-8');
+
+    });
+});
+
+/**
  * @method  Restful api - post
  * @author  Theta
  * @date    2018-01-24
@@ -569,44 +606,31 @@ router.post('/user', function(req, res) {
 });
 
 
-
-/**
- * @method  Restful api - get 
- * @author  Theta
- * @date    2018-01-24
- * @purpose Enterance of api for get user's public data.
- * @param   {[type]}
- * @param   {[type]}
- * @return  {[type]}
- */
-router.get('/user/public_data', function(req, res) {
+router.post('/user/teacher', function(req, res) {
 
     if (req.param('host_id_API', null)) {
-        var mail = req.param('host_id_API', null);
+        console.log('Enter api test process');
+        var stu_id = req.param('host_id_API', null);
+    } else if (!req.session) {
+        // if not setting session
+        console.log('no login');
+        res.redirect('/sitting_login');
     } else {
-        var mail = req.param('mail', null);
-
+        var stu_id = req.session.host_id;
     }
-    // initialize controller
-    var controller_of_userShowPublic = require('./Controller/userShowPublic.js');
-    c = new controller_of_userShowPublic();
+    var tea_mail = req.param('mail', null);
 
-    /**
-     * @method  Defined
-     * @author  Theta
-     * @date    2018-01-29
-     * @purpose Defined a function for operate the result of controller.
-     * @param   {[http.get.string]mail}
-     * @return  {[type]}
-     */
-    c.controller(mail, function(respond) {
-        //console.log(respond);
+    // initialize controller
+    var controller_of_addTeacher = require('./Controller/addTeacher.js');
+    c = new controller_of_addTeacher();
+
+    c.controller(stu_id,tea_mail, function(respond) {
+        console.log(respond);
         //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
         res.end("" + JSON.stringify(respond), 'utf-8');
 
     });
 });
-
 
 /**
  * @method  Restful Api - get

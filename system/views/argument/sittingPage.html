@@ -45,29 +45,29 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="./signup">
-						    <i class="material-icons">person_add</i> Sign up
-					    </a>
+                            <i class="material-icons">person_add</i> Sign up
+                        </a>
                         <!--https://material.io/icons/-->
                     </li>
                     <li>
                         <a href="./login">
-						    <i class="material-icons">chat</i> Enter activity
-					    </a>
+                            <i class="material-icons">chat</i> Enter activity
+                        </a>
                     </li>
                     <li>
                         <a rel="tooltip" title="About ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
-						    <i class="fa fa-info-circle"></i><!--http://fontawesome.io/icons/-->
-					    </a>
+                            <i class="fa fa-info-circle"></i><!--http://fontawesome.io/icons/-->
+                        </a>
                     </li>
                     <li>
                         <a rel="tooltip" title="log-out" data-placement="bottom" href="./user/logout" class="btn btn-white btn-simple btn-just-icon">
-						    <i class="fa fa-sign-out"></i>
-					    </a>
+                            <i class="fa fa-sign-out"></i>
+                        </a>
                     </li>
                     <li>
                         <a rel="tooltip" title="Setting" data-placement="bottom" href="./sitting_login" class="btn btn-white btn-simple btn-just-icon">
-						    <i class="fa fa-cog"></i>
-					    </a>
+                            <i class="fa fa-cog"></i>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -90,7 +90,7 @@
         <div class="main main-raised">
             <div class="section section-basic">
                 <div class="container">
-                <h1><small>For Students</small></h1>
+                    <h1><small>For Students</small></h1>
                     <!-- Tabs on Plain Card -->
                     <div class="card card-nav-tabs card-plain">
                         <div class="header header-primary">
@@ -100,7 +100,9 @@
                                     <ul class="nav nav-tabs" data-tabs="tabs">
                                         <li class="active"><a href="#home" data-toggle="tab">已參加活動</a></li>
                                         <li><a href="#updates" data-toggle="tab">新增老師</a></li>
+                                        <!--
                                         <li><a href="#pws-edit" data-toggle="tab">修改密碼</a></li>
+                                        -->
                                     </ul>
                                 </div>
                             </div>
@@ -109,14 +111,18 @@
                             <div class="tab-content text-center">
                                 <div class="tab-pane active" id="home">
                                     <div class="tab-pane active" id="youraddactivity" style="float: left;">
-                                </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane" id="updates">
-                                    <p> I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. </p>
+                                    <label for="#tea_mail">teacher mail</label>
+                                    <input id="tea_mail" type="text" name="mail"></input>
+                                    <button onclick="javascript:add_teacher();">OK</button>
                                 </div>
+                                <!--
                                 <div class="tab-pane" id="pws-edit">
                                     <p> pws-edit </p>
                                 </div>
+                                -->
                             </div>
                         </div>
                     </div>
@@ -125,7 +131,7 @@
             </div>
             <div class="section section-tabs">
                 <div class="container">
-                	<h1><small>For Teacher</small></h1>
+                    <h1><small>For Teacher</small></h1>
                     <!-- Tabs with icons on Card -->
                     <div class="card card-nav-tabs">
                         <div class="header header-danger">
@@ -135,33 +141,33 @@
                                     <ul class="nav nav-tabs" data-tabs="tabs">
                                         <li class="active">
                                             <a href="#youractivity" data-toggle="tab">
-													<i class="material-icons">event_note</i>
-													已建立活動
-												</a>
+                                                    <i class="material-icons">event_note</i>
+                                                    已建立活動
+                                                </a>
                                         </li>
                                         <li>
                                             <a href="#new" data-toggle="tab">
-													<i class="material-icons">note_add</i>
-													建立活動
-												</a>
+                                                    <i class="material-icons">note_add</i>
+                                                    建立活動
+                                                </a>
                                         </li>
                                         <li>
                                             <a href="#chatroom" data-toggle="tab">
-													<i class="material-icons">chat</i>
-													設定活動學生
-												</a>
+                                                    <i class="material-icons">chat</i>
+                                                    設定活動學生
+                                                </a>
                                         </li>
                                         <li>
                                             <a href="#tester" data-toggle="tab">
-													<i class="material-icons">face</i>
-													安排活動學生進聊天室
-												</a>
+                                                    <i class="material-icons">face</i>
+                                                    安排活動學生進聊天室
+                                                </a>
                                         </li>
                                         <li>
                                             <a href="#topic" data-toggle="tab">
-													<i class="material-icons">library_add</i>
-													新增題目
-												</a>
+                                                    <i class="material-icons">library_add</i>
+                                                    新增題目
+                                                </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -208,23 +214,23 @@
                     <ul>
                         <li>
                             <a href="#">
-							Home
-						</a>
+                            Home
+                        </a>
                         </li>
                         <li>
                             <a href="#">
-						   About Us
-						</a>
+                           About Us
+                        </a>
                         </li>
                         <li>
                             <a href="#">
-						   Blog
-						</a>
+                           Blog
+                        </a>
                         </li>
                         <li>
                             <a href="#">
-							Licenses
-						</a>
+                            Licenses
+                        </a>
                         </li>
                     </ul>
                 </nav>
@@ -288,6 +294,20 @@ $.get("./activity/join",
 
     }
 );
+</script>
+<script type="text/javascript">
+function add_teacher() {
+
+    $.post("./user/teacher/", {
+            mail: $("#tea_mail").val()
+        },
+        function(data, status) {
+            add_teacher_re = JSON.parse(data);
+            console.log(add_teacher_re);
+            alert(add_teacher_re['text'] + ' , ' + add_teacher_re['status'])
+
+        });
+}
 </script>
 
 </html>
