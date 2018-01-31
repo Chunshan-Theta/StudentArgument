@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:31:54
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-31 06:46:10
+ * @Last Modified time: 2018-01-31 08:37:14
  * @purpose           : Defined controller of Argument.
  * @copyright         : @Theta, all rights reserved.
  */
@@ -49,6 +49,7 @@ module.exports = function() {
                         try {
                             chatroom_id = returnValue3['return'][0]["chatroom_id"];
                             tester_id = returnValue3['return'][0]["tester_id"];
+                            group_score = returnValue3['return'][0]["group_score"];
                             console.log(returnValue3);
                             console.log("room id is :", chatroom_id);
                             console.log("tester_id", tester_id);
