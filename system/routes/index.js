@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-01-31 08:37:04
+ * @Last Modified time: 2018-02-06 00:37:51
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -447,11 +447,11 @@ router.get('/user/logout', function(req, res) {
 
     var link = req.param('link', '/sittingPage');
 
-    user_logout(req, link, function(link) {
+    user_logout(req, link, function(link,responds) {
         console.log("user logout ending.");
         if (req.param('host_id_API', null)) {
             res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-            res.end("{\"text\":\"success\",\"status\":\"200\"}");
+            res.end("{\"text\":\""+responds+"\",\"status\":\"200\"}");
         } else {
             res.redirect(link);
         }
@@ -896,8 +896,8 @@ router.get('/assessment', function(req, res) {
 });
 router.post('/assessment', function(req, res) {
 
-    var activity_id = req.param('a_id', null);
-    var content = req.param('con', null);
+    var activity_id = text_filter(req.param('a_id', null),4);
+    var content = text_filter(req.param('con', null),4);
 
 
     console.log(content,activity_id);
@@ -921,11 +921,15 @@ router.post('/assessment', function(req, res) {
 //function
 function user_logout(req, link, callback) {
     console.log("user logout process.");
+    var responds = "success to logout."
     if (req.session) {
         req.session = null;
+    }else{
+        responds = "user did not login."
+
     }
     console.log("user logouted.");
-    callback(link);
+    callback(link,responds);
 }
 
 function text_filter(str, type) {
@@ -937,6 +941,9 @@ function text_filter(str, type) {
     }
     if (type == 3) { //for URL
         str = str.replace(/[\ |\~|\`|\!|\@|\#|\$|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\>|\/|\?]/g, "");
+    }
+    if (type == 4) { //for SQL
+        str = str.replace(/[|\"|\']/g, "");
     }
     return str;
 }
