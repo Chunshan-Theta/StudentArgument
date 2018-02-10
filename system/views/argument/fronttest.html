@@ -160,7 +160,7 @@ function compute() {
             add_teacher_re = JSON.parse(response);
             console.log(add_teacher_re);
             alert(add_teacher_re['text'] + ' , ' + add_teacher_re['status'])
-            location.href = '/';
+            location.href = './alert?error_id=200&error_con=已完成';
         }
     });
 	}

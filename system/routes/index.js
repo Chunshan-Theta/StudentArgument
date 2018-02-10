@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-02-06 00:37:51
+ * @Last Modified time: 2018-02-11 07:47:13
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -28,7 +28,7 @@ var router = express.Router();
  */
 router.get('/', function(req, res) {
 
-    res.render('argument/login', {});
+    res.redirect('./login');
 
 });
 
@@ -60,7 +60,7 @@ router.get('/signup', function(req, res) {
 /* GET sitting_page_login page. */
 router.get('/sitting_login', function(req, res) {
     if (req.session) { // if setting session
-        res.redirect('/sittingPage');
+        res.redirect('./sittingPage');
     }
     res.render('argument/sitting_login', {});
 });
@@ -69,7 +69,7 @@ router.get('/sitting_login', function(req, res) {
 router.get('/newactivity', function(req, res) {
 
     if (!req.session) { // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else { //req.session.host_id
         res.render('argument/newactivity', { "host_id": req.session.host_id });
     }
@@ -79,7 +79,7 @@ router.get('/newactivity', function(req, res) {
 router.get('/newTester', function(req, res) {
 
     if (!req.session) { // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else { //req.session.host_id
         res.render('argument/newTester', { "host_id": req.session.host_id });
     }
@@ -90,7 +90,7 @@ router.get('/SendTesterToChatroom', function(req, res) {
 
     if (!req.session) {
         // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else {
         //req.session.host_id
         res.render('argument/SendTesterToChatroom', { "host_id": req.session.host_id });
@@ -102,7 +102,7 @@ router.get('/SendTesterToChatroom', function(req, res) {
 router.get('/newTopic', function(req, res) {
 
     if (!req.session) { // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     }
     //res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
     res.render('argument/newTopic', { "host_id": req.session.host_id });
@@ -112,7 +112,7 @@ router.get('/newTopic', function(req, res) {
 /* GET sittingPage. */
 router.get('/sittingPage', function(req, res) {
     if (!req.session) { // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else { //req.session.host_id
         res.render('argument/sittingPage', {});
     }
@@ -156,7 +156,7 @@ router.post('/argument2', function(req, res) {
             console.log("chatroom_id", chatroom_id)
             if (chatroom_id == '-1') {
                 // case of not already room for user
-                var link = "http://140.115.126.216:3000/front-test?a_id="+activity_id+"&t_id="+tester_id;
+                var link = "./front-test?a_id="+activity_id+"&t_id="+tester_id;
                 res.redirect(link);
             } 
             else if (chatroom_id != null) {
@@ -198,7 +198,7 @@ router.get('/tester', function(req, res) {
         console.log("Enter to API testing mode.");
         var host_id = req.query.host_id_API;
     } else if (!req.session) { // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else {
         var host_id = req.session.host_id;
     }
@@ -242,7 +242,7 @@ router.post('/tester', function(req, res) {
         //var host_id = req.param('host_id_API', null);
     } else if (!req.session) { // if not setting session
         console.log('no login');
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else {
         var host_id = req.session.host_id;
 
@@ -294,7 +294,7 @@ router.put('/tester/chatroom', function(req, res) {
     } else if (!req.session) {
         // if not setting session
         console.log('no login');
-        res.redirect('/sitting_login');
+        res.redirect('../sitting_login');
     } else {
 
         var a_id = req.param('Activity_id', null);
@@ -407,7 +407,7 @@ router.post('/Topic', function(req, res) {
         var host_id = req.param('host_id_API', null);
 
     } else if (!req.session) { // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else {
 
         var host_id = req.session.host_id;
@@ -445,10 +445,12 @@ router.post('/Topic', function(req, res) {
 
 router.get('/user/logout', function(req, res) {
 
-    var link = req.param('link', '/sittingPage');
+
+    var link = req.param('link', '../login');
 
     user_logout(req, link, function(link,responds) {
         console.log("user logout ending.");
+        res.redirect("../alert?error_id=200&error_con=已登出");
         if (req.param('host_id_API', null)) {
             res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
             res.end("{\"text\":\""+responds+"\",\"status\":\"200\"}");
@@ -468,7 +470,7 @@ router.get('/user/admin', function(req, res) {
     var mail = text_filter(req.param('mail', null), 1);
     var pws = text_filter(req.param('pws', null), 2);
     if (mail != req.param('mail', null) || pws != req.param('pws', null)) {
-        res.redirect("/alert?error_id=400&error_con=輸入中含有非法字元");
+        res.redirect("../alert?error_id=400&error_con=輸入中含有非法字元");
 
     } else {
         // initialize controller
@@ -492,10 +494,10 @@ router.get('/user/admin', function(req, res) {
                 console.log(respond);
                 if (respond['return'].length) {
                     req.session = { 'host_id': respond['return'][0]['user_id'] };
-                    res.redirect('/sittingPage');
+                    res.redirect('../sittingPage');
 
                 } else {
-                    res.redirect("/alert?error_id=400&error_con=查無使用者");
+                    res.redirect("../alert?error_id=400&error_con=查無使用者");
 
                 }
             }
@@ -525,7 +527,7 @@ router.get('/user/subuser', function(req, res) {
     } else if (!req.session) {
         // if not setting session
         console.log('no login');
-        res.redirect('/sitting_login');
+        res.redirect('../sitting_login');
     } else {
         var host_id = req.session.host_id;
     }
@@ -655,7 +657,7 @@ router.post('/user/teacher', function(req, res) {
     } else if (!req.session) {
         // if not setting session
         console.log('no login');
-        res.redirect('/sitting_login');
+        res.redirect('../sitting_login');
     } else {
         var stu_id = req.session.host_id;
     }
@@ -686,7 +688,7 @@ router.get('/activity', function(req, res) {
     } else if (!req.session.host_id) {
         // if not setting session
         console.log('no login host_id');
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
     } else {
         var host_id = req.session.host_id;
     }
@@ -726,7 +728,7 @@ router.get('/activity/join', function(req, res) {
     } else if (!req.session.host_id) {
         // if not setting session
         console.log('no login host_id');
-        res.redirect('/sitting_login');
+        res.redirect('../sitting_login');
     } else {
         var host_id = req.session.host_id;
     }
@@ -760,7 +762,7 @@ router.post('/activity', function(req, res) {
         var host_id = req.param('host_id_API', null);
     } else if (!req.session) {
         // if not setting session
-        res.redirect('/sitting_login');
+        res.redirect('./sitting_login');
         return;
     } else {
         var host_id = req.session.host_id;
