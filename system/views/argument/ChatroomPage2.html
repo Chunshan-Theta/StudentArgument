@@ -19,7 +19,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="assets/css/demo.css" rel="stylesheet" />
     <!--cheditor-->
-    <script src="/assets/js/ckeditor/ckeditor.js"></script>
+    <script src="./assets/js/ckeditor/ckeditor.js"></script>
     <style>
     #chat_input {
         padding: 3px;
@@ -243,11 +243,13 @@
     <div id="sub_windows" title="子視窗"></div>
     <!--dialog end-->
 </body>
-<script src="/socket.io/socket.io.js"></script>
+<script src="./socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-var socket = io();
+var socket = io({
+  path: '/StudentArgument/socket.io'
+});
 var room_ID = '<%=room%>';
 var UserName = "";
 color_code = '#FF0000';
@@ -263,6 +265,8 @@ function change_color_code() {
     $('#user_text_color').css("background-color", color);
 }
 change_color_code();
+
+
 $('form').submit(function() {
     var speech_text = '[' + $("#speech_type").val() + ']  ' + $('#m').val();
     console.log(speech_text);
@@ -327,6 +331,9 @@ $.get("./user/public_data", {
         console.log(References_list['text']);
         UserName = References_list["return"][0]["name"];
         $('#info').append('<p>使用者名稱: '+UserName+'</p>');
+        
+        speech_text = UserName + ' login.';
+        socket.emit('Push_message', speech_text, room_ID, color_code);
 
     }
 );

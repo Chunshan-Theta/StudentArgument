@@ -4,12 +4,17 @@ var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
 
+var host_address = "140.115.126.216";
+var project_root_link ="StudentArgument";
+var host_port = app.get('port');
+
 var server = app.listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + server.address().port);
+  console.log('Express server listening on port ' +host_port);
 });
 
 
 var io = require('socket.io')(server);
+io.path('/StudentArgument');
 
 
 io.on('connection', function(socket){
