@@ -247,13 +247,13 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+var pathArray = window.location.pathname.split( '/' );
 var socket = io({
-  path: '/StudentArgument/socket.io'
+  path: './'+pathArray[1]+'/socket.io'
 });
 var room_ID = '<%=room%>';
 var UserName = "";
 color_code = '#FF0000';
-
 function change_color_code() {
 
     var letters = '0123456789ABCDEF';
@@ -331,7 +331,7 @@ $.get("./user/public_data", {
         console.log(References_list['text']);
         UserName = References_list["return"][0]["name"];
         $('#info').append('<p>使用者名稱: '+UserName+'</p>');
-        
+
         speech_text = UserName + ' login.';
         socket.emit('Push_message', speech_text, room_ID, color_code);
 

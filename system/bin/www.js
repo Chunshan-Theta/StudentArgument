@@ -5,7 +5,7 @@ var app = require('../app');
 app.set('port', process.env.PORT || 3000);
 
 var host_address = "140.115.126.216";
-var project_root_link ="StudentArgument";
+var project_root_link ="/StudentArgument";
 var host_port = app.get('port');
 
 var server = app.listen(app.get('port'), function() {
@@ -14,7 +14,7 @@ var server = app.listen(app.get('port'), function() {
 
 
 var io = require('socket.io')(server);
-io.path('/StudentArgument');
+io.path(project_root_link);
 
 
 io.on('connection', function(socket){
