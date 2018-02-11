@@ -3,9 +3,8 @@ var debug = require('debug')('my-application');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
-
 var host_address = "140.115.126.216";
-var project_root_link ="/StudentArgument";
+var project_root_link ="/SA";
 var host_port = app.get('port');
 
 var server = app.listen(app.get('port'), function() {

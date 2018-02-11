@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-02-11 07:59:42
+ * @Last Modified time: 2018-02-11 12:54:50
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -26,9 +26,9 @@ var router = express.Router();
  * @return  .argument/login.html
  *
  */
-router.get('/', function(req, res) {
 
-    res.redirect('./login');
+router.get('/', function(req, res) {
+    res.redirect('http://140.115.126.216/SA/login');
 
 });
 
