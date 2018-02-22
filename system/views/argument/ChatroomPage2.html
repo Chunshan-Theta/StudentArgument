@@ -127,6 +127,7 @@
 </head>
 
 <body class="index-page">
+    <header></header>
     <div class="wrapper">
         <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg'); min-height:190px;height:0px;">
             <div class="container">
@@ -242,10 +243,28 @@
     <!--dialog start-->
     <div id="sub_windows" title="子視窗"></div>
     <!--dialog end-->
+    <footer></footer>
 </body>
 <script src="./socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</script>
+<!--
+/**
+ * [footer & header]
+ * @type {Html String}
+ */
+-->
+<script type="text/javascript">
+$.get("./footer", {}, function(data, status) { 
+    $("footer").append(data);
+});
+
+$.get("./header", {}, function(data, status) { 
+    //$("header").append(data);
+});
+</script>
+
 <script>
 var pathArray = window.location.pathname.split( '/' );
 var socket = io({

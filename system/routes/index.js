@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-02-11 12:54:50
+ * @Last Modified time: 2018-02-22 16:45:44
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -27,6 +27,7 @@ var router = express.Router();
  *
  */
 
+
 router.get('/', function(req, res) {
     res.redirect('http://140.115.126.216/SA/login');
 
@@ -49,7 +50,7 @@ router.get('/front-test', function(req, res) {
     var t_id = req.param('t_id', null);
     var a_id = req.param('a_id', null);
 
-    res.render('argument/fronttest', {"t_id":t_id,"a_id":a_id});
+    res.render('argument/fronttest', { "t_id": t_id, "a_id": a_id });
 });
 
 /* GET singup page. */
@@ -152,14 +153,13 @@ router.post('/argument2', function(req, res) {
          * @param   {[http.post.String]topic_content]}
          * @return  {[html]argument/ChatroomPage2}
          */
-        c.controller(mail, a_tag, function(chatroom_id, tester_id,activity_id, topic_content) {
+        c.controller(mail, a_tag, function(chatroom_id, tester_id, activity_id, topic_content) {
             console.log("chatroom_id", chatroom_id)
             if (chatroom_id == '-1') {
                 // case of not already room for user
-                var link = "./front-test?a_id="+activity_id+"&t_id="+tester_id;
+                var link = "./front-test?a_id=" + activity_id + "&t_id=" + tester_id;
                 res.redirect(link);
-            } 
-            else if (chatroom_id != null) {
+            } else if (chatroom_id != null) {
                 // case of not found tester
                 var user = mail;
                 console.log(user, ',Enter to chatroom: ' + chatroom_id);
@@ -342,7 +342,7 @@ router.put('/tester/score', function(req, res) {
         var stu_id = req.param('stu_id', null);
     }
     var scores = req.param('scores', null);
-    console.log(stu_id,scores);
+    console.log(stu_id, scores);
 
 
 
@@ -448,12 +448,12 @@ router.get('/user/logout', function(req, res) {
 
     var link = req.param('link', '../login');
 
-    user_logout(req, link, function(link,responds) {
+    user_logout(req, link, function(link, responds) {
         console.log("user logout ending.");
         res.redirect("../alert?error_id=200&error_con=已登出");
         if (req.param('host_id_API', null)) {
             res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-            res.end("{\"text\":\""+responds+"\",\"status\":\"200\"}");
+            res.end("{\"text\":\"" + responds + "\",\"status\":\"200\"}");
         } else {
             res.redirect(link);
         }
@@ -898,23 +898,55 @@ router.get('/assessment', function(req, res) {
 });
 router.post('/assessment', function(req, res) {
 
-    var activity_id = text_filter(req.param('a_id', null),4);
-    var content = text_filter(req.param('con', null),4);
+    var activity_id = text_filter(req.param('a_id', null), 4);
+    var content = text_filter(req.param('con', null), 4);
 
 
-    console.log(content,activity_id);
+    console.log(content, activity_id);
     // initialize controller
     var controller_of_newassessment = require('./Controller/newassessment.js');
     c = new controller_of_newassessment();
 
     // in controller
-    c.controller(activity_id,content, function(respond) {
+    c.controller(activity_id, content, function(respond) {
         //console.log(respond);
         res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
         //res.setHeader('Access-Control_Allow-Origin',"*");
         res.end("" + JSON.stringify(respond));
 
     });
+
+});
+
+/**
+ * [description]
+ * @method
+ * @author  Theta
+ * @date    2018-02-22
+ * @purpose
+ * @return  {[String]}HTML code
+ */
+router.get('/footer', function(req, res) {
+    //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+    //res.end("" + JSON.stringify(respond));
+    res.render('argument/bar/footer', {});
+
+
+});
+
+/**
+ * [description]
+ * @method
+ * @author  Theta
+ * @date    2018-02-22
+ * @purpose
+ * @return  {[String]}HTML code
+ */
+router.get('/header', function(req, res) {
+    //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
+    //res.end("" + JSON.stringify(respond));
+    res.render('argument/bar/header', {});
+
 
 });
 
@@ -926,12 +958,12 @@ function user_logout(req, link, callback) {
     var responds = "success to logout."
     if (req.session) {
         req.session = null;
-    }else{
+    } else {
         responds = "user did not login."
 
     }
     console.log("user logouted.");
-    callback(link,responds);
+    callback(link, responds);
 }
 
 function text_filter(str, type) {
