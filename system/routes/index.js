@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-02-22 16:45:44
+ * @Last Modified time: 2018-02-22 19:08:38
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -918,37 +918,6 @@ router.post('/assessment', function(req, res) {
 
 });
 
-/**
- * [description]
- * @method
- * @author  Theta
- * @date    2018-02-22
- * @purpose
- * @return  {[String]}HTML code
- */
-router.get('/footer', function(req, res) {
-    //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-    //res.end("" + JSON.stringify(respond));
-    res.render('argument/bar/footer', {});
-
-
-});
-
-/**
- * [description]
- * @method
- * @author  Theta
- * @date    2018-02-22
- * @purpose
- * @return  {[String]}HTML code
- */
-router.get('/header', function(req, res) {
-    //res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-    //res.end("" + JSON.stringify(respond));
-    res.render('argument/bar/header', {});
-
-
-});
 
 
 

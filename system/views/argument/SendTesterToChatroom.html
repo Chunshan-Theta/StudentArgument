@@ -43,60 +43,9 @@
 </head>
 
 <body class="index-page">
-    <!-- Navbar -->
-    <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="./login">
-                    <div class="logo-container">
-                        <div class="logo">
-                            <img src="assets/img/logo.png" alt="site Logo" rel="tooltip" title="logo" data-placement="bottom" data-html="true">
-                        </div>
-                        <div class="brand">
-                            Argument Sys
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navigation-index">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="./signup">
-                            <i class="material-icons">person_add</i> Sign up
-                        </a>
-                        <!--https://material.io/icons/-->
-                    </li>
-                    <li>
-                        <a href="./login">
-                            <i class="material-icons">chat</i> Enter activity
-                        </a>
-                    </li>
-                    <li>
-                        <a rel="tooltip" title="About ours" data-placement="bottom" href="http://ytwu.lst.ncu.edu.tw/wu/ch/" target="_blank" class="btn btn-white btn-simple btn-just-icon">
-                            <i class="fa fa-info-circle"></i><!--http://fontawesome.io/icons/-->
-                        </a>
-                    </li>
-                    <li>
-                        <a rel="tooltip" title="log-out" data-placement="bottom" href="./user/logout"  class="btn btn-white btn-simple btn-just-icon">
-                            <i class="fa fa-sign-out"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a rel="tooltip" title="Setting" data-placement="bottom" href="./sitting_login" class="btn btn-white btn-simple btn-just-icon">
-                            <i class="fa fa-cog"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- End Navbar -->
+    <header>
+     <%- include ../argument/bar/header.html %>   
+    </header>
     <div class="wrapper">
         <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg');">
             <div class="container">
@@ -114,7 +63,7 @@
             <div class="section section-basic">
                 <div class="container">
                     <div class="title">
-                        <h2>新增Tester</h2>
+                        <h2>安排活動至活動聊天室</h2>
                     </div>
                     <!--Input 1 : -->
                     <div id='main-sortable' class="col-sm-9">
@@ -140,36 +89,8 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            <div class="container">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="#">
-                            Home
-                        </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                           About Us
-                        </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                           Blog
-                        </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                            Licenses
-                        </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright pull-right">
-                    &copy; 2018, made with <i class="fa fa-terminal"></i> Nodejs by Theta for argument system in WuRET.
-                </div>
-            </div>
+        <footer>
+            <%- include ../argument/bar/footer.html %> 
         </footer>
     </div>
 </body>
@@ -275,6 +196,11 @@ $.get("./user/subuser",
 $.get("./activity",
     function(data, status) {
         activity_list = JSON.parse(data);
+        if (!activity_list['return'].length) {
+                alert("尚未建立活動，請先建立活動。");
+                location.href="./newactivity";
+            }
+
         console.log(activity_list['text']);
         $('#Activity_ID').append('<optgroup id="y_Activitys" label="your Activity">');
 
@@ -298,11 +224,13 @@ $('#Activity_ID').on("change", function() {
         function(data, status) {
             Tester_list = JSON.parse(data);
             //console.log(Tester_list['text']);
-
+            if (!Tester_list['return'].length) {
+                alert("該活動尚未設定參加活動之學生。");
+            }
             for (var i = 0; i < Tester_list["return"].length; i++) {
                 var user_id = Tester_list["return"][i]["user_id"];
                 var Tester_id = Tester_list["return"][i]["tester_id"];
-                var group = Tester_list["return"][i]["group_score"]=='-1'?"not do front-list":Tester_list["return"][i]["group_score"];
+                var group = Tester_list["return"][i]["group_score"]=='-1'?"尚未執行前測":Tester_list["return"][i]["group_score"];
 
                 for (var key in users) {
                     if (users[key]['user_id'] == user_id) {
