@@ -78,9 +78,12 @@
     }
 
     #mess_bar {
+        border: 3px #cccccc solid;
+        min-height: 300px;
+        padding: 0;
+        padding-top: 5px;
         list-style-type: none;
         margin: 0;
-        padding: 0;
     }
 
     .chat_message {
@@ -175,40 +178,56 @@
                         <div class="content">
                             <div class="tab-content text-center">
                                 <div class="tab-pane active" id="chatroom">
-                                    <div id='toolbar' class="col-md-12" style="text-align: left;">
-                                        <button id='change_color_code_handler' class="btn btn-primary" onclick="change_color_code();" style="float: right;">change color</button>
-                                        <div id="user_text_color" style="width: 20px;height: 20px;background-color: #000000;float: right;margin-top: 10px;margin-bottom: 10px;margin-left: 1px;margin-right: 10px">
-                                        </div>
-                                    </div>
                                     <div class="title">
                                         <h4 id="info" style="text-align: left;">
                                               <%=title%><%=room%>
                                             </h4>
-                                        <p style="text-align: left;">
-                                            <br> 題目：
-                                            <br>
-                                        </p>
+                                        <h2>
+                                            <p style="text-align: left;">
+                                                <br> 題目：
+                                                <br>
+                                            </p>
+
                                         <blockquote>
                                             <p id='Topic_content' class="text-left">
                                                 <%=t_con%>
                                             </p>
-                                        </blockquote>
+                                        </blockquote></h2>
                                     </div>
                                     <div id='chatroom-board'>
                                         <ul id="mess_bar"></ul>
                                         <form id="chat_input">
                                             <div style="float: left;">
-                                                <label for="speech_type">Speech Type</label>
+                                                <label for="speech_type">發言目的</label>
                                                 <select id="speech_type">
+                                                    <option value="none" selected="selected">請選擇發言目的</option>
                                                     <option value="提出新想法">提出新想法</option>
                                                     <option value="反對對方意見">反對對方意見</option>
                                                     <option value="贊同對方意見">贊同對方意見</option>
-                                                    <option value="發表論述" selected="selected">發表論述</option>
+                                                    <option value="發表論述">發表論述</option>
                                                 </select>
                                             </div>
-                                            <input id="m" autocomplete="off" />
-                                            <button class="btn btn-primary">Send</button>
+                                            <input id="m" autocomplete="off" placeholder="說點什麼吧...." />
+                                            <button id="Send" class="btn btn-primary">Send</button>
                                         </form>
+                                        <div id='toolbar' class="col-md-12" style="text-align: left; background-color: #EEE;margin-bottom: 5px;">
+                                            <p>
+                                                <label for="toolbar">發言工具</label>
+                                            </p>
+                                            <div style="float: left;width: 30%">
+                                                <label for="user_text_color" style="width: 100%;">更換字體顏色</label>
+                                                <div id="user_text_color" style="width: 20px;height: 20px;background-color: #000000;margin-top: 10px;margin-bottom: 10px;margin-left: 1px;margin-right: 10px;float: left;">
+                                                </div>
+                                                <button id='change_color_code_handler' class="btn btn-primary" onclick="change_color_code();">更換</button>
+                                            </div>
+                                            <div id="sample_opener" style="float: left;width: 30%">
+                                                <label for="sample_opener" style="width: 100%;">範例發文</label>
+                                                <button id='' style="float: left; width: 100%;" class="btn btn-primary" onclick="openerText('我認為');">我認為...</button>
+                                                <button id='' style="float: left;width: 100%;" class="btn btn-primary" onclick="openerText('我覺得你沒有考慮到');">我覺得你沒有考慮到...</button>
+                                                <button id='' style="float: left;width: 100%;" class="btn btn-primary" onclick="openerText('你說的很好，但是');">你說的很好，但是...</button>
+                                                <button id='' style="float: left;width: 100%;" class="btn btn-primary" onclick="openerText('換個角度想，有沒有可能');">換個角度想，有沒有可能...</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="note">
@@ -245,23 +264,22 @@
     <div id="sub_windows" title="子視窗"></div>
     <!--dialog end-->
     <footer>
-        <%- include ../argument/bar/footer.html %> 
+        <%- include ../argument/bar/footer.html %>
     </footer>
 </body>
 <script src="./socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </script>
-
-
 <script>
-var pathArray = window.location.pathname.split( '/' );
+var pathArray = window.location.pathname.split('/');
 var socket = io({
-  path: './'+pathArray[1]+'/socket.io'
+    path: './' + pathArray[1] + '/socket.io'
 });
 var room_ID = '<%=room%>';
 var UserName = "";
 color_code = '#FF0000';
+
 function change_color_code() {
 
     var letters = '0123456789ABCDEF';
@@ -275,21 +293,33 @@ function change_color_code() {
 change_color_code();
 
 
+function openerText(text) {
+    var newText=$('#m').val()+text;
+    console.log(newText);
+    $('#m').val(newText);
+}
 $('form').submit(function() {
-    var speech_text = '[' + $("#speech_type").val() + ']  ' + $('#m').val();
-    console.log(speech_text);
-    if ($('.sub-window_mode_of_message').length) {
-        SendActionToSql(speech_text, '11');
-    } else if ($('.sub-window_mode_of_note').length) {
-        SendActionToSql(speech_text, '12');
-    } else if ($('.sub-window_mode_of_search').length) {
-        SendActionToSql(speech_text, '14');
-    } else {
-        SendActionToSql(speech_text, '1');
+    if ($("#speech_type").val() == "none") {
+        alert("請選擇發言目的");
+    }else if($("#m").val() == ""){
+        alert("請先輸入發言");
+    } 
+    else {
+        var speech_text = '[' + $("#speech_type").val() + ']  ' + $('#m').val();
+        console.log(speech_text);
+        if ($('.sub-window_mode_of_message').length) {
+            SendActionToSql(speech_text, '11');
+        } else if ($('.sub-window_mode_of_note').length) {
+            SendActionToSql(speech_text, '12');
+        } else if ($('.sub-window_mode_of_search').length) {
+            SendActionToSql(speech_text, '14');
+        } else {
+            SendActionToSql(speech_text, '1');
+        }
+        speech_text = UserName + ': ' + speech_text;
+        socket.emit('Push_message', speech_text, room_ID, color_code);
+        $('#m').val('');
     }
-    speech_text = UserName + ': ' + speech_text;
-    socket.emit('Push_message', speech_text, room_ID, color_code);
-    $('#m').val('');
     return false;
 });
 
@@ -332,13 +362,13 @@ function SendActionToSql(Sentcontent, ad) {
 <script src="assets/js/material-kit.js" type="text/javascript"></script>
 <script type="text/javascript">
 $.get("./user/public_data", {
-        "mail":"<%=UserName%>"
+        "mail": "<%=UserName%>"
     },
     function(data, status) {
         References_list = JSON.parse(data);
         console.log(References_list['text']);
         UserName = References_list["return"][0]["name"];
-        $('#info').append('<p>使用者名稱: '+UserName+'</p>');
+        $('#info').append('<p>使用者名稱: ' + UserName + '</p>');
 
         speech_text = UserName + ' login.';
         socket.emit('Push_message', speech_text, room_ID, color_code);
