@@ -21,7 +21,7 @@
 
 <body class="index-page">
     <header>
-     <%- include ../argument/bar/header.html %>   
+        <%- include ../argument/bar/header.html %>
     </header>
     <div class="wrapper">
         <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg');">
@@ -39,39 +39,38 @@
         <div class="main main-raised">
             <div class="section section-basic">
                 <div class="container">
-                        <div class="title">
-                            <h2>為活動建立前測問題</h2>
-                        </div>
-                        <!--Input 1 : content-->
-                        <div class="col-sm-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">
+                    <div class="title">
+                        <h2>為活動建立前測問題</h2>
+                    </div>
+                    <!--Input 1 : content-->
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
                                     <i class="fa fa-comment-o"></i>
                                 </span>
-                                <div class="form-group label-floating">
-                                    <label class="control-label">content</label>
-                                    <input type="text" id="content" name='content' class="form-control" />
-                                </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">前測題目</label>
+                                <input type="text" id="content" name='content' value="一般情況下，你支持台灣的核能繼續擴大發展" class="form-control" />
                             </div>
                         </div>
-                        <!--/ Input 1 : User id-->
-                        <!--Input 1 : -->
-                        <div class="col-sm-6">
-                            <h3>Activity</h3>
-                            <select name="Activity_ID" id="Activity_ID"></select>
-                        </div>
-                        <!--/ Input 1 : -->
-                        <!-- summit button-->
-                        <div class="col-sm-12">
-                            <button class="btn btn-primary" onclick="newAssessment();" >建立</button>
-                        </div>
-                        <!--/ summit button-->
-                    
+                    </div>
+                    <!--/ Input 1 : User id-->
+                    <!--Input 1 : -->
+                    <div class="col-sm-6">
+                        <h3>Activity</h3>
+                        <select name="Activity_ID" id="Activity_ID"></select>
+                    </div>
+                    <!--/ Input 1 : -->
+                    <!-- summit button-->
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary" onclick="newAssessment();">建立</button>
+                    </div>
+                    <!--/ summit button-->
                 </div>
             </div>
         </div>
         <footer>
-            <%- include ../argument/bar/footer.html %> 
+            <%- include ../argument/bar/footer.html %>
         </footer>
     </div>
 </body>
@@ -116,18 +115,16 @@ $.get("./activity",
         }
     }
 );
-
-
 </script>
 <script type="text/javascript">
 function newAssessment() {
     var activity_id = $('#Activity_ID').val();
     var PostData = $("#content").val();
-    console.log(activity_id,PostData);
-    
+    console.log(activity_id, PostData);
+
     $.post("./assessment", {
             'a_id': activity_id,
-            'con':PostData
+            'con': PostData
         },
         function(data, status) {
             console.log(data);
@@ -137,4 +134,5 @@ function newAssessment() {
     );
 }
 </script>
+
 </html>
