@@ -123,7 +123,7 @@
         background: #eee;
     }
 
-    #errortxt {
+    .errortxt {
         color: rgb(255, 0, 0)
     }
     </style>
@@ -197,29 +197,40 @@
                                     <div id='chatroom-board'>
                                         <ul id="mess_bar"></ul>
                                         <form id="chat_input">
-                                            <div style="float: left;">
-                                                <label for="speech_type">發言目的</label>
-                                                <select id="speech_type">
-                                                    <option value="none" selected="selected">請選擇發言目的</option>
-                                                    <option value="提出新想法">提出新想法</option>
-                                                    <option value="反對對方意見">反對對方意見</option>
-                                                    <option value="贊同對方意見">贊同對方意見</option>
-                                                    <option value="發表論述">發表論述</option>
-                                                </select>
+                                            <div class="container" style="margin: 0;padding: 0;">
+                                                <div id="option-left" style="width: 45%;float: left;">
+                                                    <label for="speech_type" style="float: left;padding-right: 5px;">發言目的</label>
+                                                    <select id="speech_type" style="float: left;">
+                                                        <option value="none" selected="selected">請選擇...</option>
+                                                        <option value="提出新想法">提出新想法</option>
+                                                        <option value="反對對方意見">反對對方意見</option>
+                                                        <option value="贊同對方意見">贊同對方意見</option>
+                                                        <option value="發表論述">發表論述</option>
+                                                    </select>
+                                                    <select id="hello_speech" style="float: left;">
+                                                    </select>
+                                                </div>
+                                                <div id="option-right" style="width: 45%;float: right;">
+                                                    <div style="float: right;width: 100%">
+                                                        <button id='change_color_code_handler' class="btn btn-primary" onclick="change_color_code();" style="float:right;">更換</button>
+                                                        <div id="user_text_color" style="width: 20px;height: 20px;background-color: #000000;margin-top: 10px;margin-bottom: 10px;margin-left: 1px;margin-right: 10px;float: right;">
+                                                        </div>
+                                                        <label for="user_text_color" style="float: right;">更換字體顏色</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <input id="m" autocomplete="off" placeholder="說點什麼吧...." />
-                                            <button id="Send" class="btn btn-primary">Send</button>
+                                            <div class="container" style="margin: 0;padding: 0;">
+                                                <h5 id="Alert_text" class="errortxt" style="text-align: left;"></h5>
+                                            </div>
+                                            <div style="width: 100%;">
+                                                <input id="m" autocomplete="off" placeholder="說點什麼吧...." />
+                                                <button id="Send" class="btn btn-primary">Send</button>
+                                            </div>
                                         </form>
-                                        <div id='toolbar' class="col-md-12" style="text-align: left; background-color: #EEE;margin-bottom: 5px;">
+                                        <div id='toolbar' class="col-md-12" style="text-align: left; background-color: #EEE;margin-bottom: 5px;" hidden>
                                             <p>
                                                 <label for="toolbar">發言工具</label>
                                             </p>
-                                            <div style="float: left;width: 30%">
-                                                <label for="user_text_color" style="width: 100%;">更換字體顏色</label>
-                                                <div id="user_text_color" style="width: 20px;height: 20px;background-color: #000000;margin-top: 10px;margin-bottom: 10px;margin-left: 1px;margin-right: 10px;float: left;">
-                                                </div>
-                                                <button id='change_color_code_handler' class="btn btn-primary" onclick="change_color_code();">更換</button>
-                                            </div>
                                             <div id="sample_opener" style="float: left;width: 30%">
                                                 <label for="sample_opener" style="width: 100%;">範例發文</label>
                                                 <button id='' style="float: left; width: 100%;" class="btn btn-primary" onclick="openerText('我認為');">我認為...</button>
@@ -292,19 +303,43 @@ function change_color_code() {
 }
 change_color_code();
 
-
+$("#speech_type").change(function(){
+    var value_of_speech_type = $("#speech_type").val();
+    if(value_of_speech_type == "發表論述"){
+        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="以我的立場來說，主要的重點是">以我的立場來說，主要的重點是</option><option value="依我的想法來說的話，">依我的想法來說的話</option><option value="我認為這件事情的重點是">我認為這件事情的重點是</option>');
+    }
+    if(value_of_speech_type == "提出新想法"){
+        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="我有一個新的想法了！">我有一個新的想法了！</option><option value="如果換成另外一個方式呢？例如">如果換成另外一個方式呢？例如</option><option value="或者我們可以">或者我們可以</option>');
+    }
+    if(value_of_speech_type == "贊同對方意見"){
+        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="你說的真是太好了！">你說的真是太好了！</option><option value="你考慮的真是周全！">你考慮的真是周全！</option><option value="我同意你的說法">我同意你的說法</option>');
+    }
+    if(value_of_speech_type == "反對對方意見"){
+        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="我認為你考慮的並不周全，例如">我認為你考慮的並不周全，例如</option><option value="我無法同意你，因為">我無法同意你，因為</option><option value="我認為你的論述並不正確">我認為你的論述並不正確</option>');
+    }
+});
+$("#hello_speech").change(function(){
+    var value_of_hello_speech = $("#hello_speech").val();
+    openerText(value_of_hello_speech);
+});
 function openerText(text) {
-    var newText=$('#m').val()+text;
+    var newText = text; //+ $('#m').val();
     console.log(newText);
     $('#m').val(newText);
 }
 $('form').submit(function() {
     if ($("#speech_type").val() == "none") {
-        alert("請選擇發言目的");
-    }else if($("#m").val() == ""){
-        alert("請先輸入發言");
-    } 
-    else {
+        //alert("請選擇發言目的");
+        $('#m').addClass("errortxt");
+        $('#Alert_text').html("請選擇發言目的");
+    } else if ($("#m").val() == "") {
+        //alert("請先輸入發言");
+        $('#m').addClass("errortxt")
+        $('#Alert_text').html("請先輸入發言");
+
+    } else {
+        $('#m').removeClass("errortxt");
+        $('#Alert_text').html("");
         var speech_text = '[' + $("#speech_type").val() + ']  ' + $('#m').val();
         console.log(speech_text);
         if ($('.sub-window_mode_of_message').length) {
