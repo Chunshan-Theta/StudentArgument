@@ -48,8 +48,8 @@
 </head>
 
 <body class="index-page">
-        <header>
-     <%- include ../argument/bar/header.html %>   
+    <header>
+        <%- include ../argument/bar/header.html %>
     </header>
     <div class="wrapper">
         <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg');">
@@ -72,20 +72,21 @@
                     </div>
                     <!--Input 1 : -->
                     <div class="col-sm-6">
-                        <h3>user</h3>
+                        <h6>若無顯示學生，則代表學生尚未申請成為你的學生。</h6>
+                        <h3>你的學生：</h3>
                         <p id="feedback">
                             <span>You've selected:</span>
                             <br> <span id="select-result"></span>
                         </p>
                         <ol id="selectable">
                             <!--
-					  <li class="ui-widget-content" name='1'>Item 1</li>
-					  <li class="ui-widget-content" name='2'>Item 2</li>
-					  <li class="ui-widget-content" name='3'>Item 3</li>
-					  <li class="ui-widget-content" name='4'>Item 4</li>
-					  <li class="ui-widget-content" name='5'>Item 5</li>
-					  <li class="ui-widget-content" name='6'>Item 6</li>
-					  -->
+                      <li class="ui-widget-content" name='1'>Item 1</li>
+                      <li class="ui-widget-content" name='2'>Item 2</li>
+                      <li class="ui-widget-content" name='3'>Item 3</li>
+                      <li class="ui-widget-content" name='4'>Item 4</li>
+                      <li class="ui-widget-content" name='5'>Item 5</li>
+                      <li class="ui-widget-content" name='6'>Item 6</li>
+                      -->
                         </ol>
                     </div>
                     <!--/ Input 1 : -->
@@ -104,7 +105,7 @@
             </div>
         </div>
         <footer>
-            <%- include ../argument/bar/footer.html %> 
+            <%- include ../argument/bar/footer.html %>
         </footer>
     </div>
 </body>
@@ -152,7 +153,9 @@ $.get("./user/subuser",
         activity_list = JSON.parse(data);
         console.log(activity_list['text']);
 
-
+        if (activity_list["return"].length == 0) {
+            alert("尚未有學生申請成為你的學生。");
+        }
 
         for (var i = 0; i < activity_list["return"].length; i++) {
             var user_id = activity_list["return"][i]["user_id"];
@@ -172,12 +175,16 @@ $.get("./activity",
         console.log(activity_list['text']);
         $('#Activity_ID').append('<optgroup id="y_Activitys" label="your Activity">');
 
-
+        if (activity_list["return"].length == 0) {
+            alert("您還未建立活動，請先建立活動。");
+            location.href = "./newactivity";
+        }
 
         for (var i = 0; i < activity_list["return"].length; i++) {
             var a_id = activity_list["return"][i]["avtivity_id"];
             var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0, 100);
-            htmltext = '<option value="' + a_id + '">activity:' + a_id + ',' + timeofactivity + '</option>'
+            var topic = activity_list["return"][i]["content"];
+            htmltext = '<option value="' + a_id + '">activity:' + a_id + ',' + timeofactivity + ',' + topic + '</option>'
             $('#y_Activitys').append(htmltext);
         }
     }

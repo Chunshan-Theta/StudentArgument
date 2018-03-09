@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-23 14:10:09
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-01-30 23:33:42
+* @Last Modified time: 2018-03-06 11:30:32
 * @purpose           : Defined controller of ActivityShow
 * @copyright         : @Theta, all rights reserved.
 */
@@ -45,7 +45,8 @@ module.exports = function() {
     this.controller = function(host_id,CallbackFunc) {
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        querytext = "SELECT `unicode`,`timeofactivity` FROM `activity_list`,`tester_list` WHERE `activity_list`.`avtivity_id` = `tester_list`.`avtivity_id` AND `tester_list`.`user_id` = '"+host_id+"';"
+        //querytext = "SELECT `unicode`,`timeofactivity` FROM `activity_list`,`tester_list` WHERE `activity_list`.`avtivity_id` = `tester_list`.`avtivity_id` AND `tester_list`.`user_id` = '"+host_id+"';"
+        querytext = "SELECT `content`,`unicode`,`timeofactivity` FROM `activity_list`,`tester_list`,`topic_list` WHERE `activity_list`.`avtivity_id` = `tester_list`.`avtivity_id` AND `tester_list`.`user_id` = '"+host_id+"' AND `activity_list`.`topic_id`=`topic_list`.`topic_id`;"
         connection.query(querytext, function(returnValue) {
             //console.log(returnValue['return'][0]['timeofactivity'].toLocaleDateString('zh-TW'));
             for(var row in returnValue['return']){
