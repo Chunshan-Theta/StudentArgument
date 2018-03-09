@@ -43,7 +43,7 @@
                         <h2>為活動建立前測問題</h2>
                     </div>
                     <!--Input 1 : content-->
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" >
                         <div class="input-group">
                             <span class="input-group-addon">
                                     <i class="fa fa-comment-o"></i>
@@ -56,9 +56,9 @@
                     </div>
                     <!--/ Input 1 : User id-->
                     <!--Input 1 : -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" style="overflow:hidden;">
                         <h3>Activity</h3>
-                        <select name="Activity_ID" id="Activity_ID"></select>
+                        <select name="Activity_ID" id="Activity_ID" style="width: 100%;"></select>
                     </div>
                     <!--/ Input 1 : -->
                     <!-- summit button-->
@@ -116,7 +116,7 @@ $.get("./activity",
             var timeofactivity = activity_list["return"][i]["timeofactivity"].substring(0, 100);
             var topic = activity_list["return"][i]["content"];
 
-            htmltext = '<option value="' + a_id + '">activity:' + a_id + ',' + timeofactivity +','+topic+'</option>'
+            htmltext = '<option style="width:30px;" value="' + a_id + '">activity:' + (i+1) + ',' + timeofactivity +','+topic.substring(0,20)+'</option>'
             $('#y_Activitys').append(htmltext);
         }
     }
