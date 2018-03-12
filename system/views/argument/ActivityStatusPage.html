@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Alert page</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/material-kit.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="assets/css/demo.css" rel="stylesheet" />
+</head>
+
+<body class="index-page">
+    <header>
+        <%- include ../argument/bar/header.html %>
+    </header>
+    <div class="wrapper">
+        <div class="header header-filter" style="background-image: url('assets/img/bg2.jpeg');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="brand">
+                            <h1>Argument System.</h1>
+                            <h3>argument platflom for student.</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main main-raised">
+            <div class="section section-basic">
+                <!--Main contant -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6" style="height: 500px;">
+                            <div id="basic_data" style="height: 40%;margin-bottom: 10px;">
+                                <h4>活動基本資料</h4>
+                            </div>
+                            <div id="memberOfActivity" style="background-color: #ccc;height: 50%;overflow: scroll;">
+                                <h4 for="memberOfActivity" style="color: #EEE;">參加學生</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="height: 500px;border-left: 1px #ccc solid;">
+                            <h4>已建立之前測題目（取最新新增之至多五題前測）</h4>
+                            <div id="qusetions" class=""></div>
+                        </div>
+                    </div>
+                    <div id="Room_Sets" class="row" style="min-height: 500px;" hidden>
+                        <div class="col-md-12">
+                            <h4>分房情況</h4>
+                        </div>
+                        <div class="col-md-2" style="border: 1px #ccc solid;margin:10px;">
+                            <h4>Room Set1</h4>
+                            <h4>Room Set2</h4>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Main contant -->
+            </div>
+        </div>
+        <footer>
+            <%- include ../argument/bar/footer.html %>
+        </footer>
+    </div>
+</body>
+<!--   Core JS Files   -->
+<script src="assets/js/jquery.min.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/js/material.min.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="assets/js/nouislider.min.js" type="text/javascript"></script>
+<!--  Plugin for the Datepicker, full documentation here: http://www.eyecon.ro/bootstrap-datepicker/ -->
+<script src="assets/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
+<script src="assets/js/material-kit.js" type="text/javascript"></script>
+<script type="text/javascript">
+$().ready(function() {
+    // the body of this function is in assets/material-kit.js
+    materialKit.initSliders();
+    window_width = $(window).width();
+
+    if (window_width >= 992) {
+        big_image = $('.wrapper > .header');
+
+        $(window).on('scroll', materialKitDemo.checkScrollForParallax);
+    }
+
+});
+</script>
+<script type="text/javascript">
+$.get("./activity", {
+        //"host_id_API": '10'
+
+    },
+    function(data1, status) {
+        activity_list = JSON.parse(data1);
+        console.log(activity_list);
+        for (var i in activity_list['return']) {
+            i_aid = activity_list['return'][i]['avtivity_id'];
+            if (i_aid == '<%=a_id%>') {
+                $('#basic_data').append('<p>活動主題:</p>');
+                $('#basic_data').append('<p style="max-height:30%;overflow: auto;">' + activity_list['return'][i]['content'] + '</p>');
+                $('#basic_data').append('<p>活動時間: ' + activity_list['return'][i]['timeofactivity'] + '</p>');
+                $('#basic_data').append('<p>活動TAG: ' + activity_list['return'][i]['unicode'] + '</p>');
+
+            }
+
+        }
+
+
+
+    }
+);
+$.get("./assessment", {
+        "a_id": '<%=a_id%>'
+
+    },
+    function(data, status) {
+        activity_list = JSON.parse(data);
+        console.log(activity_list);
+        if (activity_list['return'].length < 1) {
+            alert("no testing");
+        }
+        var index = 1;
+        for (var g in activity_list['return']) {
+
+            content = activity_list['return'][g]['content'];
+            $('#qusetions').append('<div id="q' + g + '" class="col-sm-12"></div>');
+            $('#q' + g).append('<div class="title"><h3>Q' + index + '. ' + content + ' </h3></div>');
+            index += 1;
+
+        }
+
+
+    }
+);
+
+$.get("./user/subuser", {
+        //"host_id_API": '10'
+
+    },
+    function(data1, status) {
+        activity_list = JSON.parse(data1);
+        console.log(activity_list);
+        subuser_public = activity_list['return'];
+        console.log(subuser_public);
+        getPublic(subuser_public);
+
+
+
+    }
+);
+
+function getPublic(subuser_public) {
+    $.get("./tester", {
+            //"host_id_API": 'pass',
+            "a_id": '<%=a_id%>'
+
+        },
+        function(data2, status) {
+            //alert(subuser_public);
+            activity_list = JSON.parse(data2);
+            console.log(activity_list);
+            console.log(subuser_public);
+
+            if (activity_list['return'].length < 1) {
+                alert("no testing");
+            }
+            for (var g in activity_list['return']) {
+                var uid = activity_list['return'][g]['user_id'];
+
+
+
+                for (var fetch in subuser_public) {
+                    f_uid = subuser_public[fetch]['user_id'];
+                    //$('#memberOfActivity').append('<p>' + uid +'</p>');
+                    if (f_uid == uid) {
+                        $('#memberOfActivity').append('<p>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</p>');
+
+                    }
+
+                }
+            }
+        }
+    );
+}
+</script>
+
+</html>

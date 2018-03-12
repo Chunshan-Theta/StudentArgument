@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-02-22 19:08:38
+ * @Last Modified time: 2018-03-12 22:23:02
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -119,6 +119,16 @@ router.get('/sittingPage', function(req, res) {
     }
 });
 
+/* GET sittingPage. */
+router.get('/ActivityStatus', function(req, res) {
+   var a_id = req.param('a_id', null);
+
+    if (!req.session) { // if not setting session
+        //res.redirect('./sitting_login');
+    } 
+    res.render('argument/ActivityStatusPage', {"a_id":a_id});
+    
+});
 /**
  * @method  director
  * @author  Theta

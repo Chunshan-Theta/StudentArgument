@@ -227,8 +227,9 @@ $.get("./activity",
                 activity_time = activity_list['return'][i]['timeofactivity'];
                 activity_tag = activity_list['return'][i]['unicode'];
                 activity_topic = activity_list['return'][i]['content'];
-                $('#youractivity').append("<div style='text-align: left;width:100%;'>" + "activity_time: " + activity_time +','+activity_topic+' ---- activity_tag: ' + activity_tag + "</div>");
-
+                activity_id = activity_list['return'][i]['avtivity_id'];
+                $('#youractivity').append("<div style='text-align: left;width:100%;margin:8px;'>" + "activity_time: " + activity_time +','+activity_topic+' ---- activity_tag: ' + activity_tag + "<a href='./ActivityStatus?a_id="+activity_id+"'>----------->Detail</a></div>");
+                    //avtivity_id
             }
         } else {
             $('#youractivity').append("<div>目前尚無舉辦活動</div>");
