@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Alert page</title>
+    <title>Activity Detail</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <!--     Fonts and icons     -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -41,6 +41,11 @@
                 <!--Main contant -->
                 <div class="container">
                     <div class="row">
+                        <div class="col-md-12" style="min-height: 100px;">
+                            <button class="btn btn-primary" onclick="javascript:location.href='./sittingPage'">回到個人主頁</button>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6" style="height: 500px;">
                             <div id="basic_data" style="height: 40%;margin-bottom: 10px;">
                                 <h4>活動基本資料</h4>
@@ -54,13 +59,12 @@
                             <div id="qusetions" class=""></div>
                         </div>
                     </div>
-                    <div id="Room_Sets" class="row" style="min-height: 500px;" hidden>
+                    <div id="Room_Sets" class="row" style="min-height: 500px;">
                         <div class="col-md-12">
                             <h4>分房情況</h4>
                         </div>
-                        <div class="col-md-2" style="border: 1px #ccc solid;margin:10px;">
-                            <h4>Room Set1</h4>
-                            <h4>Room Set2</h4>
+                        <div id="non-room" class="col-md-2" style="border: 1px #ccc solid;margin:10px;">
+                            <h4 >尚未分房</h4>
                         </div>
                     </div>
                 </div>
@@ -97,10 +101,7 @@ $().ready(function() {
 });
 </script>
 <script type="text/javascript">
-$.get("./activity", {
-        //"host_id_API": '10'
-
-    },
+$.get("./activity", {},
     function(data1, status) {
         activity_list = JSON.parse(data1);
         console.log(activity_list);
@@ -127,9 +128,7 @@ $.get("./assessment", {
     function(data, status) {
         activity_list = JSON.parse(data);
         console.log(activity_list);
-        if (activity_list['return'].length < 1) {
-            alert("no testing");
-        }
+
         var index = 1;
         for (var g in activity_list['return']) {
 
@@ -139,15 +138,16 @@ $.get("./assessment", {
             index += 1;
 
         }
+        if (activity_list['return'].length < 1) {
+            $('#qusetions').append('<div id="q' + g + '" class="col-sm-12"></div>');
+            $('#q' + g).append('<div class="title"><h3>尚未建立前測</h3></div>');
+        }
 
 
     }
 );
 
-$.get("./user/subuser", {
-        //"host_id_API": '10'
-
-    },
+$.get("./user/subuser", {},
     function(data1, status) {
         activity_list = JSON.parse(data1);
         console.log(activity_list);
@@ -162,31 +162,42 @@ $.get("./user/subuser", {
 
 function getPublic(subuser_public) {
     $.get("./tester", {
-            //"host_id_API": 'pass',
             "a_id": '<%=a_id%>'
-
         },
         function(data2, status) {
-            //alert(subuser_public);
-            activity_list = JSON.parse(data2);
-            console.log(activity_list);
+            tester_list = JSON.parse(data2);
+            console.log(tester_list);
             console.log(subuser_public);
+            var RoomID = [];
+            RoomID.push('39');
 
-            if (activity_list['return'].length < 1) {
+            if (tester_list['return'].length < 1) {
                 alert("no testing");
             }
-            for (var g in activity_list['return']) {
-                var uid = activity_list['return'][g]['user_id'];
-
+            for (var g in tester_list['return']) {
+                var uid = tester_list['return'][g]['user_id'];
+                var u_rid = tester_list['return'][g]['chatroom_id'];
 
 
                 for (var fetch in subuser_public) {
                     f_uid = subuser_public[fetch]['user_id'];
-                    //$('#memberOfActivity').append('<p>' + uid +'</p>');
                     if (f_uid == uid) {
-                        $('#memberOfActivity').append('<p>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</p>');
+                        console.log($.inArray(u_rid, RoomID));
 
+                        $('#memberOfActivity').append('<p>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</p>');
+                        if (u_rid == '-1') {
+                            $('#non-room').append('<h6>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</h6>');
+                        }else if(!RoomID.includes(u_rid)){
+                            RoomID.push(u_rid);
+                            $('#Room_Sets').append('<div id="'+u_rid+'-room" class="col-md-2" style="border: 1px #ccc solid;margin:10px;"><h4>Room</h4></div>');
+                            $('#'+u_rid+'-room').append('<h6>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</h6>');
+                        }else{
+                            console.log(u_rid);
+                            $('#'+u_rid+'-room').append('<h6>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</h6>');
+
+                        }
                     }
+
 
                 }
             }
