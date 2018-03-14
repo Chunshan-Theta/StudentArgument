@@ -2,21 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>學生論證系統</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <!-- CSS Files -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/css/material-kit.css" rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="assets/css/demo.css" rel="stylesheet" />
+    <%- include ../argument/import/basic.html %>
+<%- include ../argument/import/templete_css.html %>
 </head>
 
 <body class="index-page">
@@ -44,13 +31,15 @@
                             <h2>新增活動</h2>
                         </div>
                         <!--Input 1 : -->
-                        <div class="col-sm-6">
-                            <h6>Topic</h6>
+                        <div class="col-sm-8">
+                            <h3>1.輸入論證題目</h3>
+                            <h6>論證題目</h6>
                             <select name="TopicID" id="TopicID"></select>
                         </div>
                         <!--/ Input 1 : -->
                         <!--Input 1 : -->
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
+                            <h3>2.選擇活動日期</h3>
                             <div class="form-group label-static">
                                 <label class="control-label">活動日期</label>
                                 <input type="text" id="datepicker" name="time" class="datepicker form-control" value="2018-01-11" />
@@ -105,15 +94,15 @@ function Gettopic() {
         function(data, status) {
             activity_list = JSON.parse(data);
             console.log(activity_list['text']);
-            $('#TopicID').append('<optgroup id="y_Topics" label="your Topics">');
+            $('#TopicID').append('<optgroup id="y_Topics" label="你的論證題目">');
 
             if (!activity_list['return'].length) {
                 alert("尚未新增論證題目，請先為活動新增題目");
                 location.href="./newTopic";
             }
 
-            for (var i = 0; i < activity_list["return"].length; i++) {
-                htmltext = '<option value="' + activity_list["return"][i]["topic_id"] + '">' + activity_list["return"][i]["content"].substring(0, 21) + '</option>'
+            for (var i = 0; i <= activity_list["return"].length; i++) {
+                htmltext = '<option value="' + activity_list["return"][i]["topic_id"] + '">' +(i+1)+"."+ activity_list["return"][i]["content"].substring(0, 50) + '</option>'
                 $('#y_Topics').append(htmltext);
             }
             /*
