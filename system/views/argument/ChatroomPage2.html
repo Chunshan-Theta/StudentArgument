@@ -186,11 +186,13 @@
                                             <div id="option-left" style="width: 48%;float: left;">
                                                 <label for="speech_type" style="float: left;padding-right: 5px;">發言目的</label>
                                                 <select id="speech_type" style="float: left;">
-                                                    <option value="none" selected="selected">請選擇...</option>
+                                                <!--
+                                                    <option id="not_choose_type" value="none" selected="selected">請選擇...</option>
                                                     <option value="提出新想法">提出新想法</option>
                                                     <option value="反對對方意見">反對對方意見</option>
                                                     <option value="贊同對方意見">贊同對方意見</option>
                                                     <option value="發表論述">發表論述</option>
+                                                -->
                                                 </select>
                                                 <select id="hello_speech" style="float: left;">
                                                 </select>
@@ -204,6 +206,7 @@
                                                     </div>
                                                     <label for="user_text_color" style="float: right;">更換字體顏色</label>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                         <form id="chat_input">
@@ -293,16 +296,16 @@ change_color_code();
 $("#speech_type").change(function() {
     var value_of_speech_type = $("#speech_type").val();
     if (value_of_speech_type == "發表論述") {
-        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="以我的立場來說，主要的重點是">以我的立場來說，主要的重點是</option><option value="依我的想法來說的話，">依我的想法來說的話</option><option value="我認為這件事情的重點是">我認為這件事情的重點是</option>');
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="以我的立場來說，主要的重點是">以我的立場來說，主要的重點是</option><option value="依我的想法來說的話，">依我的想法來說的話</option><option value="我認為這件事情的重點是">我認為這件事情的重點是</option>');
     }
     if (value_of_speech_type == "提出新想法") {
-        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="我有一個新的想法了！">我有一個新的想法了！</option><option value="如果換成另外一個方式呢？例如">如果換成另外一個方式呢？例如</option><option value="或者我們可以">或者我們可以</option>');
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="我有一個新的想法了！">我有一個新的想法了！</option><option value="如果換成另外一個方式呢？例如">如果換成另外一個方式呢？例如</option><option value="或者我們可以">或者我們可以</option>');
     }
     if (value_of_speech_type == "贊同對方意見") {
-        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="你說的真是太好了！">你說的真是太好了！</option><option value="你考慮的真是周全！">你考慮的真是周全！</option><option value="我同意你的說法">我同意你的說法</option>');
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="你說的真是太好了！">你說的真是太好了！</option><option value="你考慮的真是周全！">你考慮的真是周全！</option><option value="我同意你的說法">我同意你的說法</option>');
     }
     if (value_of_speech_type == "反對對方意見") {
-        $("#hello_speech").html('<option value="" selected="selected">妳/你認為...</option><option value="我認為你考慮的並不周全，例如">我認為你考慮的並不周全，例如</option><option value="我無法同意你，因為">我無法同意你，因為</option><option value="我認為你的論述並不正確">我認為你的論述並不正確</option>');
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="我認為你考慮的並不周全，例如">我認為你考慮的並不周全，例如</option><option value="我無法同意你，因為">我無法同意你，因為</option><option value="我認為你的論述並不正確">我認為你的論述並不正確</option>');
     }
 });
 $("#hello_speech").change(function() {
@@ -315,6 +318,12 @@ function openerText(text) {
     console.log(newText);
     $('#m').val(newText);
 }
+
+function reset_speech_type() {
+    $("#speech_type").html(' <option id="not_choose_type" value="none" selected="selected">請選擇...</option><option value="提出新想法">提出新想法</option><option value="反對對方意見">反對對方意見</option><option value="贊同對方意見">贊同對方意見</option><option value="發表論述">發表論述</option>');
+
+}
+reset_speech_type()
 $('form').submit(function() {
     if ($("#speech_type").val() == "none") {
         //alert("請選擇發言目的");
@@ -341,7 +350,10 @@ $('form').submit(function() {
         }
         speech_text = UserName + ': ' + speech_text;
         socket.emit('Push_message', speech_text, room_ID, color_code);
-        openerText($("#hello_speech").val());
+
+        reset_speech_type();
+        $('#m').val("");
+
     }
     return false;
 });

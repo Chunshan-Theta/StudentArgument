@@ -9,8 +9,8 @@ ChromeDriveDir ="/usr/lib/chromium-browser/chromedriver"
 
 
 driver = webdriver.Chrome(ChromeDriveDir)
-q = "基改食品"
-start_id = 607
+q = "台灣 缺電"
+start_id = 903
 f = open("output.csv","wa")
 for page_index in xrange(10):
     driver.get("https://www.google.com.tw/search?q="+q+"&start="+str(page_index*10))
