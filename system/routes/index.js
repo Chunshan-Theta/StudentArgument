@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-03-12 22:23:02
+ * @Last Modified time: 2018-03-23 10:13:51
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -29,14 +29,16 @@ var router = express.Router();
 
 
 router.get('/', function(req, res) {
-    res.redirect('http://140.115.126.216/SA/login');
-
+    res.redirect('http://140.115.126.216/SA/index');    
 });
-
+router.get('/index', function(req, res) {
+    //res.redirect('http://140.115.126.216/SA/login');
+    res.render('argument/index', {});
+});
 /* GET login page. */
 router.get('/newassessment', function(req, res) {
 
-    res.render('argument/newassessment', {});
+	res.render('argument/newassessment', {});
 });
 
 /* GET login page. */
