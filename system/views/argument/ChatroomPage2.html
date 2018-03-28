@@ -295,17 +295,23 @@ change_color_code();
 
 $("#speech_type").change(function() {
     var value_of_speech_type = $("#speech_type").val();
-    if (value_of_speech_type == "發表論述") {
-        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="以我的立場來說，主要的重點是">以我的立場來說，主要的重點是</option><option value="依我的想法來說的話，">依我的想法來說的話</option><option value="我認為這件事情的重點是">我認為這件事情的重點是</option>');
+    if (value_of_speech_type == "提出論點或證據") {
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="我認為">我認為...</option><option value="讓我解釋">讓我解釋...</option><option value="讓我進一步仔細說明">讓我進一步仔細說明...</option><option value="讓我舉例說明">讓我舉例說明...</option><option value="讓我提出證據">讓我提出證據...</option>');
     }
-    if (value_of_speech_type == "提出新想法") {
-        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="我有一個新的想法了！">我有一個新的想法了！</option><option value="如果換成另外一個方式呢？例如">如果換成另外一個方式呢？例如</option><option value="或者我們可以">或者我們可以</option>');
+    if (value_of_speech_type == "提出疑問") {
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="你說的是不是">你說的是不是...</option><option value="你為什麼會認為">你為什麼會認為...</option><option value="你能不能進一步仔細說明">你能不能進一步仔細說明...</option><option value="你能不能舉例說明">你能不能舉例說明...</option><option value="我們是不是需要更多的證據去">我們是不是需要更多的證據去...</option>');
     }
-    if (value_of_speech_type == "贊同對方意見") {
-        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="你說的真是太好了！">你說的真是太好了！</option><option value="你考慮的真是周全！">你考慮的真是周全！</option><option value="我同意你的說法">我同意你的說法</option>');
+    if (value_of_speech_type == "提出挑戰") {
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="我不同意你的論點，因為">我不同意你的論點，因為...</option><option value="你的論點與討論主題的相關性是">你的論點與討論主題的相關性是？….</option><option value="我所提出的反論點是">我所提出的反論點是...</option><option value="我所提出不同面向的觀點是">我所提出不同面向的觀點是...</option><option value="你可以提出相關證據嗎？">你可以提出相關證據嗎？</option><option value="你提出的證據可信度有多高？">你提出的證據可信度有多高？</option>');
     }
-    if (value_of_speech_type == "反對對方意見") {
-        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="我認為你考慮的並不周全，例如">我認為你考慮的並不周全，例如</option><option value="我無法同意你，因為">我無法同意你，因為</option><option value="我認為你的論述並不正確">我認為你的論述並不正確</option>');
+    if (value_of_speech_type == "推理或歸納") {
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="經由推論可以得知">經由推論可以得知...</option><option value="綜合來說...">綜合來說...</option><option value="我認為(論點)在什麼條件下可以成立">我認為(論點)在什麼條件下可以成立...</option><option value="你的前提或假設是不是">你的前提或假設是不是?……</option><option value="我認為你提出的論點意味著">我認為你提出的論點意味著...</option>');
+    }
+    if (value_of_speech_type == "表達同意或支持") {
+        $("#hello_speech").html('<option value="" selected="selected">空白（不使用提示語）</option><option value="我同意你的看法，因為">我同意你的看法，因為...</option><option value="我同意你的說法，而且">我同意你的說法，而且...</option><option value="我認為你的論述並不正確">我認為你的論述並不正確</option><option value="我懂你的觀點">我懂你的觀點...</option><option value="你的觀點沒錯">你的觀點沒錯！</option><option value="這個觀點很棒！">這個觀點很棒！</option>');
+    }
+    if (value_of_speech_type == "其他") {
+        $("#hello_speech").html('<option value="" selected="selected">其他</option>');
     }
 });
 $("#hello_speech").change(function() {
@@ -320,7 +326,7 @@ function openerText(text) {
 }
 
 function reset_speech_type() {
-    $("#speech_type").html(' <option id="not_choose_type" value="none" selected="selected">請選擇...</option><option value="提出新想法">提出新想法</option><option value="反對對方意見">反對對方意見</option><option value="贊同對方意見">贊同對方意見</option><option value="發表論述">發表論述</option>');
+    $("#speech_type").html(' <option id="not_choose_type" value="none" selected="selected">請選擇...</option><option value="提出論點或證據">提出論點或證據</option><option value="提出疑問">提出疑問</option><option value="提出挑戰">提出挑戰</option><option value="推理或歸納">推理或歸納</option><option value="表達同意或支持">表達同意或支持</option><option value="其他">其他</option>');
 
 }
 reset_speech_type()
@@ -353,7 +359,12 @@ $('form').submit(function() {
 
         reset_speech_type();
         $('#m').val("");
-
+        $("#Send").attr("disabled",true);
+        $('#Send').html("十秒後即可發言");
+        setTimeout(function(){
+            $("#Send").attr("disabled",false);
+            $('#Send').html("Send");
+        },10000);
     }
     return false;
 });

@@ -1,0 +1,14 @@
+.btn-primary{
+    background-color: #CCC !important;
+    box-shadow: none !important;
+}
+.header-filter:after{
+        background: rgba(255, 255, 255, 0.64);
+        background: linear-gradient(45deg,  rgba(255, 255, 255, 0.64) 0%, rgba(155, 155, 155, 0.45) 100%) !important
+        background: -moz-linear-gradient(135deg,  rgba(255, 255, 255, 0.64) 0%, rgba(155, 155, 155, 0.45) 100%) !important;
+        background: -webkit-linear-gradient(135deg,  rgba(255, 255, 255, 0.64) 0%, rgba(155, 155, 155, 0.45) 100%) !important;
+
+    }
+.navbar-color-on-scroll{
+       background-color: rgba(255, 255, 255, 0.64) !important; 
+}
