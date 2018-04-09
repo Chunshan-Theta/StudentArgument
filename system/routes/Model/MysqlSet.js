@@ -1,16 +1,6 @@
-console.log("Model of Get MySQL connection");
-
-
-
-
-
 var mysql = require('mysql');
-
-
-
-
-
 module.exports = function (db){
+    console.log("Model of Get MySQL connection");
     /*
     // connect to MySQL
     // need lib : require('mysql')

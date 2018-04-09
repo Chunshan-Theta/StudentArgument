@@ -19,10 +19,14 @@
         margin: 0 5px 5px 5px;
         padding: 5px;
         font-size: 1.2em;
+        border: 3px solid #4F4 ;
     }
 
     #sortable_Unseted li {
-        background-color: #F44;
+        background-color: #ccc;
+    }
+    .none-front-score{
+        border: 3px solid #F44 !important;
     }
     </style>
 </head>
@@ -216,8 +220,12 @@ $('#Activity_ID').on("change", function() {
 
                 for (var key in users) {
                     if (users[key]['user_id'] == user_id) {
-                        var user_tag = users[key]['name'] + ',' + users[key]['school'] + ' | ' + group;
+                        var user_tag = users[key]['name'] + ',' + users[key]['school'] + ' | 前測分數: ' + group;
                         var htmltext = "<li class='ui-state-default' value='" + Tester_id + "'>" + user_tag + "</li>";
+                        
+                        if(group == "尚未執行前測"){
+                            var htmltext = "<li class='ui-state-default none-front-score' value='" + Tester_id + "'>" + user_tag + "</li>";   
+                        }
                         $('#sortable_Unseted').append(htmltext);
                     };
                 }

@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-25 19:29:51
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-03-28 13:44:02
+* @Last Modified time: 2018-04-09 12:46:27
 * @purpose           : Defined a controll of tester show.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -20,14 +20,11 @@ module.exports = function (){
      * @return  {[Json Data]}
      */
     this.controller = function (a_id,CallbackFunc){
-        var sql = require('../Model/MysqlSet.js');        
-        
-        console.log(a_id);
-
+        var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
-        //querytext ="SELECT DISTINCT `user_id`,`tester_id`,`group_score`  FROM `tester_list` WHERE `avtivity_id`='"+a_id+"' ORDER BY `tester_list`.`tester_id` DESC" ;
         querytext = "SELECT `user_id`,`tester_id`,`group_score`,`chatroom_id`,count(DISTINCT `user_id`) FROM `tester_list` WHERE `avtivity_id`='"+a_id+"' GROUP BY `user_id` ORDER BY `tester_list`.`tester_id` DESC;";
-        
+
+        console.log(querytext);
         
         connection.query(querytext,function(returnValue){    
             console.log(returnValue);
@@ -37,7 +34,7 @@ module.exports = function (){
     
     } 
 
-kk
+
 }
 
 
