@@ -1,15 +1,15 @@
 /*
-* @Author            : Theta
-* @Author contact    : https://studentcodebank.wordpress.com/
-* @Date              : 2018-01-23 14:33:12
-* @Last Modified by  : Theta
-* @Last Modified time: 2018-01-23 15:10:55
-* @purpose           : Defined controller of ReferencesShow
-* @copyright         : @Theta, all rights reserved.
-*/
+ * @Author            : Theta
+ * @Author contact    : https://studentcodebank.wordpress.com/
+ * @Date              : 2018-01-23 14:33:12
+ * @Last Modified by  : Theta
+ * @Last Modified time: 2018-04-09 16:25:13
+ * @purpose           : Defined controller of ReferencesShow
+ * @copyright         : @Theta, all rights reserved.
+ */
 console.log("Enter the controller of References Show");
 
-module.exports = function (){
+module.exports = function() {
     /**
      * @method  controller
      * @author  Theta
@@ -38,19 +38,31 @@ module.exports = function (){
      *                ]
      * }
      */
-    this.controller = function (keywords,CallbackFunc){
+    this.controller = function(keywords, CallbackFunc) {
         var sql = require('../Model/MysqlSet.js');
-        connection = new sql('argument');
-        querytext ="SELECT * FROM `references_for_search` WHERE `title` LIKE '%"+keywords+"%'" 
-        connection.query(querytext,function(returnValue){    
+        connection = new sql('argument');        
+        try{
+            var keywords_list = keywords.split(" ")
+            querytext = "SELECT * FROM `references_for_search` WHERE `title` LIKE '%" + keywords_list[0] + "%'"
+            for (var word in keywords_list) {
+
+                if (word != 0) {
+                    querytext += ' OR `title` LIKE ';
+                    querytext += "'%" + keywords_list[word] + "%'";
+                }
+
+            }
+        }
+        catch(err) {
+            querytext = "SELECT * FROM `references_for_search` limit 10;"
+        }
+        connection.query(querytext, function(returnValue) {
             console.log(returnValue);
             CallbackFunc(returnValue);
         });
 
-    
-    } 
+
+    }
 
 
 }
-
-
