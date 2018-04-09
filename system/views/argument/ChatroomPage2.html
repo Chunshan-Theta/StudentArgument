@@ -65,7 +65,8 @@
 
     #mess_bar {
         border: 3px #cccccc solid;
-        min-height: 300px;
+        height: 300px;
+        overflow: scroll;
         padding: 0;
         padding-top: 5px;
         list-style-type: none;
@@ -215,7 +216,7 @@
                                             </div>
                                             <div style="width: 100%;">
                                                 <input id="m" autocomplete="off" placeholder="說點什麼吧...." />
-                                                <button id="Send" class="btn btn-primary">Send</button>
+                                                <button id="Send" class="btn btn-primary">送出</button>
                                             </div>
                                         </form>
                                         <div id='toolbar' class="col-md-12" style="text-align: left; background-color: #EEE;margin-bottom: 5px;" hidden>
@@ -360,10 +361,10 @@ $('form').submit(function() {
         reset_speech_type();
         $('#m').val("");
         $("#Send").attr("disabled",true);
-        $('#Send').html("十秒後即可發言");
+        $('#Send').html("10秒後即可發言");
         setTimeout(function(){
             $("#Send").attr("disabled",false);
-            $('#Send').html("Send");
+            $('#Send').html("送出");
         },10000);
     }
     return false;
@@ -371,6 +372,11 @@ $('form').submit(function() {
 
 socket.on(room_ID + '_upload_message', function(msg, color_code) {
     $('#mess_bar').append($('<li class="chat_message" style="color:' + color_code + ';">').text(msg));
+    
+    var gotoH = $('#mess_bar').prop("scrollHeight");
+    $("#mess_bar").scrollTop(gotoH);
+
+
 });
 </script>
 <script>
@@ -495,7 +501,7 @@ $(function() {
         modal: false,
         buttons: {
 
-            "message": function() {
+            "論證": function() {
                 $("#sub_windows_contain").remove();
                 $(this).append('<div id="sub_windows_contain"></div>');
                 $("#sub_windows_contain").addClass("sub-window_mode_of_message");
@@ -512,7 +518,7 @@ $(function() {
                     console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
                 });
             },
-            "note": function() {
+            "筆記": function() {
                 $("#sub_windows_contain").remove();
                 $(this).append('<div id="sub_windows_contain"></div>');
                 $("#sub_windows_contain").addClass("sub-window_mode_of_note");
@@ -530,7 +536,7 @@ $(function() {
                     console.log(sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false }));
                 });
             },
-            "search": function() {
+            "搜尋資料": function() {
                 $("#sub_windows_contain").remove();
                 $(this).append('<div id="sub_windows_contain"></div>');
                 $("#sub_windows_contain").addClass("sub-window_mode_of_search");
