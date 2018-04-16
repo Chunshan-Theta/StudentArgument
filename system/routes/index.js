@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 13:47:42
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-04-09 12:38:18
+ * @Last Modified time: 2018-04-14 22:52:55
  * @purpose           :
  * @copyright         : @Theta, all rights reserved.
  */
@@ -878,7 +878,8 @@ router.post('/action', function(req, res) {
             res.end("" + JSON.stringify(respond));
 
         } else {
-            res.render('argument/errorpage', { error_id: '#200', error_con: respond["message"] });
+            console.log(respond);
+            //res.render('argument/errorpage', { error_id: '#200', error_con: respond["message"] });
 
         }
 

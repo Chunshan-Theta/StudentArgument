@@ -245,7 +245,7 @@
                                         <div class="col-md-3">
                                             <div class="row-searchbar">
                                                 <input id="keywords_input" autocomplete="off" /></input>
-                                                <button class="btn btn-primary" onclick="searchkeword();">go</button>
+                                                <button id="search_Doc_button" class="btn btn-primary" onclick="searchkeword();">go</button>
                                             </div>
                                             <div id="search-result"></div>
                                         </div>
@@ -383,6 +383,7 @@ socket.on(room_ID + '_upload_message', function(msg, color_code) {
 sub_windows_click_last_time = '1000-01-01 00:00:00';
 
 function SendActionToSql(Sentcontent, ad) {
+    var f_Sentcontent = wordsfilter(Sentcontent);
     var last_time;
     if (sub_windows_click_last_time != '1000-01-01 00:00:00') {
         last_time = sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false });
@@ -392,7 +393,7 @@ function SendActionToSql(Sentcontent, ad) {
     $.post("./action", {
             ad_id: ad,
             t_id: <%=t_id%>,
-            content: Sentcontent,
+            content: f_Sentcontent,
             l_t: last_time
         },
         function(data, status) {
@@ -440,18 +441,26 @@ function GetReferences(keywords) {
             References_list = JSON.parse(data);
             console.log(References_list['text']);
             $('.links').remove();
-
-            for (var i = 0; i < References_list["return"].length; i++) {
-                //htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
-                htmltext = '<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\'' + References_list["return"][i]["link"] + '\',\'' + References_list["return"][i]["title"] + '\');" class="btn btn-info">' + References_list["return"][i]["title"] + '</button><small class = "text-right">' + References_list["return"][i]["memo"] + '</small></blockquote>'
+            if(References_list["return"].length<1){
+                htmltext = '<h3 class="links">沒有相關資料</h3>';
                 $('#search-result').append(htmltext);
             }
+            for (var i = 0; i < References_list["return"].length; i++) {
+                //htmltext = '<option value="'+activity_list["return"][i]["topic_id"]+'">'+activity_list["return"][i]["content"]+'</option>'
+                htmltext = '<blockquote class="links"><button style="width: -webkit-fill-available;"onclick="rediract(\'' + References_list["return"][i]["link"] + '\',\'' + References_list["return"][i]["title"] + '\');" class="btn btn-info">' + References_list["return"][i]["title"] + '</button><small class = "text-right">' + References_list["return"][i]["memo"] + '</small></blockquote>';
+                $('#search-result').append(htmltext);
+
+            }
+            $("#search_Doc_button").attr("disabled",false);
+            $('#search_Doc_button').html("GO");
             /*
             $('#TopicID').append('<optgroup id="HotTopic" label="Hot Topic">');
             htmltext = '<option value="10">厭世的人其實是先扭曲的自己的心靈，來防禦自己不受到傷害。</option>'
             $('#HotTopic').append(htmltext);
             htmltext = '<option value="20">實作學習</option>'
             $('#HotTopic').append(htmltext);  */
+            
+
         }
     );
 
@@ -473,7 +482,15 @@ function rediract(link, title) {
 }
 
 function searchkeword() {
+    $("#search_Doc_button").attr("disabled",true);
+    $('#search_Doc_button').html("搜尋中.....");
+    setTimeout(function(){
+            $("#search_Doc_button").attr("disabled",false);
+            $('#search_Doc_button').html("GO");
+        },10000);
+
     var keyval = $('#keywords_input').val();
+    keyval = wordsfilter(keyval);
     //console.log(keyval);
 
     if ($('.sub-window_mode_of_message').length) {
@@ -487,6 +504,7 @@ function searchkeword() {
     }
     $('.links').remove();
     GetReferences(keyval);
+
 }
 </script>
     <%- include ../argument/import/jq_offical.html %>
@@ -593,15 +611,16 @@ $("#note_opener").on("click", function() {
 $("#chat_opener").on("click", function() {
     if (note_handler == 1) {
         var CKEDITORtext = CKEDITOR.instances.editor.getData();
+        var NOTE_text = wordsfilter($(CKEDITORtext).text());
         if ($('.sub-window_mode_of_message').length) {
-            SendActionToSql($(CKEDITORtext).text(), '21');
+            SendActionToSql(NOTE_text, '21');
 
         } else if ($('.sub-window_mode_of_note').length) {
-            SendActionToSql($(CKEDITORtext).text(), '22');
+            SendActionToSql(NOTE_text, '22');
         } else if ($('.sub-window_mode_of_search').length) {
-            SendActionToSql($(CKEDITORtext).text(), '24');
+            SendActionToSql(NOTE_text, '24');
         } else {
-            SendActionToSql($(CKEDITORtext).text(), '2');
+            SendActionToSql(NOTE_text, '2');
         }
 
     }
@@ -611,20 +630,29 @@ $("#chat_opener").on("click", function() {
 $("#search_opener").on("click", function() {
     if (note_handler == 1) {
         var CKEDITORtext = CKEDITOR.instances.editor.getData();
+        var NOTE_text = wordsfilter($(CKEDITORtext).text());
+
         if ($('.sub-window_mode_of_message').length) {
-            SendActionToSql($(CKEDITORtext).text(), '21');
+            SendActionToSql(NOTE_text, '21');
 
         } else if ($('.sub-window_mode_of_note').length) {
-            SendActionToSql($(CKEDITORtext).text(), '22');
+            SendActionToSql(NOTE_text, '22');
         } else if ($('.sub-window_mode_of_search').length) {
-            SendActionToSql($(CKEDITORtext).text(), '24');
+            SendActionToSql(NOTE_text, '24');
         } else {
-            SendActionToSql($(CKEDITORtext).text(), '2');
+            SendActionToSql(NOTE_text, '2');
         }
     }
     //initial
     note_handler = 0;
 });
+function wordsfilter(source){
+    //return source;
+    return source.replace(/\'/g,'"');
+
+}
+
+
 </script>
 <script>
 CKEDITOR.replace('editor', {});

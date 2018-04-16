@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-23 14:10:09
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-03-06 10:42:56
+* @Last Modified time: 2018-04-14 10:27:43
 * @purpose           : Defined controller of ActivityShow
 * @copyright         : @Theta, all rights reserved.
 */
@@ -46,7 +46,7 @@ module.exports = function() {
         var sql = require('../Model/MysqlSet.js');
         connection = new sql('argument');
         //querytext = "SELECT * FROM `activity_list` WHERE `user_id` = '"+host_id+"';"
-        querytext = "SELECT `avtivity_id`,`content`,`unicode`,`timeofactivity` FROM `activity_list`,`topic_list` WHERE `activity_list`.`user_id` = '"+host_id+"' AND `activity_list`.`topic_id` = `topic_list`.`topic_id`;"
+        querytext = "SELECT `avtivity_id`,`content`,`unicode`,`timeofactivity` FROM `activity_list`,`topic_list` WHERE `activity_list`.`user_id` = '"+host_id+"' AND `activity_list`.`topic_id` = `topic_list`.`topic_id` ;"
 
         connection.query(querytext, function(returnValue) {
             //console.log(returnValue['return'][0]['timeofactivity'].toLocaleDateString('zh-TW'));

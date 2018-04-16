@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 14:33:12
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-04-09 16:25:13
+ * @Last Modified time: 2018-04-14 23:10:00
  * @purpose           : Defined controller of ReferencesShow
  * @copyright         : @Theta, all rights reserved.
  */
@@ -52,6 +52,7 @@ module.exports = function() {
                 }
 
             }
+            querytext+=' limit 100'
         }
         catch(err) {
             querytext = "SELECT * FROM `references_for_search` limit 10;"

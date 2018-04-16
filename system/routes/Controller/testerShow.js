@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-25 19:29:51
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-04-09 12:46:27
+* @Last Modified time: 2018-04-13 18:36:09
 * @purpose           : Defined a controll of tester show.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -37,4 +37,18 @@ module.exports = function (){
 
 }
 
+/*
+///   error:
+///   #1055 - Expression of SELECT list is not in GROUP BY clause and contains nonaggregated column this is incompatible with sql_mode=only_full_group_by
 
+
+sudo mysql -u root -p
+mysql > SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
+
+///
+///
+///
+///
+
+*/

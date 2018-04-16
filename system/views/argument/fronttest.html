@@ -117,9 +117,9 @@ $.get("./assessment", {
 
 
 
-            var select_list = ["完全同意", "同意", "不同意也不反對", "不同意", "完全不同意"];
-            for (var i = 1; i < 6; i++) {
-                $('#q' + g).append('<div class=""><label><input type="radio" name="optionsRadios_' + g + '" value="' + (6-i) + '">' + select_list[i-1] + '</label></div>');
+            var select_list = ["完全同意", "同意", "稍微同意","稍微不同意", "不同意", "完全不同意"];
+            for (var i = 1; i < 7; i++) {
+                $('#q' + g).append('<div class=""><label><input type="radio" name="optionsRadios_' + g + '" value="' + (7-i) + '">' + select_list[i-1] + '</label></div>');
             }
 
         }

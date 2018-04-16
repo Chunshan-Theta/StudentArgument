@@ -26,7 +26,6 @@ module.exports = function (db){
 
     connection.connect();
     this.query = function(Sql,callback){
-        
         connection.query(Sql, function (err, result, fields) {
             console.log(Sql);
             //console.log("Mysql connect state:",connection.state);
@@ -38,7 +37,7 @@ module.exports = function (db){
                 callback({'text':"success",'status':"200",'return':result});
             }
             close();
-        });    
+        });
     }
     function close(){
         try{
