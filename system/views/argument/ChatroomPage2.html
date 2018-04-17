@@ -338,7 +338,7 @@ $('form').submit(function() {
         $('#Alert_text').html("請選擇發言目的");
     } else if ($("#m").val() == "") {
         //alert("請先輸入發言");
-        $('#m').addClass("errortxt")
+        $('#m').addClass("errortxt");
         $('#Alert_text').html("請先輸入發言");
 
     } else {
@@ -346,17 +346,37 @@ $('form').submit(function() {
         $('#Alert_text').html("");
         var speech_text = '[' + $("#speech_type").val() + ']  ' + $('#m').val();
         console.log(speech_text);
-        if ($('.sub-window_mode_of_message').length) {
-            SendActionToSql(speech_text, '11');
-        } else if ($('.sub-window_mode_of_note').length) {
-            SendActionToSql(speech_text, '12');
-        } else if ($('.sub-window_mode_of_search').length) {
-            SendActionToSql(speech_text, '14');
-        } else {
-            SendActionToSql(speech_text, '1');
-        }
         speech_text = UserName + ': ' + speech_text;
-        socket.emit('Push_message', speech_text, room_ID, color_code);
+        //socket.emit('Push_message', speech_text, room_ID, color_code);
+        
+
+
+        var last_time;
+        if (sub_windows_click_last_time != '1000-01-01 00:00:00') {
+            last_time = sub_windows_click_last_time.toLocaleString('zh-TW', { hour12: false });
+        } else {
+            last_time = sub_windows_click_last_time;
+        }
+
+
+
+
+        if ($('.sub-window_mode_of_message').length) {
+            //SendActionToSql(speech_text, '11');
+            socket.emit('Push_message','<%=t_id%>',speech_text, room_ID, color_code,'11',last_time);
+
+        } else if ($('.sub-window_mode_of_note').length) {
+            //SendActionToSql(speech_text, '12');
+            socket.emit('Push_message','<%=t_id%>',speech_text, room_ID, color_code,'12',last_time);
+
+        } else if ($('.sub-window_mode_of_search').length) {
+            //SendActionToSql(speech_text, '14');
+            socket.emit('Push_message','<%=t_id%>',speech_text, room_ID, color_code,'14',last_time);
+        } else {
+            //SendActionToSql(speech_text, '1');
+            socket.emit('Push_message','<%=t_id%>',speech_text, room_ID, color_code,'1',last_time);
+        }
+        
 
         reset_speech_type();
         $('#m').val("");
@@ -416,7 +436,7 @@ $.get("./user/public_data", {
         $('#info').append('<p>使用者名稱: ' + UserName + '</p>');
 
         speech_text = UserName + ' login.';
-        socket.emit('Push_message', speech_text, room_ID, color_code);
+        socket.emit('login', speech_text, room_ID, color_code);
 
     }
 );
