@@ -410,6 +410,7 @@ function SendActionToSql(Sentcontent, ad) {
     } else {
         last_time = sub_windows_click_last_time;
     }
+    /*
     $.post("./action", {
             ad_id: ad,
             t_id: <%=t_id%>,
@@ -420,6 +421,8 @@ function SendActionToSql(Sentcontent, ad) {
             console.log(status);
         }
     );
+    */
+   socket.emit('action_records','<%=t_id%>',f_Sentcontent, room_ID,ad,last_time);
 
 }
 </script>

@@ -3,7 +3,7 @@
  * @Author contact    : https://studentcodebank.wordpress.com/
  * @Date              : 2018-01-23 14:33:12
  * @Last Modified by  : Theta
- * @Last Modified time: 2018-04-14 23:10:00
+ * @Last Modified time: 2018-04-18 10:40:07
  * @purpose           : Defined controller of ReferencesShow
  * @copyright         : @Theta, all rights reserved.
  */
@@ -47,7 +47,7 @@ module.exports = function() {
             for (var word in keywords_list) {
 
                 if (word != 0) {
-                    querytext += ' OR `title` LIKE ';
+                    querytext += ' AND `title` LIKE ';
                     querytext += "'%" + keywords_list[word] + "%'";
                 }
 

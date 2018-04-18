@@ -23,12 +23,15 @@ io.on('connection', function(socket){
         console.log(tester_id);
         console.log(msg);
         console.log(actionDoc_id);
-        console.log(last_time);
+        //console.log(last_time);
         io.in(String(roomID)).emit(roomID+'_upload_message', msg ,color_code);
+
+
+
         var c = new controller_of_action_list();
 
     
-	    c.controller(actionDoc_id, tester_id, msg, last_time, function(respond) {
+	    c.controller(actionDoc_id, tester_id, wordsfilter(msg), last_time, function(respond) {
 	    	console.log(respond);
 	    });
 	    delete c ;
@@ -41,9 +44,24 @@ io.on('connection', function(socket){
         console.log(msg);
         io.in(String(roomID)).emit(roomID+'_upload_message', msg ,color_code);
     });
+    socket.on('action_records', function(tester_id,msg,roomID,actionDoc_id,last_time){
+    	var c = new controller_of_action_list();
+
+    
+	    c.controller(actionDoc_id, tester_id, msg, last_time, function(respond) {
+	    	console.log(respond);
+	    });
+	    delete c ;
+        
+    });
     
 });
 
+function wordsfilter(source){
+    //return source;
+    return source.replace(/\'/g,'"');
+
+}
 
 
 /*
