@@ -3,7 +3,7 @@
 * @Author contact    : https://studentcodebank.wordpress.com/
 * @Date              : 2018-01-25 19:29:51
 * @Last Modified by  : Theta
-* @Last Modified time: 2018-04-13 18:36:09
+* @Last Modified time: 2018-04-26 21:26:19
 * @purpose           : Defined a controll of tester show.
 * @copyright         : @Theta, all rights reserved.
 */
@@ -39,6 +39,7 @@ module.exports = function (){
 
 /*
 ///   error:
+///   {text: "ER_WRONG_FIELD_WITH_GROUP", status: 1055}
 ///   #1055 - Expression of SELECT list is not in GROUP BY clause and contains nonaggregated column this is incompatible with sql_mode=only_full_group_by
 
 

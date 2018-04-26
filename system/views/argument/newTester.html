@@ -82,6 +82,7 @@
                       <li class="ui-widget-content" name='6'>Item 6</li>
                       -->
                         </ol>
+                        
                     </div>
                     <!--/ Input 1 : -->
                     <!-- summit button-->
@@ -89,6 +90,19 @@
                         <button onclick="newTester();" class="btn btn-primary">確定</button>
                     </div>
                     <!--/ summit button-->
+                    <div class="col-sm-12">
+                        <h3>已受邀學生列表如下：</h3>
+                        <ol id="be_invited">
+                            <!--
+                      <li class="ui-widget-content" name='1'>Item 1</li>
+                      <li class="ui-widget-content" name='2'>Item 2</li>
+                      <li class="ui-widget-content" name='3'>Item 3</li>
+                      <li class="ui-widget-content" name='4'>Item 4</li>
+                      <li class="ui-widget-content" name='5'>Item 5</li>
+                      <li class="ui-widget-content" name='6'>Item 6</li>
+                      -->
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,6 +137,59 @@
             });
         }
     });
+    function update_subuser_not_be_invited(a_id){
+        var be_invited_list=[]
+        $.get("./tester", {
+            "a_id": a_id
+        },
+        function(data2, status) {
+            tester_list = JSON.parse(data2);
+
+            for (var g in tester_list['return']) {
+                be_invited_list.push(tester_list['return'][g]['user_id']);          
+            }
+            console.log(tester_list);
+            console.log(be_invited_list);
+
+            $('#selectable').html("");
+            $('#be_invited').html("");
+            for (var i = 0; i < subuser_list["return"].length; i++) {
+
+                var user_id = subuser_list["return"][i]["user_id"];
+                var user_name = subuser_list["return"][i]["name"];
+                var user_school = subuser_list["return"][i]["school"];
+
+
+                if(!be_invited_list.includes(user_id)){
+                    var htmltext = '<li class="ui-widget-content" value="' + user_id + '" name="' + user_name + '">' + user_name + ' , ' + user_school + '</li>';
+                    $('#selectable').append(htmltext);
+                }else{
+                    var htmltext = '<li style="background-color:#0f0;padding:10px;" name="' + user_name + '">' + user_name + ' , ' + user_school + '</li>';
+                    $('#be_invited').append(htmltext);
+                    
+                }
+                
+                
+
+            }
+        });
+    }
+    var subuser_list;
+    $.get("./user/subuser",
+        function(data, status) {
+            var re_subuser_list = JSON.parse(data);
+            console.log(re_subuser_list['text']);
+
+            if (re_subuser_list["return"].length == 0) {
+                alert("尚未有學生申請成為你的學生。");
+            }
+            else{
+                subuser_list = re_subuser_list;
+            }
+            
+        }
+    );
+    /*
     $.get("./user/subuser",
         function(data, status) {
             activity_list = JSON.parse(data);
@@ -144,11 +211,15 @@
             }
         }
     );
+    */
     $.get("./activity",
         function(data, status) {
+            $('#Activity_ID').append('<optgroup id="y_Activitys" label="你的活動">');
+            htmltext = '<option value="-1">請選擇活動</option>'
+            $('#y_Activitys').append(htmltext);
             activity_list = JSON.parse(data);
             console.log(activity_list['text']);
-            $('#Activity_ID').append('<optgroup id="y_Activitys" label="你的活動">');
+            
 
             if (activity_list["return"].length == 0) {
                 alert("您還未建立活動，請先建立活動。");
@@ -184,6 +255,16 @@
             }
         );
     }
+    $('#Activity_ID').on("change",function(){
+        var a_id = this.value;
+        if(a_id!=-1){
+            update_subuser_not_be_invited(a_id);
+        }else{
+            $('#selectable').html("");
+            $('#be_invited').html("");
+        }
+        
+    });
     </script>
 
 </html>
