@@ -38,7 +38,7 @@ io.on('connection', function(socket){
 
 
     });
-    socket.on('login', function(msg,roomID,color_code){
+    socket.on('sys-text', function(msg,roomID,color_code){
     	socket.join(String(roomID));
         console.log('join roomID:'+roomID);
         console.log(msg);

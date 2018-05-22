@@ -153,16 +153,21 @@ function getPublic(subuser_public) {
             if (tester_list['return'].length < 1) {
                 alert("no testing");
             }
+            var idx =1;
             for (var g in tester_list['return']) {
                 var uid = tester_list['return'][g]['user_id'];
                 var u_rid = tester_list['return'][g]['chatroom_id'];
 
-
+                
                 for (var fetch in subuser_public) {
                     f_uid = subuser_public[fetch]['user_id'];
                     if (f_uid == uid) {
                         
-                        $('#memberOfActivity').append('<p>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</p>');
+                        $('#memberOfActivity').append('<p>' +idx+","+ subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</p>');
+                        idx +=1;
+
+
+
                         if (u_rid == '-1') {
                             $('#non-room').append('<h6>' + subuser_public[fetch]['name'] + ',' + subuser_public[fetch]['school'] + '</h6>');
                         }else if(!RoomID.includes(u_rid)){

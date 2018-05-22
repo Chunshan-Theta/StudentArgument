@@ -376,9 +376,9 @@ $('form').submit(function() {
             //SendActionToSql(speech_text, '1');
             socket.emit('Push_message','<%=t_id%>',speech_text, room_ID, color_code,'1',last_time);
         }
-        
+        outTopic('<%=t_con%>',$('#m').val());
 
-        reset_speech_type();
+        reset_speech_type();        
         $('#m').val("");
         $("#Send").attr("disabled",true);
         $('#Send').html("10秒後即可發言");
@@ -439,7 +439,7 @@ $.get("./user/public_data", {
         $('#info').append('<p>使用者名稱: ' + UserName + '</p>');
 
         speech_text = UserName + ' login.';
-        socket.emit('login', speech_text, room_ID, color_code);
+        socket.emit('sys-text', speech_text, room_ID, color_code);
 
     }
 );
@@ -482,6 +482,32 @@ function GetReferences(keywords) {
             $('#HotTopic').append(htmltext);
             htmltext = '<option value="20">實作學習</option>'
             $('#HotTopic').append(htmltext);  */
+            
+
+        }
+    );
+
+}
+var outTopiccount=0;
+function outTopic(topictext,contenttext) {
+
+    $.get("http://theta-lab.tk/Django3/RestAPI/similarly_sentence?t="+topictext+"&s="+contenttext,
+        function(data, status) {
+            References_list = JSON.parse(data);
+            console.log(References_list);
+            //console.log(References_list['similar'].length);
+            
+            if(References_list['similar'].length<3){
+                outTopiccount+=1
+                
+            }
+            if(outTopiccount>3){
+                socket.emit('sys-text', 'GG', room_ID, '#FF0000');
+                outTopiccount = 0 ;
+            }
+            
+            
+            
             
 
         }
