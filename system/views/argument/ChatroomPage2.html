@@ -500,9 +500,12 @@ function outTopic(topictext,contenttext) {
             if(References_list['similar'].length<3){
                 outTopiccount+=1
                 
+            }else{
+                outTopiccount-=1 
             }
             if(outTopiccount>3){
-                socket.emit('sys-text', 'GG', room_ID, '#FF0000');
+                socket.emit('sys-text', '系統題示：實驗證明，專注在討論題目上可以有效推進論證進度。', room_ID, '#FF0000');
+                socket.emit('sys-text', '系統題示：請同學不要有過多的偏題討論。', room_ID, '#FF0000');
                 outTopiccount = 0 ;
             }
             
